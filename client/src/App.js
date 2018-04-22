@@ -9,6 +9,8 @@ import Messages from "./routes/Messages"
 import Add from "./routes/Add"
 import Search from "./routes/Search"
 
+import MobileNavigation from "./components/mobile/MobileNavigation"
+
 class App extends Component {
   render() {
     return (
@@ -19,6 +21,7 @@ class App extends Component {
         <Route path="/messages" component={Messages} />
         <Route path="/add" component={Add} />
         <Route path="/search" component={Search} />
+        <MobileNavigation />
       </div>
     )
   }

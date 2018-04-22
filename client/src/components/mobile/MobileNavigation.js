@@ -2,12 +2,17 @@ import React, { Component } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
 class MobileNavigation extends Component {
   state = {}
 
   render() {
     return (
-      <div>
+      <Container>
         <div>
           <Link to="/feed">Feed</Link>
         </div>
@@ -23,7 +28,7 @@ class MobileNavigation extends Component {
         <div>
           <Link to="/profile">Profile</Link>
         </div>
-      </div>
+      </Container>
     )
   }
 }
