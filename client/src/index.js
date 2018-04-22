@@ -1,8 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
+import { Route, BrowserRouter } from "react-router-dom"
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import Login from "./routes/Login"
+import MobileNavigation from "./components/mobile/MobileNavigation"
+
+import registerServiceWorker from "./utilities/registerServiceWorker"
+
+ReactDOM.render(
+  <BrowserRouter>
+    <div>
+      <App />
+      <MobileNavigation />
+    </div>
+  </BrowserRouter>,
+  document.getElementById("root")
+)
+registerServiceWorker()
