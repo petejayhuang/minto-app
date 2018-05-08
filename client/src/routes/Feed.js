@@ -1,5 +1,6 @@
 import React from "react"
+import RouteContainer from "../components/RouteContainer"
 
-const Login = props => <div>feed</div>
+const Feed = props => <RouteContainer>feed</RouteContainer>
 
-export default Login
+export default Feed

@@ -1,5 +1,6 @@
 import React from "react"
+import RouteContainer from "../components/RouteContainer"
 
-const Login = props => <div>add</div>
+const Add = props => <RouteContainer>Add</RouteContainer>
 
-export default Login
+export default Add

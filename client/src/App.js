@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import "./stylesheets/App.css"
+import "./styles/App.css"
 import { Route } from "react-router-dom"
 
 import Login from "./routes/Login"
@@ -9,7 +9,7 @@ import Messages from "./routes/Messages"
 import Add from "./routes/Add"
 import Search from "./routes/Search"
 
-import MobileNavigation from "./components/mobile/MobileNavigation"
+import MobileNavigation from "./components/MobileNavigation"
 
 class App extends Component {
   render() {

@@ -1,5 +1,6 @@
 import React from "react"
+import RouteContainer from "../components/RouteContainer"
 
-const Login = props => <div>Search</div>
+const Search = props => <RouteContainer>Search</RouteContainer>
 
-export default Login
+export default Search

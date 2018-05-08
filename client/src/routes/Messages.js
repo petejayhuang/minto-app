@@ -1,5 +1,6 @@
 import React from "react"
+import RouteContainer from "../components/RouteContainer"
 
-const Login = props => <div>messages</div>
+const Messages = props => <RouteContainer>Messages</RouteContainer>
 
-export default Login
+export default Messages
