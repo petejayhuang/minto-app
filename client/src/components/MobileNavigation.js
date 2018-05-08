@@ -18,11 +18,11 @@ const Container = styled.div`
   bottom: 0;
   width: 100vw;
   .inner-container {
-    min-width: 350px;
+    min-width: 360px;
   }
 `
 
-const ICONS = [
+const NAVIGATION_ICONS = [
   {
     component: <HomeIcon />,
     activeComponent: <HomeIcon strokeWidth="4" />,
@@ -53,12 +53,11 @@ const ICONS = [
 class MobileNavigation extends Component {
   // static functions are declared on the class, not the particular instance
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.location.pathname !== prevState.currentPathname) {
-      return {
-        currentPathname: nextProps.location.pathname
-      }
-    }
-    return null
+    return nextProps.location.pathname !== prevState.currentPathname
+      ? {
+          currentPathname: nextProps.location.pathname
+        }
+      : null
   }
 
   state = {
@@ -66,7 +65,7 @@ class MobileNavigation extends Component {
   }
 
   renderIcons = () =>
-    ICONS.map(({ to, component, activeComponent }) => (
+    NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
       <div
         key={to}
         className="d-flex-row justify-content-center align-items-center p-1"

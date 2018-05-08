@@ -1,12 +1,12 @@
 import React, { Component } from "react"
+import { Route, withRouter } from "react-router-dom"
 import "./styles/App.css"
-import { Route } from "react-router-dom"
 
-import Login from "./routes/Login"
-import Feed from "./routes/Feed"
-import Profile from "./routes/Profile"
-import Messages from "./routes/Messages"
 import Add from "./routes/Add"
+import Feed from "./routes/Feed"
+import Landing from "./routes/Landing"
+import Messages from "./routes/Messages"
+import Profile from "./routes/Profile"
 import Search from "./routes/Search"
 
 import MobileNavigation from "./components/MobileNavigation"
@@ -15,16 +15,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Landing} />
         <Route path="/feed" component={Feed} />
         <Route path="/profile" component={Profile} />
         <Route path="/messages" component={Messages} />
         <Route path="/add" component={Add} />
         <Route path="/search" component={Search} />
-        <MobileNavigation />
+        {this.props.location.pathname !== "/" && <MobileNavigation />}
       </div>
     )
   }
 }
 
-export default App
+export default withRouter(App)

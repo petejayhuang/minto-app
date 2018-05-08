@@ -6,6 +6,24 @@ body {
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+/* TEXT */
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* BORDERS */
+.border-rounded {
+  border-radius: 5px;
+}
+
 /* FOR TESTING */
 .test {
   border: 1px solid red;
