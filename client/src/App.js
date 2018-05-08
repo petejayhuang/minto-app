@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import { Route, withRouter } from "react-router-dom"
-import "./styles/App.css"
+import React, { Component } from "react";
+import { Route, withRouter } from "react-router-dom";
+import "./styles/App.css";
 
-import Add from "./routes/Add"
-import Feed from "./routes/Feed"
-import Landing from "./routes/Landing"
-import Messages from "./routes/Messages"
-import Profile from "./routes/Profile"
-import Search from "./routes/Search"
+import Add from "./routes/Add";
+import Feed from "./routes/Feed";
+import Landing from "./routes/Landing";
+import Messages from "./routes/Messages";
+import Profile from "./routes/Profile";
+import Search from "./routes/Search";
 
-import MobileNavigation from "./components/MobileNavigation"
+import MobileBottomNav from "./components/MobileBottomNav";
 
 class App extends Component {
   render() {
@@ -21,10 +21,10 @@ class App extends Component {
         <Route path="/messages" component={Messages} />
         <Route path="/add" component={Add} />
         <Route path="/search" component={Search} />
-        {this.props.location.pathname !== "/" && <MobileNavigation />}
+        {this.props.location.pathname !== "/" && <MobileBottomNav />}
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(App)
+export default withRouter(App);

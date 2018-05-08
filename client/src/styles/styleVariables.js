@@ -1,5 +1,6 @@
 export const colors = {
   border: "#efefef",
   icon: "#2f2f2f",
-  facebook: "#4267B2"
-}
+  facebook: "#4267B2",
+  background: "#fafafa"
+};

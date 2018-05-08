@@ -201,3 +201,8 @@ body {
 .ml-3 {
   margin-left: 24px;
 }
+
+/* COMPONENT SPECIFIC */
+.feed-image {
+  max-width: 600px;
+}
