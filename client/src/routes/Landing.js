@@ -13,12 +13,12 @@ const FacebookSignInButton = styled.div`
 `
 
 const Add = props => (
-  <div className="d-flex-column justify-content-center align-items-center">
+  <div className="flex-column center-center">
     <h1>Julia</h1>
     <h3 className="text-center">
       Buy beautiful luxury jewellery from people like you
     </h3>
-    <FacebookSignInButton className="d-flex-row justify-content-center align-items-center border-rounded p-1">
+    <FacebookSignInButton className="flex-row center-center border-rounded p-1">
       <img alt="facebook login button" src={fbLogo} />
       <p className="ml-2">Login with Facebook</p>
     </FacebookSignInButton>

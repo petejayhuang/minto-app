@@ -34,12 +34,12 @@ body {
 }
 
 /* FLEX BOX */
-.d-flex-row {
+.flex-row {
   display: flex;
   flex-direction: row;
 }
 
-.d-flex-column {
+.flex-column {
   display: flex;
   flex-direction: column;
 }
@@ -77,6 +77,16 @@ body {
 }
 
 .align-items-center {
+  align-items: center;
+}
+
+.between-center {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.center-center {
+  justify-content: center;
   align-items: center;
 }
 
@@ -205,4 +215,5 @@ body {
 /* COMPONENT SPECIFIC */
 .feed-image {
   max-width: 600px;
+  /* insta stndard */
 }

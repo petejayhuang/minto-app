@@ -1,14 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import { colors } from "../styles/styleVariables";
+import React from "react"
+import styled from "styled-components"
+import { colors } from "../styles/styleVariables"
 
 const Container = styled.div`
   background-color: ${colors.background};
-  margin-bottom: 50px;
-`;
+  margin-top: 50px;
+  min-height: 110vh;
+`
 
-const RouteContainer = ({ children }) => {
-  return <Container className="">{children}</Container>;
-};
+const RouteContainer = ({ noPadding, children }) => {
+  return <Container className={`${!noPadding && "p-2"}`}>{children}</Container>
+}
 
-export default RouteContainer;
+export default RouteContainer
