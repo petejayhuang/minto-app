@@ -1,32 +1,69 @@
-import React from "react"
+import React, { Component } from "react"
+// import styled from "styled-components"
 import RouteContainer from "../components/RouteContainer"
-import MobileTopNav from "../components/MobileTopNav"
-import TouchableRow from "../components/TouchableRow"
+import ImageGrid from "../components/ImageGrid"
+import { connect } from "react-redux"
+import { getUser } from "../actions"
+// import Settings from "./Settings"
 
-const Profile = props => (
-  <div>
-    <MobileTopNav className="flex-row center-center">
-      <h3>Options</h3>
-    </MobileTopNav>
+class Profile extends Component {
+  state = {
+    showSettings: false
+  }
 
-    <RouteContainer noPadding>
-      <div className="pl-1 pt-3 pb-1">
-        <strong>ACCOUNT</strong>
+  componentDidMount() {
+    this.props.getUser(1)
+  }
+
+  render() {
+    console.log(this.props)
+    return (
+      <div>
+        <RouteContainer>
+          <div className="flex-row">
+            <div>
+              <img
+                alt="profile"
+                className="profile-image"
+                src={`${this.props.user.profile_URL}`}
+              />
+            </div>
+
+            <div className="ml-2">
+              <div>
+                <h3>{this.props.user.username}</h3>
+              </div>
+              <div>action button</div>
+            </div>
+          </div>
+
+          <div className="flex-row between-center">
+            <div className="flex-column center-center">
+              <strong>{this.props.user.total_products}</strong>
+              <p className="m-0">items</p>
+            </div>
+
+            <div className="flex-column center-center">
+              <strong>{this.props.user.total_followers}</strong>
+              <p className="m-0">followers</p>
+            </div>
+
+            <div className="flex-column center-center">
+              <strong>{this.props.user.total_following}</strong>
+              <p className="m-0">following</p>
+            </div>
+          </div>
+        </RouteContainer>
+
+        <ImageGrid />
+
+        {/* <RouteContainer noPadding>
+          {this.state.showSettings ? <Settings /> : ""}
+        </RouteContainer> */}
       </div>
-      <TouchableRow text="Edit Profile" />
-      <TouchableRow text="Change Password" />
-      <TouchableRow borderBottom text="Privacy and Security" />
+    )
+  }
+}
 
-      <div className="pl-1 pt-3 pb-1">
-        <strong>SETTINGS</strong>
-      </div>
-      <TouchableRow text="Language" />
-      <TouchableRow text="Authorised Apps" />
-      <TouchableRow borderBottom text="Notifications" />
-
-      <TouchableRow borderBottom className="mt-2" text="Log Out" />
-    </RouteContainer>
-  </div>
-)
-
-export default Profile
+const mapStateToProps = state => ({ user: state.user })
+export default connect(mapStateToProps, { getUser })(Profile)

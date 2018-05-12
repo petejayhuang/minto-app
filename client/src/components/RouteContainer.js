@@ -4,8 +4,7 @@ import { colors } from "../styles/styleVariables"
 
 const Container = styled.div`
   background-color: ${colors.background};
-  margin-top: 50px;
-  min-height: 110vh;
+  margin-top: 51px;
 `
 
 const RouteContainer = ({ noPadding, children }) => {

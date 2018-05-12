@@ -9,11 +9,11 @@ import Messages from "./routes/Messages"
 import Profile from "./routes/Profile"
 import Search from "./routes/Search"
 
+import MobileTopNav from "./components/MobileTopNav"
 import MobileBottomNav from "./components/MobileBottomNav"
 
 import styled from "styled-components"
 import { colors } from "./styles/styleVariables"
-import LoadingBar from "./components/LoadingLine"
 
 const AppContainer = styled.div`
   input[type="text"] {
@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <AppContainer>
-        {false && <LoadingBar />}
+        <MobileTopNav />
         <Route exact path="/" component={Landing} />
         <Route path="/feed" component={Feed} />
         <Route path="/profile" component={Profile} />
