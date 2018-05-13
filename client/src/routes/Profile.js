@@ -1,14 +1,19 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import RouteContainer from "../components/RouteContainer"
-import ImageGrid from "../components/ImageGrid"
 import { connect } from "react-redux"
+
 import { getUser } from "../actions"
+import SecondaryButton from "../components/SecondaryButton"
+import ImageGrid from "../components/ImageGrid"
+import RouteContainer from "../components/RouteContainer"
 import Settings from "./Settings"
 
 class Profile extends Component {
   componentDidMount() {
-    this.props.getUser(1)
+    // only async if there isn't some data in there
+    if (!this.props.user.email) {
+      this.props.getUser(1)
+    }
   }
 
   render() {
@@ -34,7 +39,7 @@ class Profile extends Component {
                   <div>
                     <h3>{this.props.user.username}</h3>
                   </div>
-                  <div>action button</div>
+                  <SecondaryButton text="Follow" />
                 </div>
               </div>
 

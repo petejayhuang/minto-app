@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 import { withRouter } from "react-router-dom"
 import { toggleUi } from "../actions/ui"
 
@@ -23,67 +24,72 @@ const Container = styled.div`
   }
 `
 
-class MobileTopNav extends Component {
-  renderTopNav = navConfig => {
-    return (
-      <Container className="flex-row between-center">
-        <div
-          onClick={navConfig.leftOnClick || null}
-          className="pl-2 icon-wrapper flex-flow justify-start"
-        >
-          {navConfig.left && navConfig.left}
-        </div>
-        <div className="">{navConfig.middle}</div>
-        <div className="pr-2 icon-wrapper flex-row justify-end">
-          {navConfig.right && navConfig.right}
-        </div>
-      </Container>
-    )
+const navConfigs = {
+  "/feed": {
+    left: <PlusSquareIcon />,
+    middle: <h3>jwl</h3>,
+    right: <PlusSquareIcon />
+  },
+  "/search": {
+    middle: <SearchBar />
+  },
+  "/add": {
+    left: <PlusSquareIcon />,
+    middle: <h3>Add</h3>
+  },
+  "/messages": {
+    left: <PlusSquareIcon />,
+    middle: <h3>Messages</h3>
+  },
+  "/profile": {
+    left: <SettingsIcon />,
+    leftOnClick: toggleUi("showSettings"),
+    middle: <h3>Profile</h3>
   }
+}
+
+class MobileTopNav extends Component {
+  renderTopNav = (dispatch, navConfig) => (
+    <Container className="flex-row between-center">
+      <div
+        onClick={() => dispatch(navConfig.leftOnClick) || null}
+        className="pl-2 icon-wrapper flex-flow justify-start"
+      >
+        {navConfig.left && navConfig.left}
+      </div>
+      <div onClick={() => dispatch(navConfig.middleOnClick) || null}>
+        {navConfig.middle}
+      </div>
+      <div
+        onClick={() => dispatch(navConfig.rightOnClick) || null}
+        className="pr-2 icon-wrapper flex-row justify-end"
+      >
+        {navConfig.right && navConfig.right}
+      </div>
+    </Container>
+  )
 
   render() {
-    const navConfigs = {
-      "/feed": {
-        left: <PlusSquareIcon />,
-        middle: <h3>jwl</h3>,
-        right: <PlusSquareIcon />
-      },
-      "/search": {
-        middle: <SearchBar />
-      },
-      "/add": {
-        left: <PlusSquareIcon />,
-        middle: <h3>Add</h3>
-      },
-      "/messages": {
-        left: <PlusSquareIcon />,
-        middle: <h3>Messages</h3>
-      },
-      "/profile": {
-        leftOnClick: () => {
-          this.props.toggleUi("showSettings")
-        },
-        left: <SettingsIcon />,
-        middle: <h3>Profile</h3>
-      }
-    }
-
     const { ui } = this.props
-
     return (
       <div>
         {ui.showLoading && <LoadingBar />}
-        {this.props.location.pathname !== "/" &&
-          this.renderTopNav(navConfigs[this.props.location.pathname])}
+        {this.renderTopNav(
+          this.props.dispatch,
+          navConfigs[this.props.routing.location.pathname]
+        )}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ ui }) => ({ ui })
+const mapStateToProps = ({ routing, ui }) => ({ routing, ui })
 
-MobileTopNav.propTypes = {}
+MobileTopNav.propTypes = {
+  location: PropTypes.object,
+  ui: PropTypes.object
+}
 
 MobileTopNav.defaultProps = {}
 
-export default connect(mapStateToProps, { toggleUi })(withRouter(MobileTopNav))
+export default connect(mapStateToProps)(withRouter(MobileTopNav))
