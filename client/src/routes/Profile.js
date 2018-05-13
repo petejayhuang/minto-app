@@ -16,12 +16,11 @@ class Profile extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <RouteContainer>
           <div className="flex-row">
-            <div>
+            <div className="profile-image-container">
               <img
                 alt="profile"
                 className="profile-image"
@@ -37,7 +36,7 @@ class Profile extends Component {
             </div>
           </div>
 
-          <div className="flex-row between-center">
+          <div className="mt-2 flex-row between-center">
             <div className="flex-column center-center">
               <strong>{this.props.user.total_products}</strong>
               <p className="m-0">items</p>

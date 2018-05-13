@@ -16,5 +16,5 @@ client/node_modules
 .env.development.local
 .env.test.local
 .env.production.local
-
+jwl-fe-3bc9d4d6cae8.json
 npm-debug.log*

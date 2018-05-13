@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Route, withRouter } from "react-router-dom"
-import "./styles/App.css"
 
 import Add from "./routes/Add"
 import Feed from "./routes/Feed"
@@ -12,6 +11,7 @@ import Search from "./routes/Search"
 import MobileTopNav from "./components/MobileTopNav"
 import MobileBottomNav from "./components/MobileBottomNav"
 
+import "./styles/App.css"
 import styled from "styled-components"
 import { colors } from "./styles/styleVariables"
 

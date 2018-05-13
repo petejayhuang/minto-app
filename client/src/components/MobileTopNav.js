@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import styled from "styled-components"
+import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 
 import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
@@ -59,13 +60,19 @@ class MobileTopNav extends Component {
   }
 
   render() {
+    const {
+      ui,
+      location: { pathname }
+    } = this.props
     return (
       <div>
-        {false && <LoadingBar />}
-        {this.renderTopNav(navConfigs[this.props.location.pathname])}
+        {ui.showLoading && <LoadingBar />}
+        {pathname !== "/" && this.renderTopNav(navConfigs[pathname])}
       </div>
     )
   }
 }
 
-export default withRouter(MobileTopNav)
+const mapStateToProps = ({ ui }) => ({ ui })
+
+export default connect(mapStateToProps, null)(withRouter(MobileTopNav))
