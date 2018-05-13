@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from 'prop-types'
 import styled from "styled-components"
 import { colors } from "../styles/styleVariables"
 import fbLogo from "../assets/icons/social/fb-logo-white-58.svg"
@@ -25,5 +26,8 @@ const Add = props => (
     <div>Sign up with Facebook</div>
   </div>
 )
+
+Add.defaultProps = {}
+Add.propTypes = {}
 
 export default Add

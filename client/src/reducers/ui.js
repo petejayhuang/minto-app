@@ -12,14 +12,13 @@ export default (state = initialState, action) => {
   }
 
   // action.loading is false sometimes!
-  if (action.loading !== "undefined") {
-    console.log(action.loading)
+  if (action.loading === "true" || action.loading === "false") {
     return { ...state, showLoading: action.loading }
   }
 
   switch (action.type) {
     case TOGGLE_UI:
-      return state
+      return { ...state, [action.payload]: !state[action.payload] }
     default:
       return state
   }

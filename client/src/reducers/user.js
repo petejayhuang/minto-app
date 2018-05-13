@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
     case GET_USER_REQUEST:
       return state
     case GET_USER_SUCCESS:
-      return action.payload[0]
+      return action.payload
     default:
       return state
   }

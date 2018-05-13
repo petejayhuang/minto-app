@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import _ from "lodash"
 import axios from "axios"
 
@@ -26,7 +27,6 @@ class FileUpload extends Component {
 
   handleFiles = e => {
     e.preventDefault()
-    console.log(e.target.files)
 
     // check if it's an existing file
 
@@ -52,7 +52,6 @@ class FileUpload extends Component {
   }
 
   render() {
-    console.log("state", this.state)
 
     return (
       <div>

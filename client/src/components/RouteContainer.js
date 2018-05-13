@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import styled from "styled-components"
 import { colors } from "../styles/styleVariables"
 
@@ -10,5 +11,9 @@ const Container = styled.div`
 const RouteContainer = ({ noPadding, children }) => {
   return <Container className={`${!noPadding && "p-2"}`}>{children}</Container>
 }
+
+RouteContainer.propTypes = {}
+
+RouteContainer.defaultProps = {}
 
 export default RouteContainer

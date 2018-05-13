@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from 'prop-types'
 import RouteContainer from "../components/RouteContainer"
 import TouchableRow from "../components/TouchableRow"
 
@@ -21,5 +22,8 @@ const Profile = props => (
     <TouchableRow borderBottom className="mt-2" text="Log Out" />
   </RouteContainer>
 )
+
+Profile.defaultProps = {}
+Profile.propTypes = {}
 
 export default Profile

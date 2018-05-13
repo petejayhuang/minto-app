@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link, withRouter } from "react-router-dom"
 
@@ -83,5 +84,9 @@ class MobileBottomNav extends Component {
     )
   }
 }
+
+MobileBottomNav.propTypes = {}
+
+MobileBottomNav.defaultProps = {}
 
 export default withRouter(MobileBottomNav)

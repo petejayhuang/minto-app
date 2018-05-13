@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from 'prop-types'
 import MobileTopNav from "../components/MobileTopNav"
 import RouteContainer from "../components/RouteContainer"
 
@@ -23,5 +24,8 @@ class Search extends Component {
     )
   }
 }
+
+Search.defaultProps = {}
+Search.propTypes = {}
 
 export default Search

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import styled from "styled-components"
+import PropTypes from "prop-types"
 
 import ChevronRightIcon from "../assets/icons/feather-react/ChevronRightIcon"
 import { colors } from "../styles/styleVariables"
@@ -26,6 +27,12 @@ class TouchableRow extends Component {
       </Container>
     )
   }
+}
+
+TouchableRow.propTypes = {
+  borderBottom: PropTypes.bool,
+  className: PropTypes.string,
+  text: PropTypes.string
 }
 
 TouchableRow.defaultProps = {
