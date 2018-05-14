@@ -1,26 +1,47 @@
 import React, { Component } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
+import styled from "styled-components"
+
+import CategoryCard from "../components/CategoryCard"
 import MobileTopNav from "../components/MobileTopNav"
 import RouteContainer from "../components/RouteContainer"
+
+import NecklaceImage from "../assets/images/necklace.jpeg"
+import RingImage from "../assets/images/ring.jpeg"
+import BangleImage from "../assets/images/bangle.jpeg"
+import WatchImage from "../assets/images/watch.jpeg"
+
+const categoryCards = [
+  {
+    title: "Necklaces",
+    backgroundImage: `url(${NecklaceImage})`
+  },
+  {
+    title: "Rings",
+    backgroundImage: `url(${RingImage})`
+  },
+  {
+    title: "Bangles",
+    backgroundImage: `url(${BangleImage})`
+  },
+  {
+    title: "Watches",
+    backgroundImage: `url(${WatchImage})`
+  }
+]
 
 class Search extends Component {
   state = {
     inputText: "",
     showSearchUI: false
   }
+
+  renderCategoryCards = () =>
+    categoryCards.map(categoryCard => <CategoryCard {...categoryCard} />)
+
   render() {
     return (
-      <div>
-        <MobileTopNav className="flex-row center-center">
-          <input
-            className="p-1 m-2"
-            type="text"
-            value={this.state.inputText}
-            onChange={e => this.setState({ inputText: e.target.value })}
-          />
-        </MobileTopNav>
-        <RouteContainer />
-      </div>
+      <RouteContainer noPadding>{this.renderCategoryCards()}</RouteContainer>
     )
   }
 }

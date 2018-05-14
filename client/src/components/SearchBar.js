@@ -6,14 +6,17 @@ class SearchBar extends Component {
     inputText: "",
     showSearchUI: false
   }
+  handleChange = event => {
+    this.setState({ inputText: event.target.value })
+  }
   render() {
     return (
       <div>
         <input
-          className="p-1"
           type="text"
+          className="p-1"
           value={this.state.inputText}
-          onChange={e => this.setState({ inputText: e.target.value })}
+          onChange={this.handleChange}
         />
       </div>
     )

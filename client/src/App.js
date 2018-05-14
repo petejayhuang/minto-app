@@ -28,7 +28,7 @@ class App extends Component {
   render() {
     return (
       <AppContainer>
-        <MobileTopNav />
+        {this.props.location.pathname !== "/" && <MobileTopNav />}
         <Route exact path="/" component={Landing} />
         <Route path="/feed" component={Feed} />
         <Route path="/profile" component={Profile} />

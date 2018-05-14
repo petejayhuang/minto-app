@@ -1,6 +1,7 @@
 import React from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import styled from "styled-components"
+import {Link} from 'react-router-dom'
 import { colors } from "../styles/styleVariables"
 import fbLogo from "../assets/icons/social/fb-logo-white-58.svg"
 
@@ -19,10 +20,12 @@ const Add = props => (
     <h3 className="text-center">
       Buy beautiful luxury jewellery from people like you
     </h3>
-    <FacebookSignInButton className="flex-row center-center border-rounded p-1">
-      <img alt="facebook login button" src={fbLogo} />
-      <p className="ml-2">Login with Facebook</p>
-    </FacebookSignInButton>
+    <Link to="/feed">
+      <FacebookSignInButton className="flex-row center-center border-rounded p-1">
+        <img alt="facebook login button" src={fbLogo} />
+        <p className="ml-2">Login with Facebook</p>
+      </FacebookSignInButton>
+    </Link>
     <div>Sign up with Facebook</div>
   </div>
 )

@@ -31,7 +31,8 @@ const navConfigs = {
     right: <PlusSquareIcon />
   },
   "/search": {
-    middle: <SearchBar />
+    middle: <SearchBar />,
+    middleOnClick: () => {}
   },
   "/add": {
     left: <PlusSquareIcon />,
@@ -57,9 +58,7 @@ class MobileTopNav extends Component {
       >
         {navConfig.left && navConfig.left}
       </div>
-      <div onClick={() => dispatch(navConfig.middleOnClick) || null}>
-        {navConfig.middle}
-      </div>
+      <div>{navConfig.middle}</div>
       <div
         onClick={() => dispatch(navConfig.rightOnClick) || null}
         className="pr-2 icon-wrapper flex-row justify-end"
