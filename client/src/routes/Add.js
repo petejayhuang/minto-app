@@ -1,11 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 import RouteContainer from "../components/RouteContainer"
-import FileUpload from "../components/FileUpload"
+import ImageUpload from "../components/ImageUpload"
+import ProductDetails from "../components/ProductDetails"
 
 const Add = props => (
   <RouteContainer>
-    <FileUpload />
+    <ImageUpload />
+    <ProductDetails />
   </RouteContainer>
 )
 

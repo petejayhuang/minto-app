@@ -14,11 +14,11 @@ export const uploadToS3 = file => async dispatch => {
     const uploadConfig = await axios.get("/api/upload")
     console.log("uploadConfig", uploadConfig.data)
 
+    // const request = await axios.put(uploadConfig.data.url, file, {
+    //   headers: { "Content-Type": file.type }
+    // })
 
-    const request = await axios.put(uploadConfig.data.url, file, {
-      headers: { "Content-Type": file.type }
-    })
-    console.log("request", request)
+    // console.log("request", request)
   } catch (error) {
     console.log(error)
     dispatch(

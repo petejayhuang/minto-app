@@ -32,6 +32,10 @@ body {
   border-top: 1px solid #d7d7d7;
 }
 
+.border-all {
+  border: 1px solid #d7d7d7;
+}
+
 /* FOR TESTING */
 .test {
   border: 1px solid red;
@@ -266,4 +270,14 @@ body {
   border-radius: 50%;
   width: 75px;
   height: 75px;
+}
+
+.skeleton-image {
+  width: 200px;
+  height: 200px;
+}
+
+.preview-image {
+  width: 200px;
+  height: 200px;
 }
