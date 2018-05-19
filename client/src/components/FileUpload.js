@@ -1,74 +1,41 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import _ from "lodash"
-import axios from "axios"
-
+import { connect } from "react-redux"
+import { uploadToS3 } from "../actions"
 class FileUpload extends Component {
   state = {
-    files: []
+    file: null
   }
 
-  handleClick = () => {}
-
   handleSubmit = e => {
+    // TODO - make sure a file is selected (non empty state) before allowed to submit
     e.preventDefault()
-    ;("/storage/v1/b/myBucket/o")
-
-    axios({
-      method: "post",
-      url: "/upload/storage/v1/b/myBucket/o",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Content-Length": 20000000
-      },
-      data: {}
-    })
+    this.props.uploadToS3(this.state.file)
   }
 
   handleFiles = e => {
-    e.preventDefault()
-
-    // check if it's an existing file
-
-    const newState = _.uniqBy(
-      this.state.files.concat(e.target.files[0]),
-      "name"
-    )
-    this.setState({ files: newState })
-  }
-
-  renderFileList = () => {
-    return (
-      <ul>
-        {this.state.files.map(file => {
-          return (
-            <li key={file.name}>
-              {file.name} {file.size} {file.type}
-            </li>
-          )
-        })}
-      </ul>
-    )
+    console.log(e.target.files[0])
+    this.setState({
+      file: e.target.files[0]
+    })
   }
 
   render() {
-
     return (
       <div>
         <h1>Upload files</h1>
         <form onSubmit={e => this.handleSubmit(e)}>
           <input
             type="file"
-            placeholder=""
-            multiple
             accept="image/*"
+            placeholder=""
             onChange={event => this.handleFiles(event)}
           />
+          {this.state.file && <button type="submit">submit</button>}
         </form>
-        {this.renderFileList()}
       </div>
     )
   }
 }
 
-export default FileUpload
+export default connect(null, { uploadToS3 })(FileUpload)

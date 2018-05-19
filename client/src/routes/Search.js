@@ -37,7 +37,9 @@ class Search extends Component {
   }
 
   renderCategoryCards = () =>
-    categoryCards.map(categoryCard => <CategoryCard {...categoryCard} />)
+    categoryCards.map(categoryCard => (
+      <CategoryCard key={categoryCard.title} {...categoryCard} />
+    ))
 
   render() {
     return (

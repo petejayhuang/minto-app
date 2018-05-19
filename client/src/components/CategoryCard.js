@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 
 const Container = styled.div`
-  height: 250px;
+  height: 150px;
 
   .content {
     background-size: cover;
@@ -18,7 +18,7 @@ const CategoryCard = props => {
   return (
     <Container>
       <div
-        className="content  darken-overlay flex-row center-center"
+        className="content flex-row center-center"
         style={{
           backgroundImage
         }}
@@ -31,7 +31,7 @@ const CategoryCard = props => {
 
 export default CategoryCard
 
-CategoryCard.PropTypes = {
+CategoryCard.propTypes = {
   backgroundImage: PropTypes.string,
   title: PropTypes.string
 }

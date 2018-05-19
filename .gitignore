@@ -18,3 +18,4 @@ client/node_modules
 .env.production.local
 jwl-fe-3bc9d4d6cae8.json
 npm-debug.log*
+keys.js
