@@ -6,7 +6,7 @@ const keys = require("./config/keys")
 // get all s3 functionality from library
 const s3 = new AWS.S3({
   accessKeyId: keys.AWS_ACCESS_KEY_ID,
-  secretAccessKey: keys.AWS_ACCESS_KEY_ID,
+  secretAccessKey: keys.AWS_SECRET_ACCESS_KEY,
   signatureVersion: "v4",
   region: "eu-west-2"
 })
