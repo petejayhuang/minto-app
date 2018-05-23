@@ -1,43 +1,70 @@
-const express = require("express")
-const uuid = require("uuid/v1")
-const AWS = require("aws-sdk")
-const keys = require("./config/keys")
+const express = require('express')
+var bodyParser = require('body-parser')
+
+const uuid = require('uuid/v1')
+const AWS = require('aws-sdk')
+// const keys = require('./config/keys')
 
 // get all s3 functionality from library
+
 const s3 = new AWS.S3({
-  accessKeyId: keys.AWS_ACCESS_KEY_ID,
-  secretAccessKey: keys.AWS_SECRET_ACCESS_KEY,
-  signatureVersion: "v4",
-  region: "eu-west-2"
+  accessKeyId: 'AKIAIKFT6IEBSN7KHXRQ',
+  secretAccessKey: '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',
+  signatureVersion: 'v4',
+  region: 'eu-west-2'
 })
 
 const app = express()
 
-app.get("/api/upload", (req, res) => {
-  console.log("GET /api/upload")
-  // TODO - add user in dynamically
-  const key = `peter/${uuid()}.png`
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-  const params = {
-    Bucket: "jwl-public",
-    ContentType: "image/png",
-    Key: key
+app.post('/api/upload', (req, res) => {
+  const user = 'petejayhuang'
+  console.log('POST /api/upload hit!')
+  console.log('req.body', req.body)
+
+  const getSignedUrlPromise = ({ imageName, params, key }) => {
+    return new Promise((resolve, reject) => {
+      try {
+        s3.getSignedUrl('putObject', params, (error, url) => {
+          resolve({ imageName, key, url })
+        })
+      } catch (e) {
+        console.log(e)
+        reject(e)
+      }
+    })
   }
 
-  s3.getSignedUrl("putObject", params, (error, url) => {
-    res.send({ key, url })
+  const arrayOfPromises = req.body.images.map(imageName => {
+    const key = `${user}/${uuid()}.png`
+    const params = {
+      Bucket: 'jwl-public',
+      ContentType: 'image/png',
+      Key: key
+    }
+
+    return getSignedUrlPromise({ imageName, params, key })
+  })
+
+  console.log('arrayOfPromises', arrayOfPromises)
+
+  Promise.all(arrayOfPromises).then(values => {
+    console.log('values', values)
+    res.send(values)
   })
 })
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"))
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
 
-  const path = require("path")
-  app.get("*", (req, res) => {
-    res.sendFile(path, resolve(__dirname, "client", "build", "index.html"))
+  const path = require('path')
+  app.get('*', (req, res) => {
+    res.sendFile(path, resolve(__dirname, 'client', 'build', 'index.html'))
   })
 }
 
 app.listen(process.env.PORT || 8000, () => {
-  console.log("Server started")
+  console.log('Server started')
 })
