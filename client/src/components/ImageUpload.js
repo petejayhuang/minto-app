@@ -1,23 +1,52 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { uploadToS3 } from "../actions"
-import ImageIcon from "../assets/icons/feather-react/ImageIcon"
+// import PropTypes from 'prop-types'
+import CrossIcon from "../assets/icons/feather-react/PlusSquareIcon"
+import styled from "styled-components"
+import XCircleIcon from "../assets/icons/feather-react/XCircleIcon"
 
-class FileUpload extends Component {
+const Container = styled.div`
+  input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    margin: 50px;
+  }
+  .preview-image {
+    width: 150px;
+    height: 150px;
+  }
+  .choose-file {
+    width: 150px;
+    height: 150px;
+    border: 1px solid red;
+  }
+  .remove-image {
+    position: absolute;
+    z-index: 5;
+  }
+
+  label {
+    width: 150px;
+    height: 150px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+`
+
+class ImageUpload extends Component {
   state = {
-    file: null,
-    imagePreviewUrl: ""
+    imagePreviewUrl: "",
+    file: null
   }
 
-  handleSubmit = e => {
-    // TODO - make sure a file is selected (non empty state) before allowed to submit
-    e.preventDefault()
-    this.props.uploadToS3(this.state.file)
-  }
-
-  handleImageSelection = e => {
+  handleSelectImage = e => {
     const file = e.target.files[0]
+    console.log(file)
 
     let reader = new FileReader()
 
@@ -25,41 +54,59 @@ class FileUpload extends Component {
 
     reader.onloadend = () => {
       this.setState({
-        file: file,
         imagePreviewUrl: reader.result
       })
     }
 
     reader.readAsDataURL(file)
+    this.props.addImage(file)
+  }
+
+  handleRemoveImage = name => {
+    // console.log(name)
+    this.props.removeImage(this.state.file.name)
+    this.setState({ imagePreviewUrl: "" })
   }
 
   render() {
-    // https://codepen.io/hartzis/pen/VvNGZP?editors=0010
+    console.log("image upload state", this.state)
+    const { index } = this.props
     return (
-      <div>
-        <h1>Add files</h1>
-
+      <Container>
         {this.state.imagePreviewUrl ? (
-          <div className="preview-image flex-row center-center border-all">
+          <div className="preview-image border-all">
+            <div
+              className="remove-image"
+              onClick={() => this.handleRemoveImage(this.state.file.name)}
+            >
+              <XCircleIcon />
+            </div>
             <img className="preview-image" src={this.state.imagePreviewUrl} />
           </div>
         ) : (
-          <div className="skeleton-image flex-row center-center border-all">
-            <ImageIcon />
+          <div className="choose-file flex-row center-center border-all">
+            <label className="flex-row center-center" htmlFor={`file${index}`}>
+              Tap to add an image
+            </label>
           </div>
         )}
-        <form onSubmit={e => this.handleSubmit(e)}>
-          <input
-            type="file"
-            accept="image/*"
-            placeholder=""
-            onChange={e => this.handleImageSelection(e)}
-          />
-          {this.state.file && <button type="submit">submit</button>}
-        </form>
-      </div>
+
+        <input
+          className="inputFile"
+          id={`file${index}`}
+          type="file"
+          accept="image/*"
+          placeholder=""
+          onChange={e => this.handleSelectImage(e)}
+        />
+      </Container>
     )
   }
 }
 
-export default connect(null, { uploadToS3 })(FileUpload)
+ImageUpload.propTypes = {
+  addImage: PropTypes.func,
+  removeImage: PropTypes.func
+}
+
+export default ImageUpload
