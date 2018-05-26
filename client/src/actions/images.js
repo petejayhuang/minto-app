@@ -5,24 +5,24 @@
 // on successful POST to add product, redirect to new page?
 // actions that demonstrate loading
 
-import axios from 'axios'
+import axios from "axios"
 
 import {
   UPLOAD_TO_S3_REQUEST,
   UPLOAD_TO_S3_SUCCESS,
   UPLOAD_TO_S3_FAILURE
-} from './types'
+} from "./types"
 
 const uploadWithSignedUrlPromise = ({ imageName, key, url, image }) => {
-  console.log('FE uploadWithSignedUrlPromise')
+  console.log("FE uploadWithSignedUrlPromise")
   return new Promise(async (resolve, reject) => {
     try {
       const request = await axios.put(url, image, {
-        headers: { 'Content-Type': image.type }
+        headers: { "Content-Type": image.type }
       })
       resolve(request)
     } catch (e) {
-      console.log('e in uploadWithSignedUrlPromise', e)
+      console.log("e in uploadWithSignedUrlPromise", e)
       reject(e)
     }
   })
@@ -36,20 +36,20 @@ export const uploadImagesToS3 = ({ images, productName }) => async dispatch => {
     return current.name
   })
 
-  console.log('FE imagesNamesArray', imagesNamesArray)
+  console.log("FE imagesNamesArray", imagesNamesArray)
 
   try {
-    const uploadConfigs = await axios.post('/api/upload', {
+    const uploadConfigs = await axios.post("/api/upload", {
       images: imagesNamesArray
     })
-    console.log('FE uploadConfigs', uploadConfigs.data)
+    console.log("FE uploadConfigs", uploadConfigs.data)
 
     const arrayOfPromises = uploadConfigs.data.map(uploadConfig => {
       const image = images.find(image => {
         return image.name === uploadConfig.imageName
       })
 
-      console.log('fe arrayOfPromises image', image)
+      console.log("fe arrayOfPromises image", image)
 
       return uploadWithSignedUrlPromise({
         imageName: uploadConfig.imageName,
@@ -59,10 +59,10 @@ export const uploadImagesToS3 = ({ images, productName }) => async dispatch => {
       })
     })
 
-    console.log('FE arrayOfPromises', arrayOfPromises)
+    console.log("FE arrayOfPromises", arrayOfPromises)
 
     Promise.all(arrayOfPromises).then(values => {
-      console.log('all images uploaded to s3, FE values:', values)
+      console.log("all images uploaded to s3, FE values:", values)
       // send all URLs to justin to attach to product
       // post body includes 'productName'
     })
@@ -70,7 +70,7 @@ export const uploadImagesToS3 = ({ images, productName }) => async dispatch => {
     console.log(error)
     dispatch(
       uploadImagesToS3Failure({
-        errorMessage: 'Could not upload image.',
+        errorMessage: "Could not upload image.",
         error
       })
     )
@@ -79,17 +79,17 @@ export const uploadImagesToS3 = ({ images, productName }) => async dispatch => {
 
 const uploadImagesToS3Request = {
   type: UPLOAD_TO_S3_REQUEST,
-  loading: true
+  loadingOverlay: true
 }
 
 const uploadImagesToS3Success = response => ({
   type: UPLOAD_TO_S3_REQUEST,
-  loading: false,
+  loadingOverlay: false,
   payload: response
 })
 
 const uploadImagesToS3Failure = error => ({
   type: UPLOAD_TO_S3_FAILURE,
-  loading: false,
+  loadingOverlay: false,
   error
 })

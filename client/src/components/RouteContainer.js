@@ -11,7 +11,11 @@ const Container = styled.div`
 `
 
 const RouteContainer = ({ noPadding, children }) => {
-  return <Container className={`${!noPadding && "p-2"}`}>{children}</Container>
+  return (
+    <Container className={`flex-column ${!noPadding && "p-2"}`}>
+      {children}
+    </Container>
+  )
 }
 
 RouteContainer.propTypes = {}

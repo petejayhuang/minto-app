@@ -15,17 +15,20 @@ export const getUser = id => async dispatch => {
 
 const getUserRequest = {
   type: GET_USER_REQUEST,
-  loading: true
+  loadingLine: true
 }
 
 const getUserSuccess = user => ({
   type: GET_USER_SUCCESS,
-  loading: false,
+  loadingLine: false,
   payload: user
 })
 
-const getUserFailure = error => ({
+const getUserFailure = ({ message, log }) => ({
   type: GET_USER_FAILURE,
-  loading: false,
-  error
+  loadingLine: false,
+  error: {
+    message,
+    log
+  }
 })

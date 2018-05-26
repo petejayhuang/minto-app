@@ -8,7 +8,7 @@ import { toggleUi } from "../actions/ui"
 
 import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
 import SettingsIcon from "../assets/icons/feather-react/SettingsIcon"
-import LoadingBar from "./LoadingLine"
+import LoadingLine from "./LoadingLine"
 import SearchBar from "./SearchBar"
 import { colors } from "../styles/styleVariables"
 
@@ -73,7 +73,7 @@ class MobileTopNav extends Component {
     console.log(ui)
     return (
       <div>
-        {ui.showLoading && <LoadingBar />}
+        {ui.showLoadingLine && <LoadingLine />}
         {this.renderTopNav(
           this.props.dispatch,
           navConfigs[this.props.routing.location.pathname]

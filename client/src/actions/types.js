@@ -2,6 +2,9 @@
 
 export const TOGGLE_UI = "TOGGLE_UI"
 
+export const PRINT_ERROR = "PRINT_ERROR"
+export const CLEAR_ERROR = "CLEAR_ERROR"
+
 export const GET_USER_REQUEST = "GET_USER_REQUEST"
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
 export const GET_USER_FAILURE = "GET_USER_FAILURE"

@@ -257,6 +257,23 @@ body {
 }
 
 /* COMPONENT SPECIFIC */
+input[type="text"] {
+  height: 20px;
+  max-width: 200px;
+  margin-top: 8px;
+}
+
+textarea {
+  height: 100px;
+  max-width: 200px;
+  resize: none;
+}
+
+button {
+  width: 200px;
+  border-radius: 0px;
+}
+
 .feed-image {
   max-width: 600px;
   /* insta stndard */
@@ -272,12 +289,19 @@ body {
   height: 75px;
 }
 
-.skeleton-image {
-  width: 200px;
-  height: 200px;
+.error-text {
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  color: red;
 }
 
-.preview-image {
-  width: 200px;
-  height: 200px;
+.spinner {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }

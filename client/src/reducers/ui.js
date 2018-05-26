@@ -2,18 +2,18 @@ import { TOGGLE_UI } from "../actions/types"
 
 const initialState = {
   showSettings: false,
-  showLoading: false,
-  errorMessage: ""
+  showLoadingLine: false,
+  showLoadingOverlay: false
 }
 
 export default (state = initialState, action) => {
-  if (action.error) {
-    return { ...state, errorMessage: action.error }
+  // action.loading is false sometimes!
+  if (action.loadingLine === "true" || action.loadingLine === "false") {
+    return { ...state, showLoadingLine: action.loadingLine }
   }
 
-  // action.loading is false sometimes!
-  if (action.loading === "true" || action.loading === "false") {
-    return { ...state, showLoading: action.loading }
+  if (action.loadingOverlay === "true" || action.loadingOverlay === "false") {
+    return { ...state, showLoadingOverlay: action.loadingOverlay }
   }
 
   switch (action.type) {
