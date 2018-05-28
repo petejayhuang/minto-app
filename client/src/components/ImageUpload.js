@@ -6,6 +6,9 @@ import styled from "styled-components"
 import XCircleIcon from "../assets/icons/feather-react/XCircleIcon"
 
 const Container = styled.div`
+  border: 1px solid green;
+  width: 150px;
+  height: 150px;
   input[type="file"] {
     width: 0.1px;
     height: 0.1px;
@@ -19,14 +22,9 @@ const Container = styled.div`
     width: 150px;
     height: 150px;
   }
-  .choose-file {
-    width: 150px;
-    height: 150px;
-    border: 1px solid red;
-  }
   .remove-image {
     position: absolute;
-    z-index: 5;
+    /* z-index: 5; */
   }
 
   label {
@@ -84,7 +82,7 @@ class ImageUpload extends Component {
             <img className="preview-image" src={this.state.imagePreviewUrl} />
           </div>
         ) : (
-          <div className="choose-file flex-row center-center border-all">
+          <div className="flex-row center-center border-all">
             <label className="flex-row center-center" htmlFor={`file${index}`}>
               Tap to add an image
             </label>

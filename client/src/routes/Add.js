@@ -9,7 +9,6 @@ import { uploadImagesToS3, printError } from "../actions"
 
 class Add extends Component {
   state = {
-    imageUploaders: 1,
     images: [],
     name: "",
     description: "",
@@ -31,20 +30,15 @@ class Add extends Component {
     this.setState({ images: newState })
   }
 
-  renderImageUploaders = () => {
-    let ImageUploaders = []
-    for (let i = 0; i < this.state.imageUploaders; i++) {
-      ImageUploaders.push(
-        <ImageUpload
-          index={i}
-          key={i}
-          addImage={this.addImage}
-          removeImage={this.removeImage}
-        />
-      )
-    }
-    return ImageUploaders
-  }
+  renderImageUploaders = () =>
+    [1, 2, 3, 4].map(index => (
+      <ImageUpload
+        index={index}
+        key={index}
+        addImage={this.addImage}
+        removeImage={this.removeImage}
+      />
+    ))
 
   handleAddImageUploader = () => {
     const { imageUploaders } = this.state
@@ -78,10 +72,8 @@ class Add extends Component {
     return (
       <RouteContainer>
         <h1>Add images</h1>
-        <div className="flex-row">{this.renderImageUploaders()}</div>
+        <div className="flex-wrap">{this.renderImageUploaders()}</div>
         <p className="error-text">{this.state.errorMessage}</p>
-        <button onClick={this.handleAddImageUploader}>Add another image</button>
-        {/* <ProductDetails /> */}
         <label>Product Name</label>
         <input
           type="text"

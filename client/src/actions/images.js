@@ -13,65 +13,58 @@ import {
   UPLOAD_TO_S3_FAILURE
 } from "./types"
 
-const uploadWithSignedUrlPromise = ({ imageName, key, url, image }) => {
-  console.log("FE uploadWithSignedUrlPromise")
-  return new Promise(async (resolve, reject) => {
+const uploadToS3UsingSignedUrlPromise = ({ imageName, key, url, image }) =>
+  new Promise(async (resolve, reject) => {
     try {
       const request = await axios.put(url, image, {
         headers: { "Content-Type": image.type }
       })
       resolve(request)
     } catch (e) {
-      console.log("e in uploadWithSignedUrlPromise", e)
       reject(e)
     }
   })
-}
 
-export const uploadImagesToS3 = ({ images, productName }) => async dispatch => {
+export const uploadImagesToS3 = ({ images, productName }) => async (
+  dispatch,
+  getState
+) => {
   dispatch(uploadImagesToS3Request)
-  console.log(images)
+  const { user } = getState()
 
-  const imagesNamesArray = images.map(current => {
-    return current.name
-  })
-
-  console.log("FE imagesNamesArray", imagesNamesArray)
+  // Take array of image objects, and return array of file names
+  const imagesNamesArray = images.map(current => current.name)
 
   try {
+    // BE will return an array of uploadConfigs
     const uploadConfigs = await axios.post("/api/upload", {
       images: imagesNamesArray
     })
-    console.log("FE uploadConfigs", uploadConfigs.data)
 
-    const arrayOfPromises = uploadConfigs.data.map(uploadConfig => {
-      const image = images.find(image => {
-        return image.name === uploadConfig.imageName
-      })
+    //
+    const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
+      const { imageName, key, url } = uploadConfig
+      const image = images.find(image => image.name === imageName)
 
-      console.log("fe arrayOfPromises image", image)
-
-      return uploadWithSignedUrlPromise({
-        imageName: uploadConfig.imageName,
-        key: uploadConfig.key,
-        url: uploadConfig.url,
+      return uploadToS3UsingSignedUrlPromise({
+        imageName: imageName,
+        key: key,
+        url: url,
         image
       })
     })
 
-    console.log("FE arrayOfPromises", arrayOfPromises)
+    const { id, username } = user
 
-    Promise.all(arrayOfPromises).then(values => {
-      console.log("all images uploaded to s3, FE values:", values)
-      // send all URLs to justin to attach to product
-      // post body includes 'productName'
+    Promise.all(arrayOfUploadToS3Promises).then(values => {
+      dispatch(uploadImagesToS3Success(values))
+      // req to justin BE
     })
-  } catch (error) {
-    console.log(error)
+  } catch (e) {
     dispatch(
       uploadImagesToS3Failure({
-        errorMessage: "Could not upload image.",
-        error
+        message: "Could not upload image.",
+        log: e
       })
     )
   }
@@ -83,7 +76,7 @@ const uploadImagesToS3Request = {
 }
 
 const uploadImagesToS3Success = response => ({
-  type: UPLOAD_TO_S3_REQUEST,
+  type: UPLOAD_TO_S3_SUCCESS,
   loadingOverlay: false,
   payload: response
 })
