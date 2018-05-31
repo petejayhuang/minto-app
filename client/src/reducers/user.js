@@ -1,6 +1,9 @@
 import { GET_USER_REQUEST, GET_USER_SUCCESS } from "../actions/types"
 
-const initialState = {}
+const initialState = {
+  username: "petejayhuang",
+  id: 1
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {
