@@ -9,7 +9,7 @@ export const getUser = id => async dispatch => {
     const { data } = await axios.get(`${URLS.SERVER}/users/${id}`)
     dispatch(getUserSuccess(data.user))
   } catch (error) {
-    dispatch(getUserFailure({ errorMessage: "Could not get user.", error }))
+    dispatch(getUserFailure({ message: "Could not get user.", error }))
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+// import PropTypes from "prop-types"
+// import styled from "styled-components"
 
 import CategoryCard from "../components/CategoryCard"
 import MobileTopNav from "../components/MobileTopNav"

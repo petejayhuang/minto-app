@@ -1,8 +1,7 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
+// import PropTypes from "prop-types"
 import RouteContainer from "../components/RouteContainer"
 import ImageUpload from "../components/ImageUpload"
-import ProductDetails from "../components/ProductDetails"
 
 import { connect } from "react-redux"
 import { uploadImagesToS3, printError } from "../actions"
@@ -26,7 +25,6 @@ class Add extends Component {
     const newState = this.state.images.filter(image => {
       return image.name !== imageName
     })
-    console.log("newState", newState)
     this.setState({ images: newState })
   }
 
@@ -68,7 +66,6 @@ class Add extends Component {
   }
 
   render() {
-    console.log("this.state", this.state)
     return (
       <RouteContainer>
         <h1>Add images</h1>

@@ -1,5 +1,5 @@
 import React from "react"
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 import RouteContainer from "../components/RouteContainer"
 import TouchableRow from "../components/TouchableRow"
 

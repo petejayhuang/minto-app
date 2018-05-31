@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 // import PropTypes from 'prop-types'
-import CrossIcon from "../assets/icons/feather-react/PlusSquareIcon"
+//import CrossIcon from "../assets/icons/feather-react/PlusSquareIcon"
 import styled from "styled-components"
 import XCircleIcon from "../assets/icons/feather-react/XCircleIcon"
 
@@ -44,7 +44,6 @@ class ImageUpload extends Component {
 
   handleSelectImage = e => {
     const file = e.target.files[0]
-    console.log(file)
 
     let reader = new FileReader()
 
@@ -61,13 +60,11 @@ class ImageUpload extends Component {
   }
 
   handleRemoveImage = name => {
-    // console.log(name)
     this.props.removeImage(this.state.file.name)
     this.setState({ imagePreviewUrl: "" })
   }
 
   render() {
-    console.log("image upload state", this.state)
     const { index } = this.props
     return (
       <Container>

@@ -70,7 +70,6 @@ class MobileTopNav extends Component {
 
   render() {
     const { ui } = this.props
-    console.log(ui)
     return (
       <div>
         {ui.showLoadingLine && <LoadingLine />}
