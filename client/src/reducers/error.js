@@ -1,9 +1,8 @@
-import { CLEAR_ERROR } from "../actions/types"
+import { CLEAR_ERROR } from '../actions/types'
 
 const initialState = null
 
 export default (state = initialState, action) => {
-  console.log("action.error", action.error)
   if (action.error) {
     return action.error
   }

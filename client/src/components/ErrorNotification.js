@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import styled from "styled-components"
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import { clearError } from "../actions"
-import { colors } from "../styles/styleVariables"
-import AlertTriangleIcon from "../assets/icons/feather-react/AlertTriangleIcon"
-import XIcon from "../assets/icons/feather-react/XIcon"
+import { clearError } from '../actions'
+import { colors } from '../styles/styleVariables'
+import AlertTriangleIcon from '../assets/icons/feather-react/AlertTriangleIcon'
+import XIcon from '../assets/icons/feather-react/XIcon'
 
 const Container = styled.div`
   padding: 20px;
@@ -22,7 +22,7 @@ const Container = styled.div`
     cursor: pointer;
   }
 `
-const ErrorOverlay = props => (
+const ErrorNotification = props => (
   <Container className="flex-row center-center" onClick={props.clearError}>
     {props.error.message}
     <XIcon />
@@ -31,4 +31,7 @@ const ErrorOverlay = props => (
 
 const mapState = ({ error }) => ({ error })
 
-export default connect(mapState, { clearError })(ErrorOverlay)
+export default connect(
+  mapState,
+  { clearError }
+)(ErrorNotification)

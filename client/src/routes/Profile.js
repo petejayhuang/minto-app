@@ -1,12 +1,12 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { getUser } from "../actions"
-import SecondaryButton from "../components/SecondaryButton"
-import ImageGrid from "../components/ImageGrid"
-import RouteContainer from "../components/RouteContainer"
-import Settings from "./Settings"
+import { getUser } from '../actions'
+import SecondaryButton from '../components/SecondaryButton'
+import ImageGrid from '../components/ImageGrid'
+import RouteContainer from '../components/RouteContainer'
+import Settings from './Settings'
 
 class Profile extends Component {
   componentDidMount() {
@@ -73,4 +73,7 @@ const mapStateToProps = ({ user, ui }) => ({ user, ui })
 Profile.defaultProps = {}
 Profile.propTypes = {}
 
-export default connect(mapStateToProps, { getUser })(Profile)
+export default connect(
+  mapStateToProps,
+  { getUser }
+)(Profile)

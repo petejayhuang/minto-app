@@ -1,19 +1,19 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import RouteContainer from "../components/RouteContainer"
-import ImageUpload from "../components/ImageUpload"
-import ProductDetails from "../components/ProductDetails"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import RouteContainer from '../components/RouteContainer'
+import ImageUpload from '../components/ImageUpload'
+import ProductDetails from '../components/ProductDetails'
 
-import { connect } from "react-redux"
-import { uploadImagesToS3, printError } from "../actions"
+import { connect } from 'react-redux'
+import { uploadImagesToS3, printError } from '../actions'
 
 class Add extends Component {
   state = {
     images: [],
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     price: 0,
-    errorMessage: ""
+    errorMessage: ''
   }
 
   addImage = image => {
@@ -26,7 +26,6 @@ class Add extends Component {
     const newState = this.state.images.filter(image => {
       return image.name !== imageName
     })
-    console.log("newState", newState)
     this.setState({ images: newState })
   }
 
@@ -47,8 +46,8 @@ class Add extends Component {
     }
 
     this.props.printError({
-      message: "Sorry, you can only upload 4 product images.",
-      log: "Sorry, you can only upload 4 product images."
+      message: 'Sorry, you can only upload 4 product images.',
+      log: 'Sorry, you can only upload 4 product images.'
     })
   }
 
@@ -57,6 +56,7 @@ class Add extends Component {
   }
 
   handleSubmit = () => {
+    throw new Error('test in add.js')
     this.props.uploadImagesToS3({
       images: this.state.images,
       form: {
@@ -68,7 +68,6 @@ class Add extends Component {
   }
 
   render() {
-    console.log("this.state", this.state)
     return (
       <RouteContainer>
         <h1>Add images</h1>
@@ -77,18 +76,18 @@ class Add extends Component {
         <label>Product Name</label>
         <input
           type="text"
-          onChange={e => this.handleInputChange("name", e)}
+          onChange={e => this.handleInputChange('name', e)}
           value={this.state.name}
         />
         <label>Product Description</label>
         <textarea
-          onChange={e => this.handleInputChange("description", e)}
+          onChange={e => this.handleInputChange('description', e)}
           value={this.state.description}
         />
         <label>Product Price</label>
         <input
           type="text"
-          onChange={e => this.handleInputChange("price", e)}
+          onChange={e => this.handleInputChange('price', e)}
           value={this.state.price}
         />
         <button onClick={this.handleSubmit}>Submit</button>
@@ -99,4 +98,7 @@ class Add extends Component {
 Add.defaultProps = {}
 Add.propTypes = {}
 
-export default connect(null, { uploadImagesToS3, printError })(Add)
+export default connect(
+  null,
+  { uploadImagesToS3, printError }
+)(Add)

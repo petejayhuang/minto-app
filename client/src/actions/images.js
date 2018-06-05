@@ -1,23 +1,16 @@
-// TODO:
-// extract signedURL into it's own async function?
-// better naming convention
-// add stuff to redux?
-// on successful POST to add product, redirect to new page?
-// actions that demonstrate loading
-
-import axios from "axios"
+import axios from 'axios'
 
 import {
   UPLOAD_TO_S3_REQUEST,
   UPLOAD_TO_S3_SUCCESS,
   UPLOAD_TO_S3_FAILURE
-} from "./types"
+} from './types'
 
 const uploadToS3UsingSignedUrlPromise = ({ imageName, key, url, image }) =>
   new Promise(async (resolve, reject) => {
     try {
       const request = await axios.put(url, image, {
-        headers: { "Content-Type": image.type }
+        headers: { 'Content-Type': image.type }
       })
       resolve(request)
     } catch (e) {
@@ -37,11 +30,10 @@ export const uploadImagesToS3 = ({ images, productName }) => async (
 
   try {
     // BE will return an array of uploadConfigs
-    const uploadConfigs = await axios.post("/api/upload", {
+    const uploadConfigs = await axios.post('/api/upload', {
       images: imagesNamesArray
     })
 
-    //
     const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
       const { imageName, key, url } = uploadConfig
       const image = images.find(image => image.name === imageName)
@@ -60,11 +52,11 @@ export const uploadImagesToS3 = ({ images, productName }) => async (
       dispatch(uploadImagesToS3Success(values))
       // req to justin BE
     })
-  } catch (e) {
+  } catch (error) {
     dispatch(
       uploadImagesToS3Failure({
-        message: "Could not upload image.",
-        log: e
+        message: 'Could not upload image.',
+        error
       })
     )
   }
@@ -81,8 +73,8 @@ const uploadImagesToS3Success = response => ({
   payload: response
 })
 
-const uploadImagesToS3Failure = error => ({
+const uploadImagesToS3Failure = ({ message, error }) => ({
   type: UPLOAD_TO_S3_FAILURE,
   loadingOverlay: false,
-  error
+  error: { message, error }
 })

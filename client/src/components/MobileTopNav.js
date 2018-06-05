@@ -1,16 +1,16 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { withRouter } from "react-router-dom"
-import { toggleUi } from "../actions/ui"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
+import { toggleUi } from '../actions/ui'
 
-import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
-import SettingsIcon from "../assets/icons/feather-react/SettingsIcon"
-import LoadingLine from "./LoadingLine"
-import SearchBar from "./SearchBar"
-import { colors } from "../styles/styleVariables"
+import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
+import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
+import LoadingLine from './LoadingLine'
+import SearchBar from './SearchBar'
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
   position: fixed;
@@ -25,26 +25,26 @@ const Container = styled.div`
 `
 
 const navConfigs = {
-  "/feed": {
+  '/feed': {
     left: <PlusSquareIcon />,
     middle: <h3>jwl</h3>,
     right: <PlusSquareIcon />
   },
-  "/search": {
+  '/search': {
     middle: <SearchBar />,
     middleOnClick: () => {}
   },
-  "/add": {
+  '/add': {
     left: <PlusSquareIcon />,
     middle: <h3>Add</h3>
   },
-  "/messages": {
+  '/messages': {
     left: <PlusSquareIcon />,
     middle: <h3>Messages</h3>
   },
-  "/profile": {
+  '/profile': {
     left: <SettingsIcon />,
-    leftOnClick: toggleUi("showSettings"),
+    leftOnClick: toggleUi('showSettings'),
     middle: <h3>Profile</h3>
   }
 }
@@ -70,10 +70,9 @@ class MobileTopNav extends Component {
 
   render() {
     const { ui } = this.props
-    console.log(ui)
     return (
       <div>
-        {ui.showLoadingLine && <LoadingLine />}
+        {ui.loadingLine && <LoadingLine />}
         {this.renderTopNav(
           this.props.dispatch,
           navConfigs[this.props.routing.location.pathname]

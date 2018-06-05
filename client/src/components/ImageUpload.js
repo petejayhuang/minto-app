@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // import PropTypes from 'prop-types'
-import CrossIcon from "../assets/icons/feather-react/PlusSquareIcon"
-import styled from "styled-components"
-import XCircleIcon from "../assets/icons/feather-react/XCircleIcon"
+import CrossIcon from '../assets/icons/feather-react/PlusSquareIcon'
+import styled from 'styled-components'
+import XCircleIcon from '../assets/icons/feather-react/XCircleIcon'
 
 const Container = styled.div`
   border: 1px solid green;
   width: 150px;
   height: 150px;
-  input[type="file"] {
+  input[type='file'] {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -38,18 +38,14 @@ const Container = styled.div`
 
 class ImageUpload extends Component {
   state = {
-    imagePreviewUrl: "",
+    imagePreviewUrl: '',
     file: null
   }
 
   handleSelectImage = e => {
     const file = e.target.files[0]
-    console.log(file)
-
     let reader = new FileReader()
-
     this.setState({ file })
-
     reader.onloadend = () => {
       this.setState({
         imagePreviewUrl: reader.result
@@ -61,13 +57,11 @@ class ImageUpload extends Component {
   }
 
   handleRemoveImage = name => {
-    // console.log(name)
     this.props.removeImage(this.state.file.name)
-    this.setState({ imagePreviewUrl: "" })
+    this.setState({ imagePreviewUrl: '' })
   }
 
   render() {
-    console.log("image upload state", this.state)
     const { index } = this.props
     return (
       <Container>
