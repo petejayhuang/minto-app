@@ -1,19 +1,28 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import Dropdown from '../components/Dropdown'
 import RouteContainer from '../components/RouteContainer'
 import ImageUpload from '../components/ImageUpload'
 import ProductDetails from '../components/ProductDetails'
 
 import { connect } from 'react-redux'
-import { uploadImagesToS3, printError } from '../actions'
+import { getProductCategories, uploadImagesToS3, printError } from '../actions'
 
 class Add extends Component {
   state = {
     images: [],
+    category: '',
     name: '',
     description: '',
     price: 0,
     errorMessage: ''
+  }
+
+  componentDidMount() {
+    if (this.props.categories.length === 0) {
+      this.props.getProductCategories()
+    }
   }
 
   addImage = image => {
@@ -56,18 +65,24 @@ class Add extends Component {
   }
 
   handleSubmit = () => {
-    throw new Error('test in add.js')
     this.props.uploadImagesToS3({
       images: this.state.images,
       form: {
         name: this.state.name,
+        category: this.state.category,
         description: this.state.description,
         price: this.state.price
       }
     })
   }
 
+  // pass down to <Dropdown/>
+  handleOption = e => {
+    this.setState({ category: e.target.value })
+  }
+
   render() {
+    console.log(this.state)
     return (
       <RouteContainer>
         <h1>Add images</h1>
@@ -78,6 +93,11 @@ class Add extends Component {
           type="text"
           onChange={e => this.handleInputChange('name', e)}
           value={this.state.name}
+        />
+        <label>Product Description</label>
+        <Dropdown
+          handleOption={this.handleOption}
+          options={this.props.categories}
         />
         <label>Product Description</label>
         <textarea
@@ -99,6 +119,6 @@ Add.defaultProps = {}
 Add.propTypes = {}
 
 export default connect(
-  null,
-  { uploadImagesToS3, printError }
+  ({ categories }) => ({ categories }),
+  { getProductCategories, uploadImagesToS3, printError }
 )(Add)

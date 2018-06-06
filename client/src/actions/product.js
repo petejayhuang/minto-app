@@ -3,10 +3,46 @@ import axios from 'axios'
 import {
   UPLOAD_PRODUCT_REQUEST,
   UPLOAD_PRODUCT_SUCCESS,
-  UPLOAD_PRODUCT_FAILURE
+  UPLOAD_PRODUCT_FAILURE,
+  GET_PRODUCT_CATEGORIES_REQUEST,
+  GET_PRODUCT_CATEGORIES_SUCCESS,
+  GET_PRODUCT_CATEGORIES_FAILURE
 } from './types'
 
 import { URLS } from '../config'
+
+export const getProductCategories = id => async dispatch => {
+  dispatch(getProductCategoriesRequest)
+
+  try {
+    const { data } = await axios(`${URLS.SERVER}/categories`)
+    dispatch(getProductCategoriesSuccess(data.categories))
+  } catch (error) {
+    dispatch(
+      getProductCategoriesFailure({
+        message: 'Could not get product categories.',
+        error
+      })
+    )
+  }
+}
+
+const getProductCategoriesRequest = {
+  type: GET_PRODUCT_CATEGORIES_REQUEST,
+  loadingLine: true
+}
+
+const getProductCategoriesSuccess = categories => ({
+  type: GET_PRODUCT_CATEGORIES_SUCCESS,
+  loadingLine: false,
+  payload: categories
+})
+
+const getProductCategoriesFailure = ({ message, error }) => ({
+  type: GET_PRODUCT_CATEGORIES_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
 
 export const uploadProduct = id => async dispatch => {
   const fakeBody = {

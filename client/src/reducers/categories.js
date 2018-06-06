@@ -1,13 +1,10 @@
-import { GET_USER_SUCCESS } from '../actions/types'
+import { GET_PRODUCT_CATEGORIES_SUCCESS } from '../actions/types'
 
-const initialState = {
-  username: 'petejayhuang',
-  id: 1
-}
+const initialState = []
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_USER_SUCCESS:
+    case GET_PRODUCT_CATEGORIES_SUCCESS:
       return action.payload
     default:
       return state
