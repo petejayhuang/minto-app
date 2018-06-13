@@ -1,29 +1,25 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import PropTypes from "prop-types"
-import { Route, withRouter } from "react-router-dom"
+// libraries
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-// routes
-import Add from "./routes/Add"
-import Feed from "./routes/Feed"
-import Landing from "./routes/Landing"
-import Messages from "./routes/Messages"
-import Profile from "./routes/Profile"
-import Search from "./routes/Search"
+// utils
+import renderRoutes from './utilities/renderRoutes'
 
 // components
-import MobileTopNav from "./components/MobileTopNav"
-import MobileBottomNav from "./components/MobileBottomNav"
-import LoadingOverlay from "./components/LoadingOverlay"
-import ErrorOverlay from "./components/ErrorOverlay"
+import MobileTopNav from './components/MobileTopNav'
+import MobileBottomNav from './components/MobileBottomNav'
+import LoadingOverlay from './components/LoadingOverlay'
+import ErrorBoundary from './components/ErrorBoundary'
+import ErrorNotification from './components/ErrorNotification'
 
 // styles
-import "./styles/App.css"
-import styled from "styled-components"
-import { colors } from "./styles/styleVariables"
+import './styles/App.css'
+import styled from 'styled-components'
+import { colors } from './styles/styleVariables'
 
 const AppContainer = styled.div`
-  input[type="text"] {
+  input[type='text'] {
     border: 1px solid ${colors.border};
     width: 100%;
     padding: 5px;
@@ -33,24 +29,30 @@ const AppContainer = styled.div`
 class App extends Component {
   render() {
     const { routing, ui, error } = this.props
-    const isHomeRoute = routing.location.pathname !== "/"
+    const isHomeRoute = routing.location.pathname !== '/'
     return (
-      <AppContainer>
-        {ui.showLoadingOverlay && <LoadingOverlay />}
-        {error && <ErrorOverlay />}
-        {isHomeRoute && <MobileTopNav />}
-        <Route exact path="/" component={Landing} />
-        <Route path="/feed" component={Feed} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/messages" component={Messages} />
-        <Route path="/add" component={Add} />
-        <Route path="/search" component={Search} />
-        {isHomeRoute && <MobileBottomNav />}
-      </AppContainer>
+      <ErrorBoundary>
+        <AppContainer>
+          {ui.showLoadingOverlay && <LoadingOverlay />}
+          {error && <ErrorNotification />}
+          {isHomeRoute && <MobileTopNav />}
+          {renderRoutes()}
+          {isHomeRoute && <MobileBottomNav />}
+        </AppContainer>
+      </ErrorBoundary>
     )
   }
 }
 
 const mapState = ({ ui, routing, error }) => ({ ui, routing, error })
 
-export default connect(mapState, null)(App)
+App.propTypes = {
+  ui: PropTypes.object,
+  routing: PropTypes.object,
+  error: PropTypes.object
+}
+
+export default connect(
+  mapState,
+  null
+)(App)

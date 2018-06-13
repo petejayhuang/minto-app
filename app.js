@@ -21,8 +21,6 @@ app.use(bodyParser.json())
 
 app.post('/api/upload', (req, res) => {
   const user = 'petejayhuang'
-  console.log('POST /api/upload hit!')
-  console.log('req.body', req.body)
 
   const getSignedUrlPromise = ({ imageName, params, key }) => {
     return new Promise((resolve, reject) => {
@@ -31,7 +29,6 @@ app.post('/api/upload', (req, res) => {
           resolve({ imageName, key, url })
         })
       } catch (e) {
-        console.log(e)
         reject(e)
       }
     })
@@ -48,10 +45,7 @@ app.post('/api/upload', (req, res) => {
     return getSignedUrlPromise({ imageName, params, key })
   })
 
-  console.log('arrayOfPromises', arrayOfPromises)
-
   Promise.all(arrayOfPromises).then(values => {
-    console.log('values', values)
     res.send(values)
   })
 })

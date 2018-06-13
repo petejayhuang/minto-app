@@ -1,8 +1,8 @@
 // NEED TO MAKE A FEW MORE VERSIONS OF THESE
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { colors } from "../styles/styleVariables"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
   background-color: ${colors.background};
@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const RouteContainer = ({ noPadding, children }) => {
   return (
-    <Container className={`flex-column ${!noPadding && "p-2"}`}>
+    <Container className={`flex-column ${!noPadding && 'p-2'}`}>
       {children}
     </Container>
   )
@@ -20,6 +20,8 @@ const RouteContainer = ({ noPadding, children }) => {
 
 RouteContainer.propTypes = {}
 
-RouteContainer.defaultProps = {}
+RouteContainer.defaultProps = {
+  noPadding: PropTypes.bool
+}
 
 export default RouteContainer

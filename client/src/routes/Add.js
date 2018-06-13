@@ -1,19 +1,28 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import RouteContainer from "../components/RouteContainer"
-import ImageUpload from "../components/ImageUpload"
-import ProductDetails from "../components/ProductDetails"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { connect } from "react-redux"
-import { uploadImagesToS3, printError } from "../actions"
+import Dropdown from '../components/Dropdown'
+import RouteContainer from '../components/RouteContainer'
+import ImageUpload from '../components/ImageUpload'
+import ProductDetails from '../components/ProductDetails'
+
+import { connect } from 'react-redux'
+import { getProductCategories, uploadImagesToS3, printError } from '../actions'
 
 class Add extends Component {
   state = {
     images: [],
-    name: "",
-    description: "",
+    category: '',
+    name: '',
+    description: '',
     price: 0,
-    errorMessage: ""
+    errorMessage: ''
+  }
+
+  componentDidMount() {
+    if (this.props.categories.length === 0) {
+      this.props.getProductCategories()
+    }
   }
 
   addImage = image => {
@@ -26,7 +35,6 @@ class Add extends Component {
     const newState = this.state.images.filter(image => {
       return image.name !== imageName
     })
-    console.log("newState", newState)
     this.setState({ images: newState })
   }
 
@@ -40,18 +48,6 @@ class Add extends Component {
       />
     ))
 
-  handleAddImageUploader = () => {
-    const { imageUploaders } = this.state
-    if (imageUploaders < 4) {
-      return this.setState({ imageUploaders: imageUploaders + 1 })
-    }
-
-    this.props.printError({
-      message: "Sorry, you can only upload 4 product images.",
-      log: "Sorry, you can only upload 4 product images."
-    })
-  }
-
   handleInputChange = (inputName, e) => {
     this.setState({ [inputName]: e.target.value })
   }
@@ -61,37 +57,55 @@ class Add extends Component {
       images: this.state.images,
       form: {
         name: this.state.name,
+        category: this.state.category,
         description: this.state.description,
         price: this.state.price
       }
     })
   }
 
+  // pass down to <Dropdown/>
+  handleOption = e => {
+    this.setState({ category: e.target.value })
+  }
+
   render() {
-    console.log("this.state", this.state)
+    console.log(this.state)
     return (
       <RouteContainer>
         <h1>Add images</h1>
         <div className="flex-wrap">{this.renderImageUploaders()}</div>
         <p className="error-text">{this.state.errorMessage}</p>
+        category_id: 11, shipping_YN: 1, meet_in_person_YN: 1,
         <label>Product Name</label>
         <input
           type="text"
-          onChange={e => this.handleInputChange("name", e)}
+          onChange={e => this.handleInputChange('name', e)}
           value={this.state.name}
         />
         <label>Product Description</label>
+        <Dropdown
+          handleOption={this.handleOption}
+          options={this.props.categories}
+        />
+        <label>Product Description</label>
         <textarea
-          onChange={e => this.handleInputChange("description", e)}
+          onChange={e => this.handleInputChange('description', e)}
           value={this.state.description}
         />
         <label>Product Price</label>
         <input
           type="text"
-          onChange={e => this.handleInputChange("price", e)}
+          onChange={e => this.handleInputChange('price', e)}
           value={this.state.price}
         />
-        <button onClick={this.handleSubmit}>Submit</button>
+        <label htmlFor="shipping">Shipping</label>
+        <input name="shipping" type="radio" />
+        <label>Meet in person</label>
+        <input htmlFor="meet-in-person" type="radio" />
+        <button name="meet-in-person" onClick={this.handleSubmit}>
+          Submit
+        </button>
       </RouteContainer>
     )
   }
@@ -99,4 +113,7 @@ class Add extends Component {
 Add.defaultProps = {}
 Add.propTypes = {}
 
-export default connect(null, { uploadImagesToS3, printError })(Add)
+export default connect(
+  ({ categories }) => ({ categories }),
+  { getProductCategories, uploadImagesToS3, printError }
+)(Add)

@@ -1,6 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { logWarning } from '../utilities/logWarning'
 
 const ButtonContainer = styled.div`
   padding: 10px 20px;
@@ -20,8 +21,8 @@ SecondaryButton.propTypes = {
 }
 
 SecondaryButton.defaultProps = {
-  onClick: () => console.log("missing onClick handler!"),
-  text: "Button Text"
+  onClick: () => logWarning('missing onClick handler!'),
+  text: 'Button Text'
 }
 
 export default SecondaryButton

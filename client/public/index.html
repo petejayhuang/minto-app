@@ -26,7 +26,9 @@
 </head>
 
 <body>
-  <script href="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.243.1/aws-sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.ravenjs.com/3.25.2/raven.min.js" crossorigin="anonymous"></script>
+  <!-- need to put keys elsewhere and then inject in? -->
+  <script>Raven.config('https://2e83501a4f584925bd45aacd97177d31@sentry.io/1219843').install()</script>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
