@@ -70,7 +70,6 @@ class Add extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <RouteContainer>
         <h1>Add images</h1>

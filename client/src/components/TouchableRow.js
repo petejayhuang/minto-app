@@ -4,8 +4,9 @@
 
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import ChevronRightIcon from '../assets/icons/feather-react/ChevronRightIcon'
 import { colors } from '../styles/styleVariables'
@@ -18,19 +19,21 @@ const Container = styled.div`
 `
 
 class TouchableRow extends Component {
+  handleTouch = to => {
+    this.props.push(to)
+  }
   render() {
     const { borderBottom, className, text, to } = this.props
     return (
       <Container
         borderBottom={borderBottom}
         className={`flex-row between-center p-1 ${className}`}
+        onClick={() => this.handleTouch(to)}
       >
-        <Link to={to} className="flex-between">
-          <div>{text}</div>
-          <div>
-            <ChevronRightIcon />
-          </div>
-        </Link>
+        <div className="m-0 p-0">{text}</div>
+        <div>
+          <ChevronRightIcon />
+        </div>
       </Container>
     )
   }
@@ -46,4 +49,7 @@ TouchableRow.defaultProps = {
   to: '/',
   borderBottom: false
 }
-export default TouchableRow
+export default connect(
+  null,
+  { push }
+)(TouchableRow)
