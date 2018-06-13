@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URLS } from '../config'
+import { URLS } from '../config/constants'
 
 import { GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE } from './types'
 
@@ -9,7 +9,7 @@ export const getUser = id => async dispatch => {
     const { data } = await axios.get(`${URLS.SERVER}/users/${id}`)
     dispatch(getUserSuccess(data.user))
   } catch (error) {
-    dispatch(getUserFailure({ errorMessage: 'Could not get user.', error }))
+    dispatch(getUserFailure({ message: 'Could not get user.', error }))
   }
 }
 

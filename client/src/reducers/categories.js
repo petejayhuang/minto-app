@@ -1,6 +1,6 @@
 import { GET_PRODUCT_CATEGORIES_SUCCESS } from '../actions/types'
 
-const initialState = []
+const initialState = [{ product_type: 'Rings' }, { product_type: 'Necklaces' }]
 
 export default (state = initialState, action) => {
   switch (action.type) {

@@ -1,14 +1,15 @@
-import React from "react"
-import PropTypes from 'prop-types'
-import RouteContainer from "../components/RouteContainer"
-import TouchableRow from "../components/TouchableRow"
+import React from 'react'
+import TouchableRow from '../../components/TouchableRow'
+import RouteContainer from '../../components/RouteContainer'
 
-const Profile = props => (
-  <RouteContainer noPadding>
+const Profile = () => (
+  <RouteContainer>
     <div className="pl-1 pt-3 pb-1">
       <strong>ACCOUNT</strong>
     </div>
-    <TouchableRow text="Edit Profile" />
+
+    <TouchableRow to="/settings/edit-profile" text="Edit Profile" />
+
     <TouchableRow text="Change Password" />
     <TouchableRow borderBottom text="Privacy and Security" />
 
@@ -22,8 +23,5 @@ const Profile = props => (
     <TouchableRow borderBottom className="mt-2" text="Log Out" />
   </RouteContainer>
 )
-
-Profile.defaultProps = {}
-Profile.propTypes = {}
 
 export default Profile

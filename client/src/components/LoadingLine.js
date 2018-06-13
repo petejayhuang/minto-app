@@ -3,7 +3,7 @@ import styled from "styled-components"
 const LoadingBar = styled.div`
   position: fixed;
   top: 0;
-  z-index: 999;
+  z-index: 900;
   width: 100%;
   height: 3px;
   color: #fff;

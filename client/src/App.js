@@ -1,15 +1,10 @@
+// libraries
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Route, withRouter } from 'react-router-dom'
 
-// routes
-import Add from './routes/Add'
-import Feed from './routes/Feed'
-import Landing from './routes/Landing'
-import Messages from './routes/Messages'
-import Profile from './routes/Profile'
-import Search from './routes/Search'
+// utils
+import renderRoutes from './utilities/renderRoutes'
 
 // components
 import MobileTopNav from './components/MobileTopNav'
@@ -41,12 +36,7 @@ class App extends Component {
           {ui.showLoadingOverlay && <LoadingOverlay />}
           {error && <ErrorNotification />}
           {isHomeRoute && <MobileTopNav />}
-          <Route exact path="/" component={Landing} />
-          <Route path="/feed" component={Feed} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/messages" component={Messages} />
-          <Route path="/add" component={Add} />
-          <Route path="/search" component={Search} />
+          {renderRoutes()}
           {isHomeRoute && <MobileBottomNav />}
         </AppContainer>
       </ErrorBoundary>
@@ -55,6 +45,12 @@ class App extends Component {
 }
 
 const mapState = ({ ui, routing, error }) => ({ ui, routing, error })
+
+App.propTypes = {
+  ui: PropTypes.object,
+  routing: PropTypes.object,
+  error: PropTypes.object
+}
 
 export default connect(
   mapState,

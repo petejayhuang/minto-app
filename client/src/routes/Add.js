@@ -48,18 +48,6 @@ class Add extends Component {
       />
     ))
 
-  handleAddImageUploader = () => {
-    const { imageUploaders } = this.state
-    if (imageUploaders < 4) {
-      return this.setState({ imageUploaders: imageUploaders + 1 })
-    }
-
-    this.props.printError({
-      message: 'Sorry, you can only upload 4 product images.',
-      log: 'Sorry, you can only upload 4 product images.'
-    })
-  }
-
   handleInputChange = (inputName, e) => {
     this.setState({ [inputName]: e.target.value })
   }
@@ -88,6 +76,7 @@ class Add extends Component {
         <h1>Add images</h1>
         <div className="flex-wrap">{this.renderImageUploaders()}</div>
         <p className="error-text">{this.state.errorMessage}</p>
+        category_id: 11, shipping_YN: 1, meet_in_person_YN: 1,
         <label>Product Name</label>
         <input
           type="text"
@@ -110,7 +99,13 @@ class Add extends Component {
           onChange={e => this.handleInputChange('price', e)}
           value={this.state.price}
         />
-        <button onClick={this.handleSubmit}>Submit</button>
+        <label htmlFor="shipping">Shipping</label>
+        <input name="shipping" type="radio" />
+        <label>Meet in person</label>
+        <input htmlFor="meet-in-person" type="radio" />
+        <button name="meet-in-person" onClick={this.handleSubmit}>
+          Submit
+        </button>
       </RouteContainer>
     )
   }

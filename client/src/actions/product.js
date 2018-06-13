@@ -1,6 +1,9 @@
 import axios from 'axios'
 
 import {
+  UPLOAD_TO_S3_REQUEST,
+  UPLOAD_TO_S3_SUCCESS,
+  UPLOAD_TO_S3_FAILURE,
   UPLOAD_PRODUCT_REQUEST,
   UPLOAD_PRODUCT_SUCCESS,
   UPLOAD_PRODUCT_FAILURE,
@@ -8,8 +11,11 @@ import {
   GET_PRODUCT_CATEGORIES_SUCCESS,
   GET_PRODUCT_CATEGORIES_FAILURE
 } from './types'
+import { URLS } from '../config/constants'
 
-import { URLS } from '../config'
+// =====================================================
+// ===========     GET PRODUCT CATEORIES     ===========
+// =====================================================
 
 export const getProductCategories = id => async dispatch => {
   dispatch(getProductCategoriesRequest)
@@ -44,11 +50,94 @@ const getProductCategoriesFailure = ({ message, error }) => ({
   error: { message, error }
 })
 
-export const uploadProduct = id => async dispatch => {
+// =====================================================
+// ===============     UPLOAD TO S3     ================
+// =====================================================
+
+const uploadToS3UsingSignedUrlPromise = ({ imageName, key, url, image }) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const request = await axios.put(url, image, {
+        headers: { 'Content-Type': image.type }
+      })
+      resolve(request)
+    } catch (e) {
+      reject(e)
+    }
+  })
+
+export const uploadImagesToS3 = ({ images, form }) => async (
+  dispatch,
+  getState
+) => {
+  dispatch(uploadImagesToS3Request)
+  const { user } = getState()
+
+  // Take array of image objects, and return array of file names
+  const imagesNamesArray = images.map(current => current.name)
+
+  try {
+    // BE will return an array of uploadConfigs
+    const uploadConfigs = await axios.post('/api/upload', {
+      images: imagesNamesArray
+    })
+
+    const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
+      const { imageName, key, url } = uploadConfig
+      const image = images.find(image => image.name === imageName)
+
+      return uploadToS3UsingSignedUrlPromise({
+        imageName: imageName,
+        key: key,
+        url: url,
+        image
+      })
+    })
+
+    const { id, username } = user
+
+    Promise.all(arrayOfUploadToS3Promises).then(values => {
+      dispatch(uploadImagesToS3Success(values))
+      dispatch(uploadProduct({ ...values, ...form }))
+      // req to justin BE
+    })
+  } catch (error) {
+    dispatch(
+      uploadImagesToS3Failure({
+        message: 'Could not upload image.',
+        error
+      })
+    )
+  }
+}
+
+const uploadImagesToS3Request = {
+  type: UPLOAD_TO_S3_REQUEST,
+  loadingOverlay: true
+}
+
+const uploadImagesToS3Success = response => ({
+  type: UPLOAD_TO_S3_SUCCESS,
+  loadingOverlay: false,
+  payload: response
+})
+
+const uploadImagesToS3Failure = ({ message, error }) => ({
+  type: UPLOAD_TO_S3_FAILURE,
+  loadingOverlay: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ==============     UPLOAD PRODUCT     ===============
+// =====================================================
+
+export const uploadProduct = body => async dispatch => {
   const fakeBody = {
     user_id: 1,
     category_id: 11,
     description: '',
+    price: 0,
     shipping_YN: 1,
     meet_in_person_YN: 1,
     images: [
@@ -70,8 +159,8 @@ export const uploadProduct = id => async dispatch => {
   dispatch(uploadProductRequest)
 
   try {
-    const { data } = await axios.POST(`${URLS.SERVER}/products`, fakeBody)
-    dispatch(uploadProductSuccess())
+    const { data } = await axios.POST(`${URLS.SERVER}/products`, body)
+    dispatch(uploadProductSuccess(data))
   } catch (error) {
     dispatch(uploadProductFailure({ message: 'Could not upload user.', error }))
   }
