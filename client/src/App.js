@@ -1,25 +1,25 @@
 // libraries
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
 
 // utils
-import renderRoutes from './utilities/renderRoutes'
+import renderRoutes from "./utilities/renderRoutes"
 
 // components
-import MobileTopNav from './components/MobileTopNav'
-import MobileBottomNav from './components/MobileBottomNav'
-import LoadingOverlay from './components/LoadingOverlay'
-import ErrorBoundary from './components/ErrorBoundary'
-import ErrorNotification from './components/ErrorNotification'
+import MobileTopNav from "./components/MobileTopNav"
+import MobileBottomNav from "./components/MobileBottomNav"
+import LoadingOverlay from "./components/LoadingOverlay"
+import ErrorBoundary from "./components/ErrorBoundary"
+import ErrorNotification from "./components/ErrorNotification"
 
 // styles
-import './styles/App.css'
-import styled from 'styled-components'
-import { colors } from './styles/styleVariables'
+import "./styles/App.css"
+import styled from "styled-components"
+import { colors } from "./styles/styleVariables"
 
 const AppContainer = styled.div`
-  input[type='text'] {
+  input[type="text"] {
     border: 1px solid ${colors.border};
     width: 100%;
     padding: 5px;
@@ -29,7 +29,7 @@ const AppContainer = styled.div`
 class App extends Component {
   render() {
     const { routing, ui, error } = this.props
-    const isHomeRoute = routing.location.pathname !== '/'
+    const isHomeRoute = routing.location.pathname !== "/"
     return (
       <ErrorBoundary>
         <AppContainer>

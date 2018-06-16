@@ -4,7 +4,6 @@ import styled from "styled-components"
 
 import CategoryCard from "../components/CategoryCard"
 import MobileTopNav from "../components/MobileTopNav"
-import RouteContainer from "../components/RouteContainer"
 
 import NecklaceImage from "../assets/images/necklace.jpeg"
 import RingImage from "../assets/images/ring.jpeg"
@@ -42,9 +41,7 @@ class Search extends Component {
     ))
 
   render() {
-    return (
-      <RouteContainer noPadding>{this.renderCategoryCards()}</RouteContainer>
-    )
+    return <div className="route-container">{this.renderCategoryCards()}</div>
   }
 }
 

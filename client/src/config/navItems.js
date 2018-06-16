@@ -1,48 +1,60 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
-import SearchBar from '../components/SearchBar'
-import XIcon from '../assets/icons/feather-react/XIcon'
-import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
-import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
+import React from "react"
+import { Link } from "react-router-dom"
+import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
+import SearchBar from "../components/SearchBar"
+import XIcon from "../assets/icons/feather-react/XIcon"
+import SettingsIcon from "../assets/icons/feather-react/SettingsIcon"
+import ChevronLeftIcon from "../assets/icons/feather-react/ChevronLeftIcon"
 
 const navItems = {
-  '/feed': {
-    middle: <h3>jwl</h3>
+  "/feed": {
+    middle: <h5>jwl</h5>
   },
-  '/search': {
+  "/search": {
     middle: <SearchBar />
   },
-  '/add': {
-    middle: <h3>Add</h3>
+  "/add": {
+    middle: <h5>Add</h5>
   },
-  '/messages': {
+  "/messages": {
     left: <PlusSquareIcon />,
-    middle: <h3>Messages</h3>
+    middle: <h5>Messages</h5>
   },
-  '/profile': {
+  "/messages/": {
+    left: <PlusSquareIcon />,
+    middle: <h5>Message with</h5>
+  },
+  "/profile": {
     left: (
       <Link to="/settings">
         <SettingsIcon />
       </Link>
     ),
-    middle: <h3>Profile</h3>
+    middle: <h5>Profile</h5>
   },
-  '/settings': {
+  "/settings": {
     left: (
       <Link to="/profile">
         <XIcon />
       </Link>
     ),
-    middle: <h3>Settings</h3>
+    middle: <h5>Settings</h5>
   },
-  '/settings/edit-profile': {
+  "/settings/edit-profile": {
     left: (
       <Link to="/settings">
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h3>Edit Profile</h3>
+    middle: <h5>Edit Profile</h5>
+  },
+  "/settings/change-password": {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5>Change Password</h5>
   }
 }
 

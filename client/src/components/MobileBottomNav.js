@@ -67,7 +67,10 @@ class MobileBottomNav extends Component {
 
   renderIcons = () =>
     NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
-      <div key={to} className="flex-row center-center p-1">
+      <div
+        key={to}
+        className="d-flex justify-content-center align-items-center p-1"
+      >
         <Link to={to}>
           {this.state.currentPathname === to ? activeComponent : component}
         </Link>
@@ -76,8 +79,8 @@ class MobileBottomNav extends Component {
 
   render() {
     return (
-      <Container className="flex-row center-center">
-        <div className="inner-container flex-row between-center">
+      <Container className="d-flex justify-content-center align-items-center">
+        <div className="inner-container d-flex justify-content-between align-items-center">
           {this.renderIcons()}
         </div>
       </Container>

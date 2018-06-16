@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 // import PropTypes from 'prop-types'
-import CrossIcon from '../assets/icons/feather-react/PlusSquareIcon'
-import styled from 'styled-components'
-import XCircleIcon from '../assets/icons/feather-react/XCircleIcon'
+import CrossIcon from "../assets/icons/feather-react/PlusSquareIcon"
+import styled from "styled-components"
+import XCircleIcon from "../assets/icons/feather-react/XCircleIcon"
 
 const Container = styled.div`
-  border: 1px solid green;
   width: 150px;
   height: 150px;
-  input[type='file'] {
+  input[type="file"] {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -24,7 +23,6 @@ const Container = styled.div`
   }
   .remove-image {
     position: absolute;
-    /* z-index: 5; */
   }
 
   label {
@@ -38,7 +36,7 @@ const Container = styled.div`
 
 class ImageUpload extends Component {
   state = {
-    imagePreviewUrl: '',
+    imagePreviewUrl: "",
     file: null
   }
 
@@ -58,7 +56,7 @@ class ImageUpload extends Component {
 
   handleRemoveImage = name => {
     this.props.removeImage(this.state.file.name)
-    this.setState({ imagePreviewUrl: '' })
+    this.setState({ imagePreviewUrl: "" })
   }
 
   render() {
@@ -76,8 +74,11 @@ class ImageUpload extends Component {
             <img className="preview-image" src={this.state.imagePreviewUrl} />
           </div>
         ) : (
-          <div className="flex-row center-center border-all">
-            <label className="flex-row center-center" htmlFor={`file${index}`}>
+          <div className="d-flex justify-content-center align-items-center border-all">
+            <label
+              className="d-flex justify-content-center align-items-center"
+              htmlFor={`file${index}`}
+            >
               Tap to add an image
             </label>
           </div>

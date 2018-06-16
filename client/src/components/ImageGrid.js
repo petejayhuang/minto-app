@@ -5,7 +5,6 @@ import styled from "styled-components"
 const Container = styled.div`
   flex-wrap: wrap;
   .image-grid {
-    max-width: 900px;
     width: 100%;
   }
   .feed-photo {
@@ -18,25 +17,17 @@ const Container = styled.div`
   }
 `
 
-const ImageGrid = () => {
-  return (
-    <Container className="flex-row justify-center">
-      <div className="flex-column image-grid">
-        <div className="flex-row justify-between">
-          {[11, 22, 33].map(item => {
-            return <div key={item} className="feed-photo" />
-          })}
-        </div>
-
-        <div style={{ marginTop: "1vw" }} className="flex-row justify-between">
-          {[1, 2, 3].map(item => {
-            return <div key={item} className="feed-photo" />
-          })}
-        </div>
+const ImageGrid = () => (
+  <Container className="d-flex justify-content-center">
+    <div className="d-flex flex-column image-grid">
+      <div className="d-flex justify-content-between">
+        {[11, 22, 33].map(item => {
+          return <div key={item} className="feed-photo" />
+        })}
       </div>
-    </Container>
-  )
-}
+    </div>
+  </Container>
+)
 
 ImageGrid.propTypes = {}
 
