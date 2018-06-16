@@ -1,10 +1,7 @@
-import React from 'react'
-import RouteContainer from '../../components/RouteContainer'
+import React from "react"
 
 const Profile = () => (
-  <RouteContainer>
-    <div>This is the edit profile page</div>
-  </RouteContainer>
+  <div className="route-container">This is the edit profile page</div>
 )
 
 export default Profile

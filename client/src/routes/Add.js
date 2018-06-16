@@ -1,22 +1,21 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
-import Dropdown from '../components/Dropdown'
-import RouteContainer from '../components/RouteContainer'
-import ImageUpload from '../components/ImageUpload'
-import ProductDetails from '../components/ProductDetails'
+import Dropdown from "../components/Dropdown"
+import ImageUpload from "../components/ImageUpload"
+import ProductDetails from "../components/ProductDetails"
 
-import { connect } from 'react-redux'
-import { getProductCategories, uploadImagesToS3, printError } from '../actions'
+import { connect } from "react-redux"
+import { getProductCategories, uploadImagesToS3, printError } from "../actions"
 
 class Add extends Component {
   state = {
     images: [],
-    category: '',
-    name: '',
-    description: '',
+    category: "",
+    name: "",
+    description: "",
     price: 0,
-    errorMessage: ''
+    errorMessage: ""
   }
 
   componentDidMount() {
@@ -71,15 +70,14 @@ class Add extends Component {
 
   render() {
     return (
-      <RouteContainer>
-        <h1>Add images</h1>
-        <div className="flex-wrap">{this.renderImageUploaders()}</div>
+      <div className="route-container p-3">
+        <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>
         <p className="error-text">{this.state.errorMessage}</p>
         category_id: 11, shipping_YN: 1, meet_in_person_YN: 1,
         <label>Product Name</label>
         <input
           type="text"
-          onChange={e => this.handleInputChange('name', e)}
+          onChange={e => this.handleInputChange("name", e)}
           value={this.state.name}
         />
         <label>Product Description</label>
@@ -89,13 +87,13 @@ class Add extends Component {
         />
         <label>Product Description</label>
         <textarea
-          onChange={e => this.handleInputChange('description', e)}
+          onChange={e => this.handleInputChange("description", e)}
           value={this.state.description}
         />
         <label>Product Price</label>
         <input
           type="text"
-          onChange={e => this.handleInputChange('price', e)}
+          onChange={e => this.handleInputChange("price", e)}
           value={this.state.price}
         />
         <label htmlFor="shipping">Shipping</label>
@@ -105,7 +103,7 @@ class Add extends Component {
         <button name="meet-in-person" onClick={this.handleSubmit}>
           Submit
         </button>
-      </RouteContainer>
+      </div>
     )
   }
 }

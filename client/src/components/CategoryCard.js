@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 
 const Container = styled.div`
-  height: 150px;
+  height: 250px;
 
   .content {
     background-size: cover;
@@ -18,7 +18,7 @@ const CategoryCard = props => {
   return (
     <Container>
       <div
-        className="content flex-row center-center"
+        className="content d-flex justify-content-center align-items-center"
         style={{
           backgroundImage
         }}

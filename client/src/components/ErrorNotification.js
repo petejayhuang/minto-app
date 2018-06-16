@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import styled from "styled-components"
 
-import { clearError } from '../actions'
-import XIcon from '../assets/icons/feather-react/XIcon'
+import { clearError } from "../actions"
+import XIcon from "../assets/icons/feather-react/XIcon"
 
 const Container = styled.div`
   padding: 20px;
@@ -31,7 +31,10 @@ class ErrorNotification extends Component {
       error: { message }
     } = this.props
     return (
-      <Container className="flex-row center-center" onClick={clearError}>
+      <Container
+        className="d-flex justify-content-center align-items-center p-3"
+        onClick={clearError}
+      >
         {message}
         <XIcon />
       </Container>
