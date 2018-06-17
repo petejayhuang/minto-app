@@ -1,21 +1,19 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import Dropdown from "../components/Dropdown"
 import ImageUpload from "../components/ImageUpload"
-import ProductDetails from "../components/ProductDetails"
 
 import { connect } from "react-redux"
 import { getProductCategories, uploadImagesToS3, printError } from "../actions"
 
 class Add extends Component {
   state = {
-    images: [],
-    category: "",
-    name: "",
+    category_id: 11,
     description: "",
-    price: 0,
-    errorMessage: ""
+    errorMessage: "",
+    images: [],
+    meet_in_person: null,
+    shipping: null
   }
 
   componentDidMount() {
@@ -47,59 +45,96 @@ class Add extends Component {
       />
     ))
 
-  handleInputChange = (inputName, e) => {
-    this.setState({ [inputName]: e.target.value })
+  handleTextInputChange = (inputName, value) => {
+    this.setState({ [inputName]: value })
+  }
+
+  handleCheckboxChange = (checkboxName, e) => {
+    this.setState({
+      [checkboxName]: !this.state.meet_in_person
+    })
   }
 
   handleSubmit = () => {
     this.props.uploadImagesToS3({
       images: this.state.images,
       form: {
-        name: this.state.name,
-        category: this.state.category,
+        category_id: Number(this.state.category_id),
         description: this.state.description,
-        price: this.state.price
+        price: Number(this.state.price),
+        meet_in_person: this.state.meet_in_person,
+        shipping: this.state.shipping
       }
     })
   }
 
-  // pass down to <Dropdown/>
   handleOption = e => {
-    this.setState({ category: e.target.value })
+    console.log(e.target.value)
+    this.setState({ category_id: e.target.value })
   }
 
+  renderCategoryDropdown = () => (
+    <select onChange={e => this.handleOption(e)}>
+      {this.props.categories.map(category => (
+        <option value={category.category_id} key={category.product_type}>
+          {category.product_type}
+        </option>
+      ))}
+    </select>
+  )
+
   render() {
+    console.log("state in add.js", this.state)
     return (
       <div className="route-container p-3">
         <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>
         <p className="error-text">{this.state.errorMessage}</p>
-        category_id: 11, shipping_YN: 1, meet_in_person_YN: 1,
-        <label>Product Name</label>
-        <input
-          type="text"
-          onChange={e => this.handleInputChange("name", e)}
-          value={this.state.name}
-        />
-        <label>Product Description</label>
-        <Dropdown
-          handleOption={this.handleOption}
-          options={this.props.categories}
-        />
-        <label>Product Description</label>
-        <textarea
-          onChange={e => this.handleInputChange("description", e)}
-          value={this.state.description}
-        />
-        <label>Product Price</label>
-        <input
-          type="text"
-          onChange={e => this.handleInputChange("price", e)}
-          value={this.state.price}
-        />
-        <label htmlFor="shipping">Shipping</label>
-        <input name="shipping" type="radio" />
-        <label>Meet in person</label>
-        <input htmlFor="meet-in-person" type="radio" />
+
+        <div className="d-flex flex-column">
+          <label>Product Category</label>
+
+          {this.renderCategoryDropdown()}
+        </div>
+
+        <div className="d-flex flex-column">
+          <label>Product Description</label>
+          <textarea
+            onChange={e =>
+              this.handleTextInputChange("description", e.target.value)
+            }
+            value={this.state.description}
+          />
+        </div>
+
+        <div className="d-flex flex-column">
+          <label>Product Price</label>
+          <input
+            type="text"
+            onChange={e => this.handleTextInputChange("price", e.target.value)}
+            value={this.state.price}
+          />
+        </div>
+
+        <div className="d-flex">
+          <label htmlFor="shipping">UK Shipping</label>
+          <input
+            id="shipping"
+            onChange={e => this.handleCheckboxChange("shipping", e)}
+            type="checkbox"
+            value="shipping"
+          />
+
+          <div className="d-flex">
+            <label htmlFor="meet_in_person">Meet in person</label>
+            <input
+              onChange={e => this.handleCheckboxChange("meet_in_person", e)}
+              id="meet_in_person"
+              value="meet-in-person"
+              type="checkbox"
+            />
+          </div>
+        </div>
+
         <button name="meet-in-person" onClick={this.handleSubmit}>
           Submit
         </button>

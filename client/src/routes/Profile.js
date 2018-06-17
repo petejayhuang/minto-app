@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
 import { connect } from "react-redux"
 
 import { getUser } from "../actions"
@@ -11,6 +10,7 @@ class Profile extends Component {
   componentDidMount() {
     // only async fetch if there isn't some data in there
     if (!this.props.user.email) {
+      // TODO user comes from logging in
       this.props.getUser(1)
     }
   }
@@ -19,7 +19,7 @@ class Profile extends Component {
     return (
       <div>
         <div className="route-container inner-container">
-          <div className="d-flex">
+          <div className="d-flex p-3">
             <div className="profile-image-container">
               <img
                 alt="profile"
@@ -36,7 +36,7 @@ class Profile extends Component {
             </div>
           </div>
 
-          <div className="mt-2 d-flex justify-content-between align-items-center">
+          <div className="mt-2 pl-3 pr-3 d-flex justify-content-between align-items-center">
             <div className="d-flex flex-column justify-content-center align-items-center">
               <strong>{this.props.user.total_products}</strong>
               <p className="m-0">items</p>
