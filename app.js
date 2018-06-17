@@ -21,7 +21,6 @@ app.use(bodyParser.json())
 
 app.post("/api/upload", (req, res) => {
   const user = "petejayhuang"
-  console.log(req.body)
 
   const getSignedUrlPromise = ({ imageName, params, key }) => {
     return new Promise((resolve, reject) => {

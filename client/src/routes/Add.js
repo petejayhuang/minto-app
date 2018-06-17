@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 
 import ImageUpload from "../components/ImageUpload"
 
-import { connect } from "react-redux"
 import { getProductCategories, uploadImagesToS3, printError } from "../actions"
 
 class Add extends Component {
@@ -69,7 +69,6 @@ class Add extends Component {
   }
 
   handleOption = e => {
-    console.log(e.target.value)
     this.setState({ category_id: e.target.value })
   }
 
@@ -84,7 +83,6 @@ class Add extends Component {
   )
 
   render() {
-    console.log("state in add.js", this.state)
     return (
       <div className="route-container p-3">
         <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>

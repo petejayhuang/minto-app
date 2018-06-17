@@ -7,11 +7,12 @@ import PropTypes from "prop-types"
 import renderRoutes from "./utilities/renderRoutes"
 
 // components
-import MobileTopNav from "./components/MobileTopNav"
-import MobileBottomNav from "./components/MobileBottomNav"
-import LoadingOverlay from "./components/LoadingOverlay"
 import ErrorBoundary from "./components/ErrorBoundary"
 import ErrorNotification from "./components/ErrorNotification"
+import LoadingOverlay from "./components/LoadingOverlay"
+import MobileBottomNav from "./components/MobileBottomNav"
+import MobileTopNav from "./components/MobileTopNav"
+import StoreDrivenRedirect from "./components/StoreDrivenRedirect"
 
 // styles
 import "./styles/App.css"
@@ -28,12 +29,17 @@ const AppContainer = styled.div`
 
 class App extends Component {
   render() {
-    const { routing, ui, error } = this.props
+    const {
+      routing,
+      ui: { redirect, loadingOverlay },
+      error
+    } = this.props
     const isHomeRoute = routing.location.pathname !== "/"
     return (
       <ErrorBoundary>
         <AppContainer>
-          {ui.showLoadingOverlay && <LoadingOverlay />}
+          {redirect && <StoreDrivenRedirect />}
+          {loadingOverlay && <LoadingOverlay />}
           {error && <ErrorNotification />}
           {isHomeRoute && <MobileTopNav />}
           {renderRoutes()}

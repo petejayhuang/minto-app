@@ -15,7 +15,6 @@ const Container = styled.div`
 `
 
 const ProductCard = props => {
-  console.log(props)
   const { user, images, title, description, id } = props
   return (
     <Container>

@@ -7,7 +7,6 @@ class LikeButton extends Component {
   state = { showFill: false }
 
   handleClick = id => {
-    console.log("click on ", id)
     this.setState({ showFill: !this.state.showFill })
   }
 

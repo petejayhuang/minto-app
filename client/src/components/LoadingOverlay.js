@@ -1,4 +1,5 @@
 import React from "react"
+import { connect } from "react-redux"
 import styled from "styled-components"
 
 import { colors } from "../styles/styleVariables"
@@ -12,14 +13,16 @@ const Container = styled.div`
   height: 100%;
   background-color: ${colors.background};
 `
-const LoadingOverlay = () => (
+const LoadingOverlay = props => (
   <Container className="d-flex justify-content-center align-items-center">
     <div className="d-flex flex-column justify-content-center align-items-center">
-      <p className="mb-5">doing some internet stuff</p>
-      <p className="mb-5">please don't refresh the page!</p>
+      <p className="mb-5">{props.ui.loadingOverlayMessage}</p>
       <LoaderIcon />
     </div>
   </Container>
 )
 
-export default LoadingOverlay
+export default connect(
+  ({ ui }) => ({ ui }),
+  null
+)(LoadingOverlay)

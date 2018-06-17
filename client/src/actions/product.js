@@ -1,6 +1,7 @@
 import axios from "axios"
 import { URLS } from "../config/constants"
 import moment from "moment"
+import { redirect } from "./ui"
 
 import {
   UPLOAD_TO_S3_REQUEST,
@@ -89,8 +90,6 @@ export const uploadImagesToS3 = ({ images, form }) => async (
       images: imagesNamesArray
     })
 
-    console.log("uploadConfigs", uploadConfigs.data)
-
     const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
       const { imageName, key, url } = uploadConfig
       const image = images.find(image => image.name === imageName)
@@ -113,6 +112,7 @@ export const uploadImagesToS3 = ({ images, form }) => async (
         tempObj.image_date = moment().format()
         return tempObj
       })
+
       dispatch(uploadProduct({ images, ...form, user_id: id }))
     })
   } catch (error) {
@@ -127,7 +127,9 @@ export const uploadImagesToS3 = ({ images, form }) => async (
 
 const uploadImagesToS3Request = {
   type: UPLOAD_TO_S3_REQUEST,
-  loadingOverlay: true
+  loadingOverlay: true,
+  loadingOverlayMessage:
+    "Uploading your product, please don't refresh the page!"
 }
 const uploadImagesToS3Success = response => ({
   type: UPLOAD_TO_S3_SUCCESS,
@@ -149,29 +151,36 @@ export const uploadProduct = body => async dispatch => {
 
   dispatch(uploadProductRequest)
 
-  console.log("body in product", body)
-
   try {
-    const { data } = await axios.post(`${URLS.SERVER}/products/create/1`, body)
-    dispatch(uploadProductSuccess(data))
+    const user_id = 1
+    const { data } = await axios.post(
+      `${URLS.SERVER}/products/create/${user_id}`,
+      body
+    )
+    await dispatch(uploadProductSuccess(data.data))
+    dispatch(redirect(`/${user_id}/${data.data}`))
   } catch (error) {
-    dispatch(uploadProductFailure({ message: "Could not upload user.", error }))
+    dispatch(
+      uploadProductFailure({ message: "Could not upload product.", error })
+    )
   }
 }
 
 const uploadProductRequest = {
   type: UPLOAD_PRODUCT_REQUEST,
-  loadingLine: true
+  loadingOverlay: true,
+  loadingOverlayMessage:
+    "Uploading your product, please don't refresh the page!"
 }
 
 const uploadProductSuccess = product => ({
   type: UPLOAD_PRODUCT_SUCCESS,
-  loadingLine: false,
+  loadingOverlay: false,
   payload: product
 })
 
 const uploadProductFailure = ({ message, error }) => ({
   type: UPLOAD_PRODUCT_FAILURE,
-  loadingLine: false,
+  loadingOverlay: false,
   error: { message, error }
 })

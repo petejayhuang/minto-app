@@ -11,7 +11,7 @@ import logger from "redux-logger"
 import App from "./App"
 import registerServiceWorker from "./utilities/registerServiceWorker"
 
-const history = createHistory()
+export const history = createHistory()
 
 const middleware = routerMiddleware(history)
 
