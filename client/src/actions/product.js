@@ -158,7 +158,8 @@ export const uploadProduct = body => async dispatch => {
       body
     )
     await dispatch(uploadProductSuccess(data.data))
-    dispatch(redirect(`/${user_id}/${data.data}`))
+    // dispatch(redirect(`/${user_id}/${data.data}`))
+    dispatch(redirect(`/feed`))
   } catch (error) {
     dispatch(
       uploadProductFailure({ message: "Could not upload product.", error })
