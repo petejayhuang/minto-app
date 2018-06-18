@@ -9,7 +9,6 @@ import LoadingLine from "./LoadingLine"
 import { colors } from "../styles/styleVariables"
 
 const Container = styled.div`
-
   max-width: 600px;
   .navbar {
     position: fixed;
@@ -59,6 +58,7 @@ class MobileTopNav extends Component {
         location: { pathname }
       }
     } = this.props
+
     return (
       <div>
         {ui.loadingLine && <LoadingLine />}

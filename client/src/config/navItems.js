@@ -24,6 +24,9 @@ const navItems = {
     left: <PlusSquareIcon />,
     middle: <h5>Message with</h5>
   },
+  "/product": {
+    middle: <h5>View item</h5>
+  },
   "/profile": {
     left: (
       <Link to="/settings">

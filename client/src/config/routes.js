@@ -3,6 +3,7 @@ import Feed from "../routes/Feed"
 import Landing from "../routes/Landing"
 import Messages from "../routes/Messages"
 import Profile from "../routes/Profile"
+import Product from "../routes/Product"
 import Search from "../routes/Search"
 
 import Settings from "../routes/Settings"
@@ -17,6 +18,7 @@ const routes = [
   { exact: false, path: "/messages", component: Messages },
   { exact: false, path: "/add", component: Add },
   { exact: false, path: "/search", component: Search },
+  { exact: false, path: "/product", component: Product },
   {
     exact: true,
     path: "/settings",

@@ -41,7 +41,7 @@ class App extends Component {
           {redirect && <StoreDrivenRedirect />}
           {loadingOverlay && <LoadingOverlay />}
           {error && <ErrorNotification />}
-          {isHomeRoute && <MobileTopNav />}
+          {<MobileBottomNav />}
           {renderRoutes()}
           {isHomeRoute && <MobileBottomNav />}
         </AppContainer>

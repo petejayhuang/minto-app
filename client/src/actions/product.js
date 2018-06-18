@@ -3,16 +3,22 @@ import { URLS } from "../config/constants"
 import moment from "moment"
 import { redirect } from "./ui"
 
+// products/product
+//
+
 import {
+  GET_PRODUCT_CATEGORIES_REQUEST,
+  GET_PRODUCT_CATEGORIES_SUCCESS,
+  GET_PRODUCT_CATEGORIES_FAILURE,
+  GET_PRODUCT_REQUEST,
+  GET_PRODUCT_SUCCESS,
+  GET_PRODUCT_FAILURE,
   UPLOAD_TO_S3_REQUEST,
   UPLOAD_TO_S3_SUCCESS,
   UPLOAD_TO_S3_FAILURE,
   UPLOAD_PRODUCT_REQUEST,
   UPLOAD_PRODUCT_SUCCESS,
-  UPLOAD_PRODUCT_FAILURE,
-  GET_PRODUCT_CATEGORIES_REQUEST,
-  GET_PRODUCT_CATEGORIES_SUCCESS,
-  GET_PRODUCT_CATEGORIES_FAILURE
+  UPLOAD_PRODUCT_FAILURE
 } from "./types"
 
 // =====================================================
@@ -48,6 +54,42 @@ const getProductCategoriesSuccess = categories => ({
 
 const getProductCategoriesFailure = ({ message, error }) => ({
   type: GET_PRODUCT_CATEGORIES_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ===============      GET PRODUCT     ================
+// =====================================================
+
+export const getProduct = id => async dispatch => {
+  dispatch(getProductRequest)
+  try {
+    const { data } = await axios(`${URLS.SERVER}/products/${id}`)
+    dispatch(getProductSuccess(data.data[0]))
+  } catch (error) {
+    dispatch(
+      getProductFailure({
+        message: "Could not get product.",
+        error
+      })
+    )
+  }
+}
+
+const getProductRequest = {
+  type: GET_PRODUCT_REQUEST,
+  loadingLine: true
+}
+
+const getProductSuccess = product => ({
+  type: GET_PRODUCT_SUCCESS,
+  loadingLine: false,
+  payload: product
+})
+
+const getProductFailure = ({ message, error }) => ({
+  type: GET_PRODUCT_FAILURE,
   loadingLine: false,
   error: { message, error }
 })
@@ -145,21 +187,18 @@ const uploadImagesToS3Failure = ({ message, error }) => ({
 // =====================================================
 // ==============     UPLOAD PRODUCT     ===============
 // =====================================================
-
 export const uploadProduct = body => async dispatch => {
   body.currency_id = "GBP"
+  body.user_id = 1
 
   dispatch(uploadProductRequest)
 
   try {
-    const user_id = 1
-    const { data } = await axios.post(
-      `${URLS.SERVER}/products/create/${user_id}`,
-      body
-    )
-    await dispatch(uploadProductSuccess(data.data))
-    // dispatch(redirect(`/${user_id}/${data.data}`))
-    dispatch(redirect(`/feed`))
+    const { data } = await axios.post(`${URLS.SERVER}/products/create`, body)
+    // await dispatch(uploadProductSuccess(fakeProduct))
+    console.log("data from /create", data)
+    // console.log()
+    dispatch(redirect(`/product`))
   } catch (error) {
     dispatch(
       uploadProductFailure({ message: "Could not upload product.", error })
