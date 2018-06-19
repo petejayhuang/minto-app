@@ -13,6 +13,9 @@ import {
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAILURE,
+  GET_STORE_PRODUCTS_REQUEST,
+  GET_STORE_PRODUCTS_SUCCESS,
+  GET_STORE_PRODUCTS_FAILURE,
   UPLOAD_TO_S3_REQUEST,
   UPLOAD_TO_S3_SUCCESS,
   UPLOAD_TO_S3_FAILURE,
@@ -90,6 +93,50 @@ const getProductSuccess = product => ({
 
 const getProductFailure = ({ message, error }) => ({
   type: GET_PRODUCT_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ===========      GET STORE PRODUCTS     =============
+// =====================================================
+
+export const getStoreProducts = ({
+  page,
+  limit,
+  user_id
+}) => async dispatch => {
+  dispatch(getStoreProductsRequest)
+  try {
+    console.log("page, limit, user_id", page, limit, user_id)
+    const { data } = await axios(
+      `${URLS.SERVER}/products?page=${page}&limit=${limit}&user_id=${user_id}`
+    )
+    dispatch(getStoreProductsSuccess(data))
+    console.log("store data", data)
+  } catch (error) {
+    dispatch(
+      getStoreProductsFailure({
+        message: "Could not get store products.",
+        error
+      })
+    )
+  }
+}
+
+const getStoreProductsRequest = {
+  type: GET_STORE_PRODUCTS_REQUEST,
+  loadingLine: true
+}
+
+const getStoreProductsSuccess = storeProducts => ({
+  type: GET_STORE_PRODUCTS_SUCCESS,
+  loadingLine: false,
+  payload: storeProducts
+})
+
+const getStoreProductsFailure = ({ message, error }) => ({
+  type: GET_STORE_PRODUCTS_FAILURE,
   loadingLine: false,
   error: { message, error }
 })

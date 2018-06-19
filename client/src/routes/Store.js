@@ -1,18 +1,19 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import { getUser } from "../actions"
+import { getUser, getStoreProducts } from "../actions"
 import SecondaryButton from "../components/SecondaryButton"
 import ImageGrid from "../components/ImageGrid"
-import Settings from "./Settings"
 
-class Profile extends Component {
+class Store extends Component {
   componentDidMount() {
     // only async fetch if there isn't some data in there
     if (!this.props.user.email) {
       // TODO user comes from logging in
       this.props.getUser(1)
     }
+
+    this.props.getStoreProducts({ page: 1, limit: 9, user_id: 1 })
   }
 
   render() {
@@ -54,18 +55,22 @@ class Profile extends Component {
           </div>
         </div>
 
-        <ImageGrid />
+        <ImageGrid images={this.props.store.images} />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ user, ui }) => ({ user, ui })
+const mapStateToProps = ({ user, ui, store }) => ({
+  user,
+  ui,
+  store
+})
 
-Profile.defaultProps = {}
-Profile.propTypes = {}
+Store.defaultProps = {}
+Store.propTypes = {}
 
 export default connect(
   mapStateToProps,
-  { getUser }
-)(Profile)
+  { getUser, getStoreProducts }
+)(Store)

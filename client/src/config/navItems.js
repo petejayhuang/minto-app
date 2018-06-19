@@ -27,17 +27,17 @@ const navItems = {
   "/product": {
     middle: <h5>View item</h5>
   },
-  "/profile": {
+  "/store": {
     left: (
       <Link to="/settings">
         <SettingsIcon />
       </Link>
     ),
-    middle: <h5>Profile</h5>
+    middle: <h5>Store</h5>
   },
   "/settings": {
     left: (
-      <Link to="/profile">
+      <Link to="/store">
         <XIcon />
       </Link>
     ),

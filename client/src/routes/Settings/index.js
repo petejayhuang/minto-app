@@ -21,7 +21,7 @@ import { RouteWithSubRoutes } from "../../utilities/renderRoutes"
 <TouchableRow borderBottom className="mt-2" text="Log Out" /> */
 }
 
-const Profile = props => (
+const Settings = props => (
   <div className="route-container">
     {props.routes.map(route => {
       const { exact, path, component } = route
@@ -29,4 +29,4 @@ const Profile = props => (
     })}
   </div>
 )
-export default Profile
+export default Settings
