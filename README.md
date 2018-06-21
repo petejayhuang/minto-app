@@ -12,8 +12,7 @@ To do
 
 [ ] how do we check routes in a smart way?
 [ ] do a list of all front end routes:
-
-
+[ ] make <ImageGrid /> a pure component
 
 /
 
@@ -22,5 +21,11 @@ To do
 /search
 
 /username/products/:product_id
-/username/messages/recipient 
+/username/messages/recipient
 /username/settings/
+
+ACTIONS
+
+action.loading, action.error are global
+you could create an object for action.error payload,
+where it looks like { errorMessage: 'Something went wrong', error: error}

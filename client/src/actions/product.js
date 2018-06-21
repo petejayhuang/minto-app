@@ -1,10 +1,8 @@
+import _ from "lodash"
 import axios from "axios"
 import { URLS } from "../config/constants"
 import moment from "moment"
 import { redirect } from "./ui"
-
-// products/product
-//
 
 import {
   GET_PRODUCT_CATEGORIES_REQUEST,
@@ -21,7 +19,10 @@ import {
   UPLOAD_TO_S3_FAILURE,
   UPLOAD_PRODUCT_REQUEST,
   UPLOAD_PRODUCT_SUCCESS,
-  UPLOAD_PRODUCT_FAILURE
+  UPLOAD_PRODUCT_FAILURE,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE
 } from "./types"
 
 // =====================================================
@@ -108,12 +109,10 @@ export const getStoreProducts = ({
 }) => async dispatch => {
   dispatch(getStoreProductsRequest)
   try {
-    console.log("page, limit, user_id", page, limit, user_id)
     const { data } = await axios(
       `${URLS.SERVER}/products?page=${page}&limit=${limit}&user_id=${user_id}`
     )
-    dispatch(getStoreProductsSuccess(data))
-    console.log("store data", data)
+    dispatch(getStoreProductsSuccess(data.data))
   } catch (error) {
     dispatch(
       getStoreProductsFailure({
@@ -157,10 +156,7 @@ const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
     }
   })
 
-export const uploadImagesToS3 = ({ images, form }) => async (
-  dispatch,
-  getState
-) => {
+export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
   dispatch(uploadImagesToS3Request)
 
   // const {
@@ -218,16 +214,19 @@ const uploadImagesToS3Request = {
   type: UPLOAD_TO_S3_REQUEST,
   loadingOverlay: true,
   loadingOverlayMessage:
-    "Uploading your product, please don't refresh the page!"
+    "Uploading your product, please don't refresh the page!",
+  loadingLine: false
 }
 const uploadImagesToS3Success = response => ({
   type: UPLOAD_TO_S3_SUCCESS,
   loadingOverlay: false,
+  loadingLine: false,
   payload: response
 })
 const uploadImagesToS3Failure = ({ message, error }) => ({
   type: UPLOAD_TO_S3_FAILURE,
   loadingOverlay: false,
+  loadingLine: false,
   error: { message, error }
 })
 
@@ -242,10 +241,8 @@ export const uploadProduct = body => async dispatch => {
 
   try {
     const { data } = await axios.post(`${URLS.SERVER}/products/create`, body)
-    // await dispatch(uploadProductSuccess(fakeProduct))
-    console.log("data from /create", data)
-    // console.log()
-    dispatch(redirect(`/product`))
+    dispatch(uploadProductSuccess())
+    dispatch(redirect(`/product/${data.data.id}`))
   } catch (error) {
     dispatch(
       uploadProductFailure({ message: "Could not upload product.", error })
@@ -257,17 +254,129 @@ const uploadProductRequest = {
   type: UPLOAD_PRODUCT_REQUEST,
   loadingOverlay: true,
   loadingOverlayMessage:
-    "Uploading your product, please don't refresh the page!"
+    "Uploading your product, please don't refresh the page!",
+  loadingLine: false
 }
 
-const uploadProductSuccess = product => ({
+const uploadProductSuccess = () => ({
   type: UPLOAD_PRODUCT_SUCCESS,
   loadingOverlay: false,
-  payload: product
+  loadingLine: false
 })
 
 const uploadProductFailure = ({ message, error }) => ({
   type: UPLOAD_PRODUCT_FAILURE,
   loadingOverlay: false,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ==============     UPDATE PRODUCT     ===============
+// =====================================================
+
+// notes
+// when a field isn't touched, state initial values are passed to this call
+export const updateProduct = body => async (dispatch, getState) => {
+  const { product_id } = getState().product
+
+  _.pickBy(body, true)
+
+  // const updateBody = _.pick(product, [
+  //   "category_id",
+  //   "description",
+  //   "meet_in_person_YN",
+  //   "price",
+  //   "product_id",
+  //   "shipping_YN",
+  //   "user_id"
+  // ])
+
+  console.log("body in update project", body)
+  // updateBody.currency_id = "GBP"
+  // updateBody.user_id = 1
+
+  // return Object.keys(data).reduce((accumulator, currentItem) => {
+  //   if (data[currentItem]) {
+  //     accumulator[currentItem] = data[currentItem]
+  //   }
+  //   return accumulator
+  // }, {})
+
+  dispatch(updateProductRequest)
+
+  try {
+    console.log("update product body", body)
+    const { data } = await axios.put(`${URLS.SERVER}/products`, body)
+    dispatch(updateProductSuccess())
+    // dispatch(redirect(`/product/${data.data.id}`))
+  } catch (error) {
+    dispatch(
+      updateProductFailure({ message: "Could not update product.", error })
+    )
+  }
+}
+
+const updateProductRequest = {
+  type: UPLOAD_PRODUCT_REQUEST,
+  loadingOverlay: true,
+  loadingOverlayMessage:
+    "Updating your product, please don't refresh the page!",
+  loadingLine: false
+}
+
+const updateProductSuccess = () => ({
+  type: UPLOAD_PRODUCT_SUCCESS,
+  loadingOverlay: false,
+  loadingLine: false
+})
+
+const updateProductFailure = ({ message, error }) => ({
+  type: UPLOAD_PRODUCT_FAILURE,
+  loadingOverlay: false,
+  loadingLine: false,
+  error: { message, error }
+})
+// =====================================================
+// ==============     DELETE PRODUCT     ===============
+// =====================================================
+
+export const deleteProduct = id => async (dispatch, getState) => {
+  dispatch(deleteProductRequest)
+  const body = {
+    product_id: id,
+    user_id: getState().user.id
+  }
+  try {
+    console.log("body in delete", body)
+    const { data } = await axios.delete(`${URLS.SERVER}/products`, body)
+    dispatch(deleteProductSuccess(data))
+    dispatch(redirect("/feed"))
+  } catch (error) {
+    dispatch(
+      deleteProductFailure({ message: "Could not delete product.", error })
+    )
+  }
+}
+
+const deleteProductRequest = {
+  type: DELETE_PRODUCT_REQUEST,
+  loadingOverlay: true,
+  loadingOverlayMessage:
+    "Deleting your product, please don't refresh the page!",
+  loadingLine: true
+}
+
+const deleteProductSuccess = () => ({
+  type: DELETE_PRODUCT_SUCCESS,
+  success: "Product successfully deleted.",
+  loadingOverlay: false,
+  loadingLine: false
+})
+
+const deleteProductFailure = ({ message, error }) => ({
+  type: DELETE_PRODUCT_FAILURE,
+  loadingOverlay: false,
+  loadingLine: false,
   error: { message, error }
 })
