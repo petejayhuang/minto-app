@@ -82,7 +82,6 @@ class Add extends Component {
   )
 
   render() {
-    console.log("category", this.state.category_id)
     return (
       <div className="route-container p-3">
         <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>

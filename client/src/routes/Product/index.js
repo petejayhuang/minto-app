@@ -6,8 +6,9 @@ import {
   getProductCategories,
   getProduct,
   updateProduct,
-  deleteProduct
-} from "../../actions/product"
+  deleteProduct,
+  createOrder
+} from "../../actions"
 
 const Container = styled.div``
 
@@ -42,10 +43,14 @@ class Product extends Component {
     this.setState({
       [checkboxName]: !this.state[checkboxName]
     })
-    console.log(checkboxName, !this.state[checkboxName])
   }
 
-  handleBuy = () => console.log("buy buy buy!")
+  handleBuy = () => {
+    const { product_id } = this.props.product
+    this.props.createOrder({
+      product_id
+    })
+  }
 
   handleDelete = () => {
     this.props.deleteProduct(this.props.product.product_id)
@@ -63,6 +68,7 @@ class Product extends Component {
 
     // either the state was changed, or it remains the same as before
     this.props.updateProduct({
+      product_id: this.props.product.product_id,
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
       price: Number(this.state.price) || Prices[0].price,
@@ -185,5 +191,11 @@ Product.propTypes = {}
 
 export default connect(
   ({ product, categories }) => ({ product, categories }),
-  { getProduct, updateProduct, deleteProduct, getProductCategories }
+  {
+    getProduct,
+    updateProduct,
+    deleteProduct,
+    getProductCategories,
+    createOrder
+  }
 )(Product)

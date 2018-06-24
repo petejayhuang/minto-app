@@ -1,5 +1,5 @@
 import _ from "lodash"
-import axios from "axios"
+import axios from "../utilities/axios"
 import { URLS } from "../config/constants"
 import moment from "moment"
 import { redirect } from "./ui"
@@ -11,9 +11,6 @@ import {
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAILURE,
-  GET_STORE_PRODUCTS_REQUEST,
-  GET_STORE_PRODUCTS_SUCCESS,
-  GET_STORE_PRODUCTS_FAILURE,
   UPLOAD_TO_S3_REQUEST,
   UPLOAD_TO_S3_SUCCESS,
   UPLOAD_TO_S3_FAILURE,
@@ -26,14 +23,14 @@ import {
 } from "./types"
 
 // =====================================================
-// ===========     GET PRODUCT CATEORIES     ===========
+// ==========     GET PRODUCT CATEGORIES     ===========
 // =====================================================
 
 export const getProductCategories = id => async dispatch => {
   dispatch(getProductCategoriesRequest)
 
   try {
-    const { data } = await axios(`${URLS.SERVER}/categories`)
+    const { data } = await axios()(`${URLS.SERVER}/categories`)
     dispatch(getProductCategoriesSuccess(data.data))
   } catch (error) {
     dispatch(
@@ -69,7 +66,7 @@ const getProductCategoriesFailure = ({ message, error }) => ({
 export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
-    const { data } = await axios(`${URLS.SERVER}/products/${id}`)
+    const { data } = await axios()(`${URLS.SERVER}/products/${id}`)
     dispatch(getProductSuccess(data.data[0]))
   } catch (error) {
     dispatch(
@@ -99,55 +96,13 @@ const getProductFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ===========      GET STORE PRODUCTS     =============
-// =====================================================
-
-export const getStoreProducts = ({
-  page,
-  limit,
-  user_id
-}) => async dispatch => {
-  dispatch(getStoreProductsRequest)
-  try {
-    const { data } = await axios(
-      `${URLS.SERVER}/products?page=${page}&limit=${limit}&user_id=${user_id}`
-    )
-    dispatch(getStoreProductsSuccess(data.data))
-  } catch (error) {
-    dispatch(
-      getStoreProductsFailure({
-        message: "Could not get store products.",
-        error
-      })
-    )
-  }
-}
-
-const getStoreProductsRequest = {
-  type: GET_STORE_PRODUCTS_REQUEST,
-  loadingLine: true
-}
-
-const getStoreProductsSuccess = storeProducts => ({
-  type: GET_STORE_PRODUCTS_SUCCESS,
-  loadingLine: false,
-  payload: storeProducts
-})
-
-const getStoreProductsFailure = ({ message, error }) => ({
-  type: GET_STORE_PRODUCTS_FAILURE,
-  loadingLine: false,
-  error: { message, error }
-})
-
-// =====================================================
 // ===============     UPLOAD TO S3     ================
 // =====================================================
 
 const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const request = await axios.put(url, image, {
+      const request = await axios().put(url, image, {
         headers: { "Content-Type": image.type }
       })
       resolve(request)
@@ -159,10 +114,6 @@ const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
 export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
   dispatch(uploadImagesToS3Request)
 
-  // const {
-  //   user: { id }
-  // } = getState()
-
   const id = 1
 
   // Take array of image objects, and return array of file names
@@ -170,8 +121,7 @@ export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
 
   try {
     // BE will return an array of uploadConfigs
-    const uploadConfigs = await axios.post(`${URLS.SERVER}/uploads`, {
-      user_id: id,
+    const uploadConfigs = await axios().post(`${URLS.SERVER}/uploads`, {
       images: imagesNamesArray
     })
 
@@ -198,7 +148,7 @@ export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
         return tempObj
       })
 
-      dispatch(uploadProduct({ images, ...form, user_id: id }))
+      dispatch(uploadProduct({ images, ...form }))
     })
   } catch (error) {
     dispatch(
@@ -240,9 +190,9 @@ export const uploadProduct = body => async dispatch => {
   dispatch(uploadProductRequest)
 
   try {
-    const { data } = await axios.post(`${URLS.SERVER}/products/create`, body)
+    const { data } = await axios().post(`${URLS.SERVER}/products`, body)
     dispatch(uploadProductSuccess())
-    dispatch(redirect(`/product/${data.data.id}`))
+    dispatch(redirect(`/products/${data.data.id}`))
   } catch (error) {
     dispatch(
       uploadProductFailure({ message: "Could not upload product.", error })
@@ -280,6 +230,8 @@ const uploadProductFailure = ({ message, error }) => ({
 export const updateProduct = body => async (dispatch, getState) => {
   const { product_id } = getState().product
 
+  body.user_id = 1
+
   _.pickBy(body, true)
 
   // const updateBody = _.pick(product, [
@@ -292,7 +244,6 @@ export const updateProduct = body => async (dispatch, getState) => {
   //   "user_id"
   // ])
 
-  console.log("body in update project", body)
   // updateBody.currency_id = "GBP"
   // updateBody.user_id = 1
 
@@ -306,10 +257,10 @@ export const updateProduct = body => async (dispatch, getState) => {
   dispatch(updateProductRequest)
 
   try {
-    console.log("update product body", body)
-    const { data } = await axios.put(`${URLS.SERVER}/products`, body)
+
+    const { data } = await axios().put(`${URLS.SERVER}/products`, body)
     dispatch(updateProductSuccess())
-    // dispatch(redirect(`/product/${data.data.id}`))
+    dispatch(redirect(`/store`))
   } catch (error) {
     dispatch(
       updateProductFailure({ message: "Could not update product.", error })
@@ -344,12 +295,13 @@ const updateProductFailure = ({ message, error }) => ({
 export const deleteProduct = id => async (dispatch, getState) => {
   dispatch(deleteProductRequest)
   const body = {
-    product_id: id,
-    user_id: getState().user.id
+    product_id: id
   }
   try {
-    console.log("body in delete", body)
-    const { data } = await axios.delete(`${URLS.SERVER}/products`, body)
+    const data = await axios().delete(`${URLS.SERVER}/products`, {
+      data: body
+    })
+
     dispatch(deleteProductSuccess(data))
     dispatch(redirect("/feed"))
   } catch (error) {

@@ -10,6 +10,7 @@ import renderRoutes from "./utilities/renderRoutes"
 import ErrorBoundary from "./components/ErrorBoundary"
 import ErrorNotification from "./components/ErrorNotification"
 import SuccessNotification from "./components/SuccessNotification"
+import LoadingLine from "./components/LoadingLine"
 import LoadingOverlay from "./components/LoadingOverlay"
 import MobileBottomNav from "./components/MobileBottomNav"
 import MobileTopNav from "./components/MobileTopNav"
@@ -32,7 +33,7 @@ class App extends Component {
   render() {
     const {
       routing,
-      ui: { redirect, loadingOverlay },
+      ui: { redirect, loadingLine, loadingOverlay },
       error,
       success
     } = this.props
@@ -41,6 +42,7 @@ class App extends Component {
       <ErrorBoundary>
         <AppContainer>
           {redirect && <StoreDrivenRedirect />}
+          {loadingLine && <LoadingLine />}
           {loadingOverlay && <LoadingOverlay />}
           {error && <ErrorNotification />}
           {success && <SuccessNotification />}

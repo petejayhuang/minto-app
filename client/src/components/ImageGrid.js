@@ -14,7 +14,7 @@ class ImageGrid extends Component {
     return (
       <Container>
         {this.props.products.map(product => (
-          <Link to={`/product/${product.product_id}`}>
+          <Link to={`/products/${product.product_id}`}>
             <img
               className="store-photo"
               key={product.product_id}

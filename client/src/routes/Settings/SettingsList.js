@@ -9,6 +9,7 @@ const SettingsList = props => (
     </div>
     <TouchableRow to="/settings/edit-profile" text="Edit Profile" />
     <TouchableRow to="/settings/change-password" text="Change Password" />
+    <TouchableRow to="/settings/my-orders" text="Your Orders" />
     <TouchableRow borderBottom text="Privacy and Security" />
     <div className="pl-1 pt-3 pb-1">
       <strong>SETTINGS</strong>

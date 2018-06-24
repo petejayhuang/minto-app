@@ -4,12 +4,14 @@ import Landing from "../routes/Landing"
 import Messages from "../routes/Messages"
 import Store from "../routes/Store"
 import Product from "../routes/Product"
-import Search from "../routes/Search"
+import Search from "../routes/Search/"
 
 import Settings from "../routes/Settings"
 import SettingsList from "../routes/Settings/SettingsList"
 import EditProfile from "../routes/Settings/EditProfile"
 import ChangePassword from "../routes/Settings/ChangePassword"
+import MyOrders from "../routes/Settings/MyOrders"
+import Order from "../routes/Order"
 
 const routes = [
   { exact: true, path: "/login", component: Landing },
@@ -18,7 +20,8 @@ const routes = [
   { exact: false, path: "/messages", component: Messages },
   { exact: false, path: "/add", component: Add },
   { exact: false, path: "/search", component: Search },
-  { exact: false, path: "/product", component: Product },
+  { exact: false, path: "/products", component: Product },
+  { exact: false, path: "/orders", component: Order },
   {
     exact: true,
     path: "/settings",
@@ -30,6 +33,11 @@ const routes = [
         exact: true,
         path: "/settings/change-password",
         component: ChangePassword
+      },
+      {
+        exact: true,
+        path: "/settings/my-orders",
+        component: MyOrders
       }
     ]
   }
