@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
     case GET_PRODUCT_SUCCESS:
       return action.payload
     case UPLOAD_PRODUCT_SUCCESS:
-      return action.payload
+      return state
     default:
       return state
   }

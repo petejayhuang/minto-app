@@ -47,7 +47,7 @@ const NAVIGATION_ICONS = [
   {
     component: <UserIcon />,
     activeComponent: <UserIcon strokeWidth="4" />,
-    to: "/store"
+    to: "/store/1"
   }
 ]
 

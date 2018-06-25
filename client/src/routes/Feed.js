@@ -1,19 +1,45 @@
-import React from "react"
+import React, { Component } from "react"
+import { connect } from "react-redux"
 import PropTypes from "prop-types"
-import { feedFakeData } from "../fakeData/feed"
+import { getFeed } from "../actions"
 import ProductCard from "../components/ProductCard"
 
-const Feed = props => {
-  return (
-    <div className="route-container">
-      {feedFakeData.map(product => (
-        <ProductCard key={product.id} {...product} />
-      ))}
-    </div>
-  )
+class Feed extends Component {
+  state = {
+    page: 1,
+    limit: 6
+  }
+
+  componentDidMount() {
+    this.props.getFeed({ page: 1, limit: 3 })
+  }
+
+  loadMoreProducts = () => {
+    const { page, limit } = this.state
+
+    this.props.getFeed({
+      page: page + 1,
+      limit
+    })
+    this.setState({ page: page + 1 })
+  }
+
+  render() {
+    return (
+      <div className="route-container">
+        {this.props.feed.map(product => <ProductCard {...product} />)}
+        <button onClick={this.loadMoreProducts}> get more images</button>
+      </div>
+    )
+  }
 }
 
 Feed.defaultProps = {}
 Feed.propTypes = {}
 
-export default Feed
+const mapState = ({ feed }) => ({ feed })
+
+export default connect(
+  mapState,
+  { getFeed }
+)(Feed)

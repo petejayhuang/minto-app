@@ -9,6 +9,8 @@ import renderRoutes from "./utilities/renderRoutes"
 // components
 import ErrorBoundary from "./components/ErrorBoundary"
 import ErrorNotification from "./components/ErrorNotification"
+import SuccessNotification from "./components/SuccessNotification"
+import LoadingLine from "./components/LoadingLine"
 import LoadingOverlay from "./components/LoadingOverlay"
 import MobileBottomNav from "./components/MobileBottomNav"
 import MobileTopNav from "./components/MobileTopNav"
@@ -31,17 +33,20 @@ class App extends Component {
   render() {
     const {
       routing,
-      ui: { redirect, loadingOverlay },
-      error
+      ui: { redirect, loadingLine, loadingOverlay },
+      error,
+      success
     } = this.props
     const isHomeRoute = routing.location.pathname !== "/"
     return (
       <ErrorBoundary>
         <AppContainer>
           {redirect && <StoreDrivenRedirect />}
+          {loadingLine && <LoadingLine />}
           {loadingOverlay && <LoadingOverlay />}
           {error && <ErrorNotification />}
-          {<MobileBottomNav />}
+          {success && <SuccessNotification />}
+          {/* {<MobileTopNav />} */}
           {renderRoutes()}
           {isHomeRoute && <MobileBottomNav />}
         </AppContainer>
@@ -50,12 +55,18 @@ class App extends Component {
   }
 }
 
-const mapState = ({ ui, routing, error }) => ({ ui, routing, error })
+const mapState = ({ ui, routing, error, success }) => ({
+  error,
+  routing,
+  success,
+  ui
+})
 
 App.propTypes = {
-  ui: PropTypes.object,
+  error: PropTypes.object,
   routing: PropTypes.object,
-  error: PropTypes.object
+  success: PropTypes.string,
+  ui: PropTypes.object
 }
 
 export default connect(

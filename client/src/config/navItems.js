@@ -35,6 +35,14 @@ const navItems = {
     ),
     middle: <h5>Store</h5>
   },
+  "/order": {
+    left: (
+      <Link to="/settings">
+        <SettingsIcon />
+      </Link>
+    ),
+    middle: <h5>Store</h5>
+  },
   "/settings": {
     left: (
       <Link to="/store">
@@ -58,6 +66,14 @@ const navItems = {
       </Link>
     ),
     middle: <h5>Change Password</h5>
+  },
+  "/settings/my-orders": {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5>My orders</h5>
   }
 }
 

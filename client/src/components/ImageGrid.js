@@ -1,24 +1,30 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React, { Component } from "react"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 const Container = styled.div`
-  flex-wrap: wrap;
+  .store-photo {
+    width: 33%;
+    height: 33%;
+  }
 `
 
-class ImageGrid extends React.PureComponent {
+class ImageGrid extends Component {
   render() {
     return (
-      <div className="d-flex justify-content-between">
-        {[11, 22, 33].map(item => {
-          return <div key={item} className="feed-photo" />
-        })}
-      </div>
+      <Container>
+        {this.props.products.map(product => (
+          <Link to={`/products/${product.product_id}`}>
+            <img
+              className="store-photo"
+              key={product.product_id}
+              src={product.Images[0].image_URL}
+            />
+          </Link>
+        ))}
+      </Container>
     )
   }
 }
-ImageGrid.propTypes = {}
-
-ImageGrid.defaultProps = {}
 
 export default ImageGrid

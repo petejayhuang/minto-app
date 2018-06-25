@@ -5,7 +5,6 @@ import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 import navItems from "../config/navItems"
 
-import LoadingLine from "./LoadingLine"
 import { colors } from "../styles/styleVariables"
 
 const Container = styled.div`
@@ -53,22 +52,16 @@ class MobileTopNav extends Component {
 
   render() {
     const {
-      ui,
       routing: {
         location: { pathname }
       }
     } = this.props
 
-    return (
-      <div>
-        {ui.loadingLine && <LoadingLine />}
-        {this.renderTopNav(navItems[pathname])}
-      </div>
-    )
+    return <div>{this.renderTopNav(navItems[pathname])}</div>
   }
 }
 
-const mapStateToProps = ({ routing, ui }) => ({ routing, ui })
+const mapStateToProps = ({ routing }) => ({ routing })
 
 MobileTopNav.propTypes = {
   location: PropTypes.object,

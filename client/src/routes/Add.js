@@ -4,13 +4,12 @@ import { connect } from "react-redux"
 
 import ImageUpload from "../components/ImageUpload"
 
-import { getProductCategories, uploadImagesToS3, printError } from "../actions"
+import { getProductCategories, uploadImagesToS3 } from "../actions"
 
 class Add extends Component {
   state = {
     category_id: 11,
     description: "",
-    errorMessage: "",
     images: [],
     meet_in_person: null,
     shipping: null
@@ -62,8 +61,8 @@ class Add extends Component {
         category_id: Number(this.state.category_id),
         description: this.state.description,
         price: Number(this.state.price),
-        meet_in_person: this.state.meet_in_person,
-        shipping: this.state.shipping
+        meet_in_person_YN: this.state.meet_in_person,
+        shipping_YN: this.state.shipping
       }
     })
   }
@@ -86,11 +85,9 @@ class Add extends Component {
     return (
       <div className="route-container p-3">
         <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>
-        <p className="error-text">{this.state.errorMessage}</p>
 
         <div className="d-flex flex-column">
           <label>Product Category</label>
-
           {this.renderCategoryDropdown()}
         </div>
 
@@ -145,5 +142,5 @@ Add.propTypes = {}
 
 export default connect(
   ({ categories }) => ({ categories }),
-  { getProductCategories, uploadImagesToS3, printError }
+  { getProductCategories, uploadImagesToS3 }
 )(Add)
