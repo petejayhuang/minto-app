@@ -1,9 +1,9 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { getStoreInfo, getStoreProducts } from "../actions"
-import SecondaryButton from "../components/SecondaryButton"
-import ImageGrid from "../components/ImageGrid"
+import { getStoreInfo, getStoreProducts } from '../actions'
+import SecondaryButton from '../components/SecondaryButton'
+import ImageGrid from '../components/ImageGrid'
 
 class Store extends Component {
   state = {
@@ -13,17 +13,18 @@ class Store extends Component {
 
   componentDidMount() {
     const {
-      routing,
+      match,
       store: { info, products },
       getStoreProducts
     } = this.props
-    const store_id = routing.location.pathname.split("/")[2]
+
+    const store_id = match.params.id
 
     if (!info.user_id) {
       this.props.getStoreInfo(store_id)
     }
 
-    if (!products.length > 0) {
+    if (products.length === 0) {
       getStoreProducts({
         page: this.state.page,
         limit: this.state.limit,
@@ -38,7 +39,7 @@ class Store extends Component {
     this.props.getStoreProducts({
       page: page + 1,
       limit,
-      user_id: this.props.routing.location.pathname.split("/")[2]
+      user_id: this.props.match.params.id
     })
     this.setState({ page: page + 1 })
   }
@@ -85,8 +86,7 @@ class Store extends Component {
   }
 }
 
-const mapStateToProps = ({ routing, store, ui }) => ({
-  routing,
+const mapStateToProps = ({ store, ui }) => ({
   store,
   ui
 })

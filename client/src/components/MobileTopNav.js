@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
-import navItems from "../config/navItems"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import findNavItem from '../utilities/findNavItem'
+import navItems from '../config/navItems'
 
-import { colors } from "../styles/styleVariables"
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
   max-width: 600px;
@@ -51,23 +51,14 @@ class MobileTopNav extends Component {
   )
 
   render() {
-    const {
-      routing: {
-        location: { pathname }
-      }
-    } = this.props
-
-    return <div>{this.renderTopNav(navItems[pathname])}</div>
+    const { location } = this.props.routing
+    return <div>{this.renderTopNav(navItems[findNavItem(location)])}</div>
   }
 }
 
 const mapStateToProps = ({ routing }) => ({ routing })
 
-MobileTopNav.propTypes = {
-  location: PropTypes.object,
-  ui: PropTypes.object
-}
-
-MobileTopNav.defaultProps = {}
-
-export default connect(mapStateToProps)(withRouter(MobileTopNav))
+export default connect(
+  mapStateToProps,
+  null
+)(withRouter(MobileTopNav))

@@ -1,14 +1,12 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { getProductCategories } from "../../actions"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getProductCategories } from '../../actions'
 
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 class Search extends Component {
   state = {
-    inputText: "",
+    inputText: '',
     showSearchUI: false
   }
 
@@ -22,7 +20,10 @@ class Search extends Component {
     return (
       <div>
         {this.props.categories.map(category => (
-          <Link to={`/search?category_id=${category.category_id}`}>
+          <Link
+            key={category.category_id}
+            to={`/search?category_id=${category.category_id}`}
+          >
             <div>{category.description}</div>
             <div>{category.product_type}</div>
             <hr />
