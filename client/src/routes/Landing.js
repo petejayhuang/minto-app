@@ -1,35 +1,54 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Link } from "react-router-dom"
-import { colors } from "../styles/styleVariables"
-import fbLogo from "../assets/icons/social/fb-logo-white-58.svg"
+import axios from "axios"
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import FacebookLogin from "react-facebook-login"
+import { URLS } from "../config/constants"
+import { authenticateFacebookWithBE } from "../actions"
 
-const FacebookSignInButton = styled.div`
-  background-color: ${colors.facebook};
-  color: white;
-  img {
-    width: 25px;
+class Landing extends Component {
+  state = { isAuthenticated: false, user: null, token: "" }
+
+  logout = () => {
+    this.setState({ isAuthenticated: false, token: "", user: null })
   }
-`
 
-const Add = props => (
-  <div className="d-flex flex-column justify-content-center align-items-center">
-    <h1>Julia</h1>
-    <h3 className="text-center">
-      Buy beautiful luxury jewellery from people like you
-    </h3>
-    <Link to="/feed">
-      <FacebookSignInButton className="d-flex justify-content-center align-items-center border-rounded p-3">
-        <img alt="facebook login button" src={fbLogo} />
-        <p className="p-0 m-0 ml-2">Login with Facebook</p>
-      </FacebookSignInButton>
-    </Link>
-    <div>Sign up with Facebook</div>
-  </div>
-)
+  facebookResponse = async fbResponse => {
+    const response = await axios({
+      method: "post",
+      url: `${URLS.SERVER}/auth/facebook`,
+      headers: { Authorization: `Bearer ${fbResponse.accessToken}` }
+    })
+    console.log("response from BE", response)
+  }
 
-Add.defaultProps = {}
-Add.propTypes = {}
+  render() {
+    let content = !!this.state.isAuthenticated ? (
+      <div>
+        <p>Authenticated</p>
+        <div>{this.state.user.email}</div>
+        <div>
+          <button onClick={this.logout}>Log out</button>
+        </div>
+      </div>
+    ) : (
+      <FacebookLogin
+        appId="1771048822975022"
+        autoLoad={false}
+        fields="name,email,picture"
+        callback={this.facebookResponse}
+      />
+    )
 
-export default Add
+    return <div className="App">{content}</div>
+  }
+}
+
+Landing.defaultProps = {}
+Landing.propTypes = {}
+
+export default connect(
+  null,
+  {
+    authenticateFacebookWithBE
+  }
+)(Landing)
