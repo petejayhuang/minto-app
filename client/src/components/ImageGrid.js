@@ -1,6 +1,6 @@
-import React, { Component } from "react"
-import styled from "styled-components"
-import { Link } from "react-router-dom"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
   .store-photo {
@@ -14,7 +14,7 @@ class ImageGrid extends Component {
     return (
       <Container>
         {this.props.products.map(product => (
-          <Link to={`/products/${product.product_id}`}>
+          <Link key={product.product_id} to={`/products/${product.product_id}`}>
             <img
               className="store-photo"
               key={product.product_id}

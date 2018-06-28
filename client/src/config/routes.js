@@ -1,48 +1,36 @@
-import Add from "../routes/Add"
-import Feed from "../routes/Feed"
-import Landing from "../routes/Landing"
-import Messages from "../routes/Messages"
-import Store from "../routes/Store"
-import Product from "../routes/Product"
-import Search from "../routes/Search/"
+import React from 'react'
 
-import Settings from "../routes/Settings"
-import SettingsList from "../routes/Settings/SettingsList"
-import EditProfile from "../routes/Settings/EditProfile"
-import ChangePassword from "../routes/Settings/ChangePassword"
-import MyOrders from "../routes/Settings/MyOrders"
-import Order from "../routes/Order"
+import Add from '../routes/Add'
+import Feed from '../routes/Feed'
+import Landing from '../routes/Landing'
+import Messages from '../routes/Messages'
+import Store from '../routes/Store'
+import Product from '../routes/Product'
+import Search from '../routes/Search/'
+
+import Settings from '../routes/Settings'
+import EditProfile from '../routes/Settings/EditProfile'
+import ChangePassword from '../routes/Settings/ChangePassword'
+import MyOrders from '../routes/Settings/MyOrders'
+import Order from '../routes/Order'
+import NotFound from '../routes/NotFound'
 
 const routes = [
-  { exact: true, path: "/login", component: Landing },
-  { exact: false, path: "/feed", component: Feed },
-  { exact: false, path: "/store", component: Store },
-  { exact: false, path: "/messages", component: Messages },
-  { exact: false, path: "/add", component: Add },
-  { exact: false, path: "/search", component: Search },
-  { exact: false, path: "/products", component: Product },
-  { exact: false, path: "/orders", component: Order },
-  {
-    exact: true,
-    path: "/settings",
-    component: Settings,
-    routes: [
-      { exact: true, path: "/settings", component: SettingsList },
-      { exact: true, path: "/settings/edit-profile", component: EditProfile },
-      {
-        exact: true,
-        path: "/settings/change-password",
-        component: ChangePassword
-      },
-      {
-        exact: true,
-        path: "/settings/my-orders",
-        component: MyOrders
-      }
-    ]
-  }
+  { path: '/login', component: Landing, exact: true },
+  { path: '/feed', component: Feed },
+  { path: '/add', component: Add },
+  { path: '/messages', component: Messages, exact: true },
+  { path: '/messages/:id', component: Messages },
+  { path: '/store/:id', component: Store },
+  { path: '/orders', component: MyOrders, exact: true },
+  { path: '/orders/:id', component: Order, exact: true },
+  { path: '/products/:id', component: Product },
+  { path: '/search', component: Search, exact: true },
+  // { path: '/search?*', component: Search },
+  { path: '/settings', component: Settings, exact: true },
+  { path: '/settings/edit-profile', component: EditProfile, exact: true },
+  { path: '/settings/change-password', component: ChangePassword, exact: true },
+  { path: '*', component: NotFound }
 ]
-
-// ("/username/product/edit")
 
 export default routes

@@ -1,14 +1,14 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import LikeButton from "../../components/LikeButton"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import LikeButton from '../../components/LikeButton'
 import {
   getProductCategories,
   getProduct,
   updateProduct,
   deleteProduct,
   createOrder
-} from "../../actions"
+} from '../../actions'
 
 const Container = styled.div``
 
@@ -17,14 +17,14 @@ class Product extends Component {
     category_id: null,
     description: null,
     editMode: false,
-    errorMessage: "",
+    errorMessage: '',
     meet_in_person: this.props.product.meet_in_person_YN,
     price: null,
     shipping: this.props.product.shipping_YN
   }
 
   componentDidMount() {
-    this.props.getProduct(this.props.location.pathname.split("/")[2])
+    this.props.getProduct(this.props.match.params.id)
 
     if (this.props.categories.length === 0) {
       this.props.getProductCategories()
@@ -101,10 +101,10 @@ class Product extends Component {
     const { editMode } = this.state
     if (this.props.product.Images) {
       return (
-        <Container className="route-container">
+        <Container className="route-container p-3">
           <div className="d-flex">
             <button onClick={() => this.setState({ editMode: !editMode })}>
-              {editMode ? "cancel edits" : "toggle edit"}
+              {editMode ? 'cancel edits' : 'toggle edit'}
             </button>
           </div>
           <div className="d-flex">{<img src={Images[0].image_URL} />}</div>
@@ -122,7 +122,7 @@ class Product extends Component {
             ) : (
               <textarea
                 onChange={e =>
-                  this.handleTextInputChange("description", e.target.value)
+                  this.handleTextInputChange('description', e.target.value)
                 }
                 value={this.state.description || description}
               />
@@ -137,7 +137,7 @@ class Product extends Component {
               <input
                 type="text"
                 onChange={e =>
-                  this.handleTextInputChange("price", e.target.value)
+                  this.handleTextInputChange('price', e.target.value)
                 }
                 value={this.state.price || Prices[0].price}
               />
@@ -147,10 +147,10 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label>meet_in_person_YN</label>}
             {!editMode ? (
-              <div>meet_in_person_YN: {meet_in_person_YN ? "yes" : "no"}</div>
+              <div>meet_in_person_YN: {meet_in_person_YN ? 'yes' : 'no'}</div>
             ) : (
               <input
-                onChange={e => this.handleCheckboxChange("meet_in_person", e)}
+                onChange={e => this.handleCheckboxChange('meet_in_person', e)}
                 id="meet_in_person"
                 value="meet-in-person"
                 checked={this.state.meet_in_person || meet_in_person_YN}
@@ -162,10 +162,10 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label>shipping_YN</label>}
             {!editMode ? (
-              <div>shipping_YN: {shipping_YN ? "yes" : "no"}</div>
+              <div>shipping_YN: {shipping_YN ? 'yes' : 'no'}</div>
             ) : (
               <input
-                onChange={e => this.handleCheckboxChange("shipping", e)}
+                onChange={e => this.handleCheckboxChange('shipping', e)}
                 id="shipping"
                 value="shipping"
                 checked={this.state.shipping || shipping_YN}

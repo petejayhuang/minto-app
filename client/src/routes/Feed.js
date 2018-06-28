@@ -1,8 +1,7 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import PropTypes from "prop-types"
-import { getFeed } from "../actions"
-import ProductCard from "../components/ProductCard"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getFeed } from '../actions'
+import ProductCard from '../components/ProductCard'
 
 class Feed extends Component {
   state = {
@@ -27,7 +26,9 @@ class Feed extends Component {
   render() {
     return (
       <div className="route-container">
-        {this.props.feed.map(product => <ProductCard {...product} />)}
+        {this.props.feed.map(product => (
+          <ProductCard key={product.product_id} {...product} />
+        ))}
         <button onClick={this.loadMoreProducts}> get more images</button>
       </div>
     )

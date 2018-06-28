@@ -1,7 +1,7 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { getOrder } from "../actions"
+import { getOrder } from '../actions'
 
 class Order extends Component {
   state = {
@@ -10,7 +10,7 @@ class Order extends Component {
   }
 
   componentDidMount() {
-    this.props.getOrder(this.props.location.pathname.split("/")[2])
+    this.props.getOrder(this.props.match.params.id)
   }
 
   render() {
