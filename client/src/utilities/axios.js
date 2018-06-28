@@ -4,7 +4,8 @@ import { URLS } from "../config/constants"
 const configuredAxios = () => {
   let headers = {}
 
-  headers["x-auth-token"] = 1
+  headers["x-auth-token"] = localStorage.getItem("x-auth-token")
+
   return axios.create({
     baseURL: URLS.SERVER,
     headers: {

@@ -1,13 +1,16 @@
-import React from 'react'
+import React from "react"
 
-import { Link } from 'react-router-dom'
-import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
-import SearchBar from '../components/SearchBar'
-import XIcon from '../assets/icons/feather-react/XIcon'
-import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
-import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
+import { Link } from "react-router-dom"
+import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
+import SearchBar from "../components/SearchBar"
+import XIcon from "../assets/icons/feather-react/XIcon"
+import SettingsIcon from "../assets/icons/feather-react/SettingsIcon"
+import ChevronLeftIcon from "../assets/icons/feather-react/ChevronLeftIcon"
 
 const navItems = {
+  login: {
+    middle: <h5>login</h5>
+  },
   feed: {
     middle: <h5>jwl</h5>
   },
@@ -21,14 +24,14 @@ const navItems = {
     left: <PlusSquareIcon />,
     middle: <h5>Messages</h5>
   },
-  'messages/:id': {
+  "messages/:id": {
     left: <PlusSquareIcon />,
     middle: <h5>Message with</h5>
   },
-  'products/:id': {
+  "products/:id": {
     middle: <h5>View item</h5>
   },
-  'store/:id': {
+  "store/:id": {
     left: (
       <Link to="/settings">
         <SettingsIcon />
@@ -44,7 +47,7 @@ const navItems = {
     ),
     middle: <h5>All Orders</h5>
   },
-  'orders/:id': {
+  "orders/:id": {
     left: (
       <Link to="/orders">
         <ChevronLeftIcon />
@@ -56,7 +59,7 @@ const navItems = {
     left: <XIcon />,
     middle: <h5>Settings</h5>
   },
-  '/settings/edit-profile': {
+  "/settings/edit-profile": {
     left: (
       <Link to="/settings">
         <ChevronLeftIcon />
@@ -64,7 +67,7 @@ const navItems = {
     ),
     middle: <h5>Edit Profile</h5>
   },
-  '/settings/change-password': {
+  "/settings/change-password": {
     left: (
       <Link to="/settings">
         <ChevronLeftIcon />
@@ -72,7 +75,7 @@ const navItems = {
     ),
     middle: <h5>Change Password</h5>
   },
-  '/settings/my-orders': {
+  "/settings/my-orders": {
     left: (
       <Link to="/settings">
         <ChevronLeftIcon />
