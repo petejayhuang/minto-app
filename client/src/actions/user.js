@@ -10,7 +10,10 @@ import {
   AUTH_FB_WITH_BE_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  GET_USERNAME_AVAILABILITY_REQUEST,
+  GET_USERNAME_AVAILABILITY_SUCCESS,
+  GET_USERNAME_AVAILABILITY_FAILURE
 } from "./types"
 
 // =====================================================
@@ -58,6 +61,46 @@ const authenticateFacebookWithBESuccess = user => ({
 
 const authenticateFacebookWithBEFailure = ({ message, error }) => ({
   type: AUTH_FB_WITH_BE_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ========      GET USERNAME AVAILABILITY     =========
+// =====================================================
+
+export const getUsernameAvailability = username => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch(getUsernameAvailabilityRequest)
+
+    try {
+      const data = customAxios()(`/users/username_availability/${username}`)
+      dispatch(getUsernameAvailabilitySuccess)
+      return resolve(data)
+    } catch (error) {
+      dispatch(
+        getUsernameAvailabilityFailure({
+          message: "Could not get username availability.",
+          error
+        })
+      )
+      return reject(false)
+    }
+  })
+}
+
+const getUsernameAvailabilityRequest = {
+  type: GET_USERNAME_AVAILABILITY_REQUEST,
+  loadingLine: true
+}
+
+const getUsernameAvailabilitySuccess = {
+  type: GET_USERNAME_AVAILABILITY_SUCCESS,
+  loadingLine: false
+}
+
+const getUsernameAvailabilityFailure = ({ message, error }) => ({
+  type: GET_USERNAME_AVAILABILITY_FAILURE,
   loadingLine: false,
   error: { message, error }
 })
