@@ -28,6 +28,9 @@ const navItems = {
     left: <PlusSquareIcon />,
     middle: <h5>Message with</h5>
   },
+  payments: {
+    middle: <h5>Payments</h5>
+  },
   "products/:id": {
     middle: <h5>View item</h5>
   },
@@ -82,6 +85,22 @@ const navItems = {
       </Link>
     ),
     middle: <h5>My orders</h5>
+  },
+  "/settings/manage-cards": {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5>My payment cards</h5>
+  },
+  "/settings/logout": {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5>Log out</h5>
   }
 }
 

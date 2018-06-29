@@ -13,7 +13,8 @@ import {
   UPDATE_USER_FAILURE,
   GET_USERNAME_AVAILABILITY_REQUEST,
   GET_USERNAME_AVAILABILITY_SUCCESS,
-  GET_USERNAME_AVAILABILITY_FAILURE
+  GET_USERNAME_AVAILABILITY_FAILURE,
+  LOGOUT_USER
 } from "./types"
 
 // =====================================================
@@ -156,3 +157,12 @@ const updateUserFailure = ({ message, error }) => ({
   loadingLine: false,
   error: { message, error }
 })
+
+// =====================================================
+// ===============      LOGOUT USER     ================
+// =====================================================
+
+export const logoutUser = () => dispatch =>
+  dispatch({
+    type: LOGOUT_USER
+  })

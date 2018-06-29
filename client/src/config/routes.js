@@ -5,6 +5,7 @@ import Feed from "../routes/Feed"
 import Login from "../routes/Login"
 import Messages from "../routes/Messages"
 import Store from "../routes/Store"
+import Payment from "../routes/Payment"
 import Product from "../routes/Product"
 import Search from "../routes/Search/"
 
@@ -14,6 +15,8 @@ import ChangePassword from "../routes/Settings/ChangePassword"
 import MyOrders from "../routes/Settings/MyOrders"
 import Order from "../routes/Order"
 import NotFound from "../routes/NotFound"
+import ManageCards from "../routes/Settings/ManageCards"
+import Logout from "../routes/Settings/Logout"
 
 const routes = [
   { path: "/login", component: Login, exact: true },
@@ -24,12 +27,15 @@ const routes = [
   { path: "/store/:id", component: Store },
   { path: "/orders", component: MyOrders, exact: true },
   { path: "/orders/:id", component: Order, exact: true },
+  { path: "/payments", component: Payment },
   { path: "/products/:id", component: Product },
   { path: "/search", component: Search, exact: true },
   // { path: '/search?*', component: Search },
   { path: "/settings", component: Settings, exact: true },
   { path: "/settings/edit-profile", component: EditProfile, exact: true },
   { path: "/settings/change-password", component: ChangePassword, exact: true },
+  { path: "/settings/manage-cards", component: ManageCards, exact: true },
+  { path: "/settings/logout", component: Logout, exact: true },
   { path: "*", component: NotFound }
 ]
 
