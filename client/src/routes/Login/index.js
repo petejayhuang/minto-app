@@ -1,16 +1,18 @@
 // TODO
 // validation on input (special chars etc)
 // debounce on the input\
-import _ from "lodash"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import FacebookLogin from "react-facebook-login"
-import { FACEBOOK_APP_ID } from "../config/constants"
+import { FACEBOOK_APP_ID } from "../../config/constants"
 import {
   authenticateFacebookWithBE,
   getUsernameAvailability,
-  updateUser
-} from "../actions"
+  updateUser,
+  createCustomer,
+  addCardToCustomer,
+  createTransaction
+} from "../../actions"
 
 class Login extends Component {
   state = {
@@ -67,15 +69,25 @@ class Login extends Component {
     this.setState({ [inputName]: value })
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault()
     const { first_name, last_name, email, username } = this.state
-    this.props.updateUser({
+    await this.props.updateUser({
       first_name,
       last_name,
       email,
       username
     })
+
+    await this.props.createCustomer({
+      first_name: first_name || this.props.user.first_name,
+      last_name: last_name || this.props.user.last_name,
+      email: email || this.props.user.email
+    })
+
+    await this.props.addCardToCustomer()
+
+    this.props.createTransaction()
   }
 
   render() {
@@ -145,6 +157,9 @@ export default connect(
   {
     authenticateFacebookWithBE,
     getUsernameAvailability,
-    updateUser
+    updateUser,
+    createCustomer,
+    addCardToCustomer,
+    createTransaction
   }
 )(Login)

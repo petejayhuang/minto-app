@@ -11,6 +11,9 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  CREATE_CUSTOMER_REQUEST,
+  CREATE_CUSTOMER_SUCCESS,
+  CREATE_CUSTOMER_FAILURE,
   GET_USERNAME_AVAILABILITY_REQUEST,
   GET_USERNAME_AVAILABILITY_SUCCESS,
   GET_USERNAME_AVAILABILITY_FAILURE,
@@ -154,6 +157,52 @@ const updateUserSuccess = user => ({
 
 const updateUserFailure = ({ message, error }) => ({
   type: UPDATE_USER_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ==============     CREATE CUSTOMER     ==============
+// =====================================================
+export const createCustomer = ({
+  first_name,
+  last_name,
+  email
+}) => async dispatch => {
+  dispatch(createCustomerRequest)
+  try {
+    const { data } = await customAxios().post(
+      `${URLS.SERVER}/payments/customer`,
+      {
+        firstName: first_name,
+        lastName: last_name,
+        email
+      }
+    )
+    dispatch(createCustomerSuccess(data))
+  } catch (error) {
+    dispatch(
+      createCustomerFailure({
+        message: "Could not create customer.",
+        error
+      })
+    )
+  }
+}
+
+const createCustomerRequest = {
+  type: CREATE_CUSTOMER_REQUEST,
+  loadingLine: true
+}
+
+const createCustomerSuccess = token => ({
+  type: CREATE_CUSTOMER_SUCCESS,
+  loadingLine: false,
+  payload: token
+})
+
+const createCustomerFailure = ({ error, message }) => ({
+  type: CREATE_CUSTOMER_FAILURE,
   loadingLine: false,
   error: { message, error }
 })

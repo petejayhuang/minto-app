@@ -16,4 +16,7 @@ To do (FE)
 - settings/payment
 - logout
 - after adding a new user, it doesn't redirect
-- username isn't updated?
+- username isn't updated? - my fault
+- connect search to endpoint
+- separate out payment logic to relevant flows
+- made admin app!  

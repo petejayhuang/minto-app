@@ -1,6 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import { StripeProvider } from "react-stripe-elements"
 import { createStore, applyMiddleware } from "redux"
 import { Provider } from "react-redux"
 import createHistory from "history/createBrowserHistory"
@@ -20,13 +19,11 @@ const middleware = routerMiddleware(history)
 const store = createStore(reducers, applyMiddleware(middleware, thunk, logger))
 
 ReactDOM.render(
-  <StripeProvider apiKey={KEYS.PUBLISHABLE_STRIPE_KEY}>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>
-  </StripeProvider>,
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById("root")
 )
 

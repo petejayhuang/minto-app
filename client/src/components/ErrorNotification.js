@@ -14,8 +14,6 @@ const Container = styled.div`
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  width: 200px;
-  height: 20px;
   background-color: orange;
   &:hover {
     cursor: pointer;
