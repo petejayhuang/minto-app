@@ -1,9 +1,8 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { getStoreInfo, getStoreProducts } from "../../actions"
-import SecondaryButton from "../../components/SecondaryButton"
-import ImageGrid from "../../components/ImageGrid"
+import { getStoreInfo, getStoreProducts } from '../../actions'
+import ImageGrid from '../../components/ImageGrid'
 
 class Store extends Component {
   state = {
@@ -60,7 +59,7 @@ class Store extends Component {
             <div>
               <h3>{this.props.store.info.username}</h3>
             </div>
-            <SecondaryButton text="Follow" />
+            <button>follow</button>
           </div>
         </div>
 
