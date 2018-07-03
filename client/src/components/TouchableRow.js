@@ -16,6 +16,9 @@ const Container = styled.div`
   border-top: 1px solid ${colors.border};
   border-bottom: ${props =>
     props.borderBottom ? `1px solid ${colors.border}` : "none"};
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 class TouchableRow extends Component {

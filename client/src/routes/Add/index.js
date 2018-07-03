@@ -1,10 +1,9 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
 import { connect } from "react-redux"
 
-import ImageUpload from "../components/ImageUpload"
+import ImageUpload from "../../components/ImageUpload"
 
-import { getProductCategories, uploadImagesToS3 } from "../actions"
+import { getProductCategories, uploadImagesToS3 } from "../../actions"
 
 class Add extends Component {
   state = {
@@ -137,8 +136,6 @@ class Add extends Component {
     )
   }
 }
-Add.defaultProps = {}
-Add.propTypes = {}
 
 export default connect(
   ({ categories }) => ({ categories }),

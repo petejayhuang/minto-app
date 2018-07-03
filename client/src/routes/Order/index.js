@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getOrder } from '../actions'
+import { getOrder } from '../../actions'
 
 class Order extends Component {
   state = {

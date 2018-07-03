@@ -1,15 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import createHistory from 'history/createBrowserHistory'
-import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
-import reducers from './reducers'
-import thunk from 'redux-thunk'
-import logger from 'redux-logger'
+import React from "react"
+import ReactDOM from "react-dom"
+import { createStore, applyMiddleware } from "redux"
+import { Provider } from "react-redux"
+import createHistory from "history/createBrowserHistory"
+import { ConnectedRouter, routerMiddleware } from "react-router-redux"
+import reducers from "./reducers"
+import thunk from "redux-thunk"
+import logger from "redux-logger"
 
-import App from './App'
-import registerServiceWorker from './utilities/registerServiceWorker'
+import App from "./App"
+import registerServiceWorker from "./utilities/registerServiceWorker"
+import { KEYS } from "./config/constants"
 
 export const history = createHistory()
 
@@ -23,7 +24,7 @@ ReactDOM.render(
       <App />
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 )
 
 registerServiceWorker()

@@ -1,15 +1,15 @@
 // dirty function?! clean up
 
-import { matchPath } from 'react-router'
+import { matchPath } from "react-router"
 
 const findNavItem = location => {
   const { pathname, search } = location
-  const firstSlash = pathname.split('/')[1]
+  const firstSlash = pathname.split("/")[1]
   const match = matchPath(pathname, {
     path: `/${firstSlash}/:id`
   })
   const paramsExist = match && match.params ? true : false
-  let navItem = ''
+  let navItem = ""
 
   // if params don't exist, just go to that route
   if (!paramsExist) {
@@ -20,7 +20,7 @@ const findNavItem = location => {
     // we assume it's a number
     navItem = `${firstSlash}/:id`
     // settings pages are unique
-    if (firstSlash === 'settings') {
+    if (firstSlash === "settings") {
       navItem = pathname
     }
   }

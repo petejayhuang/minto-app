@@ -114,8 +114,6 @@ const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
 export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
   dispatch(uploadImagesToS3Request)
 
-  const id = 1
-
   // Take array of image objects, and return array of file names
   const imagesNamesArray = images.map(current => current.name)
 
@@ -257,7 +255,6 @@ export const updateProduct = body => async (dispatch, getState) => {
   dispatch(updateProductRequest)
 
   try {
-
     const { data } = await axios().put(`${URLS.SERVER}/products`, body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store`))

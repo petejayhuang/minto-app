@@ -1,6 +1,5 @@
-import React from 'react'
-import TouchableRow from '../../components/TouchableRow'
-import { RouteWithSubRoutes } from '../../utilities/renderRoutes'
+import React from "react"
+import TouchableRow from "../../components/TouchableRow"
 
 const SettingsList = props => (
   <div className="route-container">
@@ -10,6 +9,7 @@ const SettingsList = props => (
     <TouchableRow to="/settings/edit-profile" text="Edit Profile" />
     <TouchableRow to="/settings/change-password" text="Change Password" />
     <TouchableRow to="/orders" text="Your Orders" />
+    <TouchableRow to="/settings/manage-cards" text="Manage Payment Cards" />
     <TouchableRow borderBottom text="Privacy and Security" />
     <div className="pl-1 pt-3 pb-1">
       <strong>SETTINGS</strong>
@@ -17,7 +17,12 @@ const SettingsList = props => (
     <TouchableRow text="Language" />
     <TouchableRow text="Authorised Apps" />
     <TouchableRow borderBottom text="Notifications" />
-    <TouchableRow borderBottom className="mt-2" text="Log Out" />
+    <TouchableRow
+      to="/settings/logout"
+      borderBottom
+      className="mt-2"
+      text="Log Out"
+    />
   </div>
 )
 export default SettingsList
