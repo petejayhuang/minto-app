@@ -2,10 +2,11 @@ import React from 'react'
 
 // ROUTES
 import Add from '../routes/Add'
-import AddCard from '../routes/Settings/Payments/AddCard'
+import AddCard from '../routes/Settings/PaymentDetails/AddCard'
 import AccountDetails from '../routes/Settings/AccountDetails'
 import Feed from '../routes/Feed'
 import Landing from '../routes/Landing'
+import Likes from '../routes/Likes'
 import Login from '../routes/Login'
 import Logout from '../routes/Settings/Logout'
 import Message from '../routes/Messages/Message'
@@ -18,6 +19,7 @@ import PaymentDetails from '../routes/Settings/PaymentDetails'
 import Product from '../routes/Product'
 import Search from '../routes/Search/'
 import Settings from '../routes/Settings'
+import ShoppingCart from '../routes/ShoppingCart'
 import Store from '../routes/Store'
 
 // FOR NAV ITEMS
@@ -25,12 +27,14 @@ import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
 import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
 import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
+import ShoppingCartIcon from '../assets/icons/feather-react/ShoppingCartIcon'
 import XIcon from '../assets/icons/feather-react/XIcon'
 
 export const routes = [
   { path: '/', component: Landing, exact: true },
   { path: '/add', component: Add },
   { path: '/feed', component: Feed },
+  { path: '/likes', component: Likes, exact: true },
   { path: '/login', component: Login, exact: true },
   { path: '/messages', component: Messages, exact: true },
   { path: '/messages/:id', component: Message },
@@ -44,26 +48,65 @@ export const routes = [
   { path: '/settings/add-card', component: AddCard, exact: true },
   { path: '/settings/payment-details', component: PaymentDetails, exact: true },
   { path: '/settings/logout', component: Logout, exact: true },
+  { path: '/shopping-cart', component: ShoppingCart, exact: true },
   { path: '/store/:id', component: Store },
   { path: '*', component: NotFound }
 ]
 
 export const navItems = {
   '': {
-    middle: <h5 className="m-0 p-0">Home</h5>
+    middle: <h5 className="m-0 p-0">Home</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   add: {
-    middle: <h5 className="m-0 p-0">Add</h5>
+    middle: <h5 className="m-0 p-0">Add</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   feed: {
-    middle: <h5 className="m-0 p-0">Feed</h5>
+    middle: <h5 className="m-0 p-0">Feed</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
+  },
+  likes: {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5 className="m-0 p-0">Likes</h5>,
+    right: (
+      <Link to="/likes">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   login: {
-    middle: <h5 className="m-0 p-0">Login</h5>
+    middle: <h5 className="m-0 p-0">Login</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   messages: {
     left: <PlusSquareIcon />,
-    middle: <h5 className="m-0 p-0">Messages</h5>
+    middle: <h5 className="m-0 p-0">Messages</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   'messages/:id': {
     left: (
@@ -71,7 +114,12 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Single Message</h5>
+    middle: <h5 className="m-0 p-0">Single Message</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   notifications: {
     left: (
@@ -79,7 +127,12 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Notifications</h5>
+    middle: <h5 className="m-0 p-0">Notifications</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   orders: {
     left: (
@@ -87,7 +140,12 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">All Orders</h5>
+    middle: <h5 className="m-0 p-0">All Orders</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   'orders/:id': {
     left: (
@@ -95,13 +153,28 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Single Order</h5>
+    middle: <h5 className="m-0 p-0">Single Order</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   'products/:id': {
-    middle: <h5 className="m-0 p-0">View item</h5>
+    middle: <h5 className="m-0 p-0">View item</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   search: {
-    middle: <h5 className="m-0 p-0">Search</h5>
+    middle: <h5 className="m-0 p-0">Search</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   settings: {
     left: (
@@ -109,7 +182,12 @@ export const navItems = {
         <XIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Settings</h5>
+    middle: <h5 className="m-0 p-0">Settings</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   '/settings/account-details': {
     left: (
@@ -117,7 +195,25 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Account Details</h5>
+    middle: <h5 className="m-0 p-0">Account Details</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
+  },
+  '/settings/add-card': {
+    left: (
+      <Link to="/settings/payment-details">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5 className="m-0 p-0">Add card</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   '/settings/payment-details': {
     left: (
@@ -125,7 +221,12 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Payment Details</h5>
+    middle: <h5 className="m-0 p-0">Payment Details</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   },
   '/settings/logout': {
     left: (
@@ -133,7 +234,15 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Log out</h5>
+    middle: <h5 className="m-0 p-0">Log out</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
+  },
+  'shopping-cart': {
+    middle: <h5 className="m-0 p-0">Shopping Cart</h5>
   },
   'store/:id': {
     left: (
@@ -141,6 +250,11 @@ export const navItems = {
         <SettingsIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Store</h5>
+    middle: <h5 className="m-0 p-0">Store</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
   }
 }

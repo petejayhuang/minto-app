@@ -1,8 +1,8 @@
-import _ from "lodash"
-import axios from "axios"
-import customAxios from "../utilities/axios"
-import { redirect } from "./ui"
-import { URLS } from "../config/constants"
+import _ from 'lodash'
+import axios from 'axios'
+import customAxios from '../utilities/axios'
+import { redirect } from './ui'
+import { URLS } from '../config/constants'
 
 import {
   AUTH_FB_WITH_BE_REQUEST,
@@ -18,7 +18,7 @@ import {
   GET_USERNAME_AVAILABILITY_SUCCESS,
   GET_USERNAME_AVAILABILITY_FAILURE,
   LOGOUT_USER
-} from "./types"
+} from './types'
 
 // =====================================================
 // ==============      AUTH FB w/ BE     ===============
@@ -28,24 +28,24 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
   dispatch(authenticateFacebookWithBERequest)
   try {
     const data = await axios({
-      method: "post",
+      method: 'post',
       url: `${URLS.SERVER}/auth/facebook`,
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
     })
 
-    localStorage.setItem("x-auth-token", data.headers["x-auth-token"])
+    localStorage.setItem('x-auth-token', data.headers['x-auth-token'])
 
     dispatch(authenticateFacebookWithBESuccess(data.data))
 
     if (data.data.username) {
-      dispatch(redirect("/feed"))
+      dispatch(redirect('/feed'))
     }
   } catch (error) {
     dispatch(
       authenticateFacebookWithBEFailure({
-        message: "Could not login with Facebook.",
+        message: 'Could not login with Facebook.',
         error
       })
     )
@@ -84,7 +84,7 @@ export const getUsernameAvailability = username => dispatch => {
     } catch (error) {
       dispatch(
         getUsernameAvailabilityFailure({
-          message: "Could not get username availability.",
+          message: 'Could not get username availability.',
           error
         })
       )
@@ -130,14 +130,15 @@ export const updateUser = ({
     },
     _.identity()
   )
+
   try {
-    const { data } = await customAxios().put("/users", body)
+    const { data } = await customAxios().put('/users', body)
 
     dispatch(updateUserSuccess(data.data))
   } catch (error) {
     dispatch(
       updateUserFailure({
-        message: "Could not update user.",
+        message: 'Could not update user.',
         error
       })
     )
@@ -183,7 +184,7 @@ export const createCustomer = ({
   } catch (error) {
     dispatch(
       createCustomerFailure({
-        message: "Could not create customer.",
+        message: 'Could not create customer.',
         error
       })
     )

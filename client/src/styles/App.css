@@ -53,9 +53,7 @@ body {
 
 /* COMPONENT SPECIFIC */
 input[type='text'] {
-  height: 20px;
-  max-width: 200px;
-  margin-top: 8px;
+  height: 30px;
 }
 
 textarea {
@@ -99,4 +97,9 @@ button {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* LINKS */
+.top-nav-link {
+  height: 25px;
 }

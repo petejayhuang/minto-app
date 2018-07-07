@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import LikeButton from "../../components/LikeButton"
-import { Link } from "react-router-dom"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import LikeButton from '../../components/LikeButton'
+import { Link } from 'react-router-dom'
 import {
   getProductCategories,
   getProduct,
   updateProduct,
   deleteProduct,
   createOrder
-} from "../../actions"
+} from '../../actions'
 
 const Container = styled.div``
 
@@ -18,7 +18,7 @@ class Product extends Component {
     category_id: null,
     description: null,
     editMode: false,
-    errorMessage: "",
+    errorMessage: '',
     meet_in_person: this.props.product.meet_in_person_YN,
     price: null,
     shipping: this.props.product.shipping_YN
@@ -46,7 +46,18 @@ class Product extends Component {
     })
   }
 
-  handleBuy = () => {
+  handleBuy = async () => {
+    // check if they are a customer, if not, create using user details
+    // await this.props.createCustomer({
+    //   first_name: first_name || this.props.user.first_name,
+    //   last_name: last_name || this.props.user.last_name,
+    //   email: email || this.props.user.email
+    // })
+
+    await this.props.addCardToCustomer()
+
+    this.props.createTransaction()
+    // check if they have a card
     const { product_id } = this.props.product
     this.props.createOrder({
       product_id
@@ -100,12 +111,14 @@ class Product extends Component {
     } = this.props.product
 
     const { editMode } = this.state
+    // TODO isOwnProduct
+    const isOwnProduct = true
     if (this.props.product.Images) {
       return (
         <Container className="route-container p-3">
           <div className="d-flex">
             <button onClick={() => this.setState({ editMode: !editMode })}>
-              {editMode ? "cancel edits" : "toggle edit"}
+              {editMode ? 'cancel edits' : 'toggle edit'}
             </button>
           </div>
           <div className="d-flex">{<img src={Images[0].image_URL} />}</div>
@@ -123,7 +136,7 @@ class Product extends Component {
             ) : (
               <textarea
                 onChange={e =>
-                  this.handleTextInputChange("description", e.target.value)
+                  this.handleTextInputChange('description', e.target.value)
                 }
                 value={this.state.description || description}
               />
@@ -138,7 +151,7 @@ class Product extends Component {
               <input
                 type="text"
                 onChange={e =>
-                  this.handleTextInputChange("price", e.target.value)
+                  this.handleTextInputChange('price', e.target.value)
                 }
                 value={this.state.price || Prices[0].price}
               />
@@ -148,10 +161,10 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label>meet_in_person_YN</label>}
             {!editMode ? (
-              <div>meet_in_person_YN: {meet_in_person_YN ? "yes" : "no"}</div>
+              <div>meet_in_person_YN: {meet_in_person_YN ? 'yes' : 'no'}</div>
             ) : (
               <input
-                onChange={e => this.handleCheckboxChange("meet_in_person", e)}
+                onChange={e => this.handleCheckboxChange('meet_in_person', e)}
                 id="meet_in_person"
                 value="meet-in-person"
                 checked={this.state.meet_in_person || meet_in_person_YN}
@@ -163,10 +176,10 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label>shipping_YN</label>}
             {!editMode ? (
-              <div>shipping_YN: {shipping_YN ? "yes" : "no"}</div>
+              <div>shipping_YN: {shipping_YN ? 'yes' : 'no'}</div>
             ) : (
               <input
-                onChange={e => this.handleCheckboxChange("shipping", e)}
+                onChange={e => this.handleCheckboxChange('shipping', e)}
                 id="shipping"
                 value="shipping"
                 checked={this.state.shipping || shipping_YN}
@@ -176,8 +189,9 @@ class Product extends Component {
           </div>
           {/* MISSING!  */}
           {/* <div>category_id: {category_id}</div> */}
-          {/* {!editMode && <button onClick={this.handleBuy}>buy</button>} */}
-          {!editMode && <Link to="/payments">buy</Link>}
+
+          {!editMode &&
+            isOwnProduct && <button onClick={this.handleBuy}>buy</button>}
           {editMode && <button onClick={this.handleUpdate}>update</button>}
           {editMode && <button onClick={this.handleDelete}>delete</button>}
         </Container>

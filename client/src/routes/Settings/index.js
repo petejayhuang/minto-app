@@ -5,6 +5,8 @@ import TouchableRow from '../../components/TouchableRow'
 const SettingsList = props => (
   <div className="route-container">
     <TouchableRow to={`/store/${props.user.user_id}`} text="My store" />
+    <TouchableRow to="/likes" text="Likes" />
+    <TouchableRow to="/shopping-cart" text="Shopping cart" />
     <TouchableRow to="/notifications" text="Notifications" />
     <TouchableRow to="/settings/account-details" text="Account details" />
     <TouchableRow to="/orders" text="Order history" />
