@@ -1,8 +1,8 @@
-import _ from "lodash"
-import axios from "../utilities/axios"
-import { URLS } from "../config/constants"
-import moment from "moment"
-import { redirect } from "./ui"
+import _ from 'lodash'
+import axios from '../utilities/axios'
+import { URLS } from '../config/constants'
+import moment from 'moment'
+import { redirect } from './ui'
 
 import {
   GET_PRODUCT_CATEGORIES_REQUEST,
@@ -19,8 +19,11 @@ import {
   UPLOAD_PRODUCT_FAILURE,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_FAILURE
-} from "./types"
+  DELETE_PRODUCT_FAILURE,
+  SEARCH_PRODUCTS_REQUEST,
+  SEARCH_PRODUCTS_SUCCESS,
+  SEARCH_PRODUCTS_FAILURE
+} from './types'
 
 // =====================================================
 // ==========     GET PRODUCT CATEGORIES     ===========
@@ -35,7 +38,7 @@ export const getProductCategories = id => async dispatch => {
   } catch (error) {
     dispatch(
       getProductCategoriesFailure({
-        message: "Could not get product categories.",
+        message: 'Could not get product categories.',
         error
       })
     )
@@ -71,7 +74,7 @@ export const getProduct = id => async dispatch => {
   } catch (error) {
     dispatch(
       getProductFailure({
-        message: "Could not get product.",
+        message: 'Could not get product.',
         error
       })
     )
@@ -103,7 +106,7 @@ const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
   new Promise(async (resolve, reject) => {
     try {
       const request = await axios().put(url, image, {
-        headers: { "Content-Type": image.type }
+        headers: { 'Content-Type': image.type }
       })
       resolve(request)
     } catch (e) {
@@ -140,8 +143,8 @@ export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
 
       const images = values.map(image => {
         const tempObj = {}
-        tempObj.image_URL = image.config.url.split("?")[0]
-        tempObj.image_description = "placeholder image description"
+        tempObj.image_URL = image.config.url.split('?')[0]
+        tempObj.image_description = 'placeholder image description'
         tempObj.image_date = moment().format()
         return tempObj
       })
@@ -151,7 +154,7 @@ export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
   } catch (error) {
     dispatch(
       uploadImagesToS3Failure({
-        message: "Could not upload image.",
+        message: 'Could not upload image.',
         error
       })
     )
@@ -182,7 +185,7 @@ const uploadImagesToS3Failure = ({ message, error }) => ({
 // ==============     UPLOAD PRODUCT     ===============
 // =====================================================
 export const uploadProduct = body => async dispatch => {
-  body.currency_id = "GBP"
+  body.currency_id = 'GBP'
   body.user_id = 1
 
   dispatch(uploadProductRequest)
@@ -193,7 +196,7 @@ export const uploadProduct = body => async dispatch => {
     dispatch(redirect(`/products/${data.data.id}`))
   } catch (error) {
     dispatch(
-      uploadProductFailure({ message: "Could not upload product.", error })
+      uploadProductFailure({ message: 'Could not upload product.', error })
     )
   }
 }
@@ -260,7 +263,7 @@ export const updateProduct = body => async (dispatch, getState) => {
     dispatch(redirect(`/store`))
   } catch (error) {
     dispatch(
-      updateProductFailure({ message: "Could not update product.", error })
+      updateProductFailure({ message: 'Could not update product.', error })
     )
   }
 }
@@ -300,10 +303,10 @@ export const deleteProduct = id => async (dispatch, getState) => {
     })
 
     dispatch(deleteProductSuccess(data))
-    dispatch(redirect("/feed"))
+    dispatch(redirect('/feed'))
   } catch (error) {
     dispatch(
-      deleteProductFailure({ message: "Could not delete product.", error })
+      deleteProductFailure({ message: 'Could not delete product.', error })
     )
   }
 }
@@ -318,7 +321,7 @@ const deleteProductRequest = {
 
 const deleteProductSuccess = () => ({
   type: DELETE_PRODUCT_SUCCESS,
-  success: "Product successfully deleted.",
+  success: 'Product successfully deleted.',
   loadingOverlay: false,
   loadingLine: false
 })
@@ -326,6 +329,44 @@ const deleteProductSuccess = () => ({
 const deleteProductFailure = ({ message, error }) => ({
   type: DELETE_PRODUCT_FAILURE,
   loadingOverlay: false,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ===============      GET PRODUCT     ================
+// =====================================================
+
+export const searchProduct = queryString => async dispatch => {
+  dispatch(searchProductsRequest)
+  try {
+    const { data } = await axios()(
+      `${URLS.SERVER}/products/search${queryString}`
+    )
+    dispatch(searchProductsSuccess(data.data[0]))
+  } catch (error) {
+    dispatch(
+      searchProductsFailure({
+        message: 'Could not search products.',
+        error
+      })
+    )
+  }
+}
+
+const searchProductsRequest = {
+  type: SEARCH_PRODUCTS_REQUEST,
+  loadingLine: true
+}
+
+const searchProductsSuccess = product => ({
+  type: SEARCH_PRODUCTS_SUCCESS,
+  loadingLine: false,
+  payload: product
+})
+
+const searchProductsFailure = ({ message, error }) => ({
+  type: SEARCH_PRODUCTS_FAILURE,
   loadingLine: false,
   error: { message, error }
 })

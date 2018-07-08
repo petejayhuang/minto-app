@@ -1,10 +1,10 @@
 // TODO
 // validation on input (special chars etc)
 // debounce on the input\
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import FacebookLogin from "react-facebook-login"
-import { FACEBOOK_APP_ID } from "../../config/constants"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import FacebookLogin from 'react-facebook-login'
+import { FACEBOOK_APP_ID } from '../../config/constants'
 import {
   authenticateFacebookWithBE,
   getUsernameAvailability,
@@ -12,16 +12,16 @@ import {
   createCustomer,
   addCardToCustomer,
   createTransaction
-} from "../../actions"
+} from '../../actions'
 
 class Login extends Component {
   state = {
     isAuthenticated: false,
-    username_message: "",
-    first_name: "",
-    last_name: "",
-    email: "",
-    username: ""
+    username_message: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    username: ''
   }
 
   fetchTimeout = null
@@ -36,12 +36,13 @@ class Login extends Component {
       this.setState({ isAuthenticated: false })
     } catch (e) {
       this.setState({
-        error: "There was a problem with your sign up, please try again"
+        error: 'There was a problem with your sign up, please try again'
       })
     }
   }
 
   handleUsernameInputChange = value => {
+    this.setState({ username: value })
     if (this.fetchTimeout) {
       clearTimeout(this.fetchTimeout)
     }
@@ -54,7 +55,7 @@ class Login extends Component {
             this.setState({
               available: response.data.data.available,
               username_message: response.data.data.available
-                ? "Yes can do!"
+                ? 'Yes can do!'
                 : "That username isn't available =("
             })
           })
@@ -72,6 +73,7 @@ class Login extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     const { first_name, last_name, email, username } = this.state
+
     await this.props.updateUser({
       first_name,
       last_name,
@@ -79,18 +81,11 @@ class Login extends Component {
       username
     })
 
-    await this.props.createCustomer({
-      first_name: first_name || this.props.user.first_name,
-      last_name: last_name || this.props.user.last_name,
-      email: email || this.props.user.email
-    })
 
-    await this.props.addCardToCustomer()
-
-    this.props.createTransaction()
   }
 
   render() {
+    console.log('username change', this.state.username)
     return (
       <div className="route-container p-3">
         {this.props.user.username === null ? (
@@ -100,7 +95,7 @@ class Login extends Component {
               <input
                 required
                 onChange={e =>
-                  this.handleTextInputChange("first_name", e.target.value)
+                  this.handleTextInputChange('first_name', e.target.value)
                 }
                 value={this.state.first_name || this.props.user.first_name}
               />
@@ -110,7 +105,7 @@ class Login extends Component {
               <input
                 required
                 onChange={e =>
-                  this.handleTextInputChange("last_name", e.target.value)
+                  this.handleTextInputChange('last_name', e.target.value)
                 }
                 value={this.state.last_name || this.props.user.last_name}
               />
@@ -120,7 +115,7 @@ class Login extends Component {
               <input
                 required
                 onChange={e =>
-                  this.handleTextInputChange("email", e.target.value)
+                  this.handleTextInputChange('email', e.target.value)
                 }
                 value={this.state.email || this.props.user.email}
               />

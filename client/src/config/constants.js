@@ -1,7 +1,5 @@
 const URLS = {
-  SERVER:
-    "https://5fdfc6df.ngrok.io/api/v1" ||
-    "https://jwl-be-staging.herokuapp.com/api/v1"
+  SERVER: 'https://jwl-be-staging.herokuapp.com/api/v1'
 }
 
 const KEYS = {}

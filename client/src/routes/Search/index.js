@@ -1,18 +1,26 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { getProductCategories } from "../../actions"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getProductCategories, searchProducts } from '../../actions'
 
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 class Search extends Component {
   state = {
-    inputText: ""
+    searchInput: ''
   }
 
   componentDidMount() {
     if (this.props.categories.length === 0) {
       this.props.getProductCategories()
     }
+  }
+
+  handleInputChange = value => {
+    this.setState({ searchInput: value })
+  }
+
+  handleClick = () => {
+    this.props.searchProducts(`?search=${this.state.searchInput}`)
   }
 
   renderCategoryCards = () => {
@@ -35,6 +43,13 @@ class Search extends Component {
   render() {
     return (
       <div className="route-container pl-3 pr-3">
+        <label>What are you looking for?</label>
+        <input
+          type="text"
+          onChange={e => this.handleInputChange(e.target.value)}
+        />
+        <button onClick={this.handleClick}>Search</button>
+
         {this.renderCategoryCards()}
       </div>
     )
@@ -46,5 +61,8 @@ Search.propTypes = {}
 
 export default connect(
   ({ categories }) => ({ categories }),
-  { getProductCategories }
+  {
+    getProductCategories,
+    searchProducts
+  }
 )(Search)

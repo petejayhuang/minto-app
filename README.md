@@ -4,19 +4,27 @@ Style Guidelines
 // loading UI 900
 // navigation 800
 
-------------------------------
+---
 
-To do (FE)
+TODO
 
-- app style
-- make <ImageGrid /> a pure component
-- pass categories to update via action
-- hijack the forward and back buttons on browser (history api to push/pop url)
-- need a profile image route
-- settings/payment
-- logout
-- after adding a new user, it doesn't redirect
-- username isn't updated? - my fault
-- connect search to endpoint
-- separate out payment logic to relevant flows
-- made admin app!  
+- 07-07-2018 app style
+- 07-07-2018 make <ImageGrid /> a pure component
+- 07-07-2018 pass categories to update via action
+- 07-07-2018 need a profile image route
+- 07-07-2018 connect search to endpoint
+- 07-07-2018 separate out payment logic to relevant flows
+  - user adds payment card details
+  - when they click buy, check if they are a customer, if not, create one
+  - createTransaction amount shouldn't be dictated by me, BE should look up product_id and use that value
+- 07-07-2018 make admin app!
+
+DONE
+
+- 07-07-2018 07-07-2018 logout
+- 07-07-2018 07-07-2018 username isn't updated? - my fault
+- 07-07-2018 07-07-2018 settings/payment
+- 07-07-2018 07-07-2018 after adding a new user, it doesn't redirect
+- 07-07-2018 07-07-2018 hijack the forward and back buttons on browser (history api to push/pop url)
+- 07-07-2018 07-07-2018 create cart page
+- 07-07-2018 07-07-2018 create like page

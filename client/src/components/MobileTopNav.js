@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
-import findNavItem from "../utilities/findNavItem"
-import { navItems } from "../config/routing"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import findNavItem from '../utilities/findNavItem'
+import { navItems } from '../config/routing'
 
-import { colors } from "../styles/styleVariables"
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
   max-width: 600px;
@@ -29,7 +29,7 @@ class MobileTopNav extends Component {
       <div className="navbar d-flex justify-content-between align-items-center">
         <div
           onClick={() => (navItem.leftOnClick && navItem.leftOnClick) || null}
-          className="pl-2 icon-wrapper justify-content-start"
+          className="icon-wrapper justify-content-start"
         >
           {navItem.left && navItem.left}
         </div>
@@ -42,7 +42,7 @@ class MobileTopNav extends Component {
         </div>
         <div
           onClick={() => (navItem.rightOnClick && navItem.rightOnClick) || null}
-          className="pr-2 icon-wrapper flex-row justify-content-end"
+          className="icon-wrapper d-flex flex-row justify-content-end"
         >
           {navItem.right && navItem.right}
         </div>

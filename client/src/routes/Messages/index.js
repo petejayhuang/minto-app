@@ -1,15 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import TouchableRow from "../../components/TouchableRow"
-import ChatBubble from "../../components/ChatBubble"
+import TouchableRow from '../../components/TouchableRow'
+import ChatBubble from '../../components/ChatBubble'
 
 const fakeMessageData = [
-  "Hello",
-  "How are you?",
+  'Hello',
+  'How are you?',
   "I'm well thank you, yourself?",
-  "Very good"
+  'Very good'
 ]
 
 const Container = styled.div``
@@ -24,8 +23,5 @@ const Messages = props => {
     </Container>
   )
 }
-
-Messages.defaultProps = {}
-Messages.propTypes = {}
 
 export default Messages
