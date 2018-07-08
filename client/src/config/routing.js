@@ -68,7 +68,10 @@ export const navItems = {
       <Link to="/shopping-cart">
         <ShoppingCartIcon />
       </Link>
-    )
+    ),
+    rightOnClick: () => {
+      console.log('clicked!')
+    }
   },
   feed: {
     middle: <h5 className="m-0 p-0">Feed</h5>,

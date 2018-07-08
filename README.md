@@ -4,9 +4,13 @@ Style Guidelines
 // loading UI 900
 // navigation 800
 
+BE TODO
+- get all: users / products / orders
+- get a: category
+
 ---
 
-TODO
+CLIENT TODO
 
 - 07-07-2018 app style
 - 07-07-2018 make <ImageGrid /> a pure component
@@ -19,7 +23,7 @@ TODO
   - createTransaction amount shouldn't be dictated by me, BE should look up product_id and use that value
 - 07-07-2018 make admin app!
 
-DONE
+CLIENT DONE
 
 - 07-07-2018 07-07-2018 logout
 - 07-07-2018 07-07-2018 username isn't updated? - my fault
@@ -28,3 +32,10 @@ DONE
 - 07-07-2018 07-07-2018 hijack the forward and back buttons on browser (history api to push/pop url)
 - 07-07-2018 07-07-2018 create cart page
 - 07-07-2018 07-07-2018 create like page
+
+ADMIN TODO
+- routes:
+  - /products
+  - /users
+  - /categories
+  - /orders
