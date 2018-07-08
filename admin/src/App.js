@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 // utils
+import renderRoutes from './utilities/renderRoutes'
 
 // styles
 import './styles/App.css'
@@ -16,16 +17,15 @@ class App extends Component {
     return (
       <AppContainer>
         <TopNav />
+        {renderRoutes()}
       </AppContainer>
     )
   }
 }
 
-const mapState = ({}) => ({})
-
 App.propTypes = {}
 
 export default connect(
-  mapState,
+  null,
   null
 )(App)

@@ -28,7 +28,7 @@ class MobileTopNav extends Component {
     <Container>
       <div className="navbar d-flex justify-content-between align-items-center">
         <div
-          onClick={() => (navItem.leftOnClick && navItem.leftOnClick) || null}
+          onClick={(navItem.leftOnClick && navItem.leftOnClick) || null}
           className="icon-wrapper justify-content-start"
         >
           {navItem.left && navItem.left}
@@ -41,7 +41,7 @@ class MobileTopNav extends Component {
           {navItem.middle}
         </div>
         <div
-          onClick={() => (navItem.rightOnClick && navItem.rightOnClick) || null}
+          onClick={(navItem.rightOnClick && navItem.rightOnClick) || null}
           className="icon-wrapper d-flex flex-row justify-content-end"
         >
           {navItem.right && navItem.right}

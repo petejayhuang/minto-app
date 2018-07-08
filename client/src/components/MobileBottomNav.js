@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Link, withRouter } from "react-router-dom"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Link, withRouter } from 'react-router-dom'
 
-import HomeIcon from "../assets/icons/feather-react/HomeIcon"
-import SearchIcon from "../assets/icons/feather-react/SearchIcon"
-import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
-import MessageCircleIcon from "../assets/icons/feather-react/MessageCircleIcon"
-import UserIcon from "../assets/icons/feather-react/UserIcon"
+import HomeIcon from '../assets/icons/feather-react/HomeIcon'
+import SearchIcon from '../assets/icons/feather-react/SearchIcon'
+import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
+import MessageCircleIcon from '../assets/icons/feather-react/MessageCircleIcon'
+import UserIcon from '../assets/icons/feather-react/UserIcon'
 
-import { colors } from "../styles/styleVariables"
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
   position: fixed;
@@ -26,28 +26,28 @@ const Container = styled.div`
 const NAVIGATION_ICONS = [
   {
     component: <HomeIcon />,
-    activeComponent: <HomeIcon strokeWidth="4" />,
-    to: "/feed"
+    activeComponent: <HomeIcon strokeWidth="3" />,
+    to: '/feed'
   },
   {
     component: <SearchIcon />,
-    activeComponent: <SearchIcon strokeWidth="4" />,
-    to: "/search"
+    activeComponent: <SearchIcon strokeWidth="3" />,
+    to: '/search'
   },
   {
     component: <PlusSquareIcon />,
-    activeComponent: <PlusSquareIcon strokeWidth="4" />,
-    to: "/add"
+    activeComponent: <PlusSquareIcon strokeWidth="3" />,
+    to: '/add'
   },
   {
     component: <MessageCircleIcon />,
-    activeComponent: <MessageCircleIcon strokeWidth="4" />,
-    to: "/messages"
+    activeComponent: <MessageCircleIcon strokeWidth="3" />,
+    to: '/messages'
   },
   {
     component: <UserIcon />,
-    activeComponent: <UserIcon strokeWidth="4" />,
-    to: "/store/1"
+    activeComponent: <UserIcon strokeWidth="3" />,
+    to: '/store/1'
   }
 ]
 
