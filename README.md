@@ -5,6 +5,7 @@ Style Guidelines
 // navigation 800
 
 BE TODO
+
 - get all: users / products / orders
 - get a: category
 
@@ -34,8 +35,12 @@ CLIENT DONE
 - 07-07-2018 07-07-2018 create like page
 
 ADMIN TODO
+
 - routes:
   - /products
   - /users
   - /categories
   - /orders
+- redirect after update/ delete
+- product, user, order approvals
+- research: can we have buckets that are both private & public (profile passport photos/ product photos)

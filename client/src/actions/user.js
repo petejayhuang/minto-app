@@ -35,7 +35,7 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
       }
     })
 
-    localStorage.setItem('x-auth-token', data.headers['x-auth-token'])
+    localStorage.setItem('x-admin-auth-token', data.headers['x-auth-token'])
 
     dispatch(authenticateFacebookWithBESuccess(data.data))
 
@@ -212,7 +212,6 @@ const createCustomerFailure = ({ error, message }) => ({
 // ===============      LOGOUT USER     ================
 // =====================================================
 
-export const logoutUser = () => dispatch =>
-  dispatch({
-    type: LOGOUT_USER
-  })
+export const logoutUser = {
+  type: LOGOUT_USER
+}

@@ -8,7 +8,7 @@ import renderRoutes from './utilities/renderRoutes'
 // styles
 import './styles/App.css'
 import styled from 'styled-components'
-import { TopNav } from './components/TopNav'
+import TopNav from './components/TopNav'
 
 const AppContainer = styled.div``
 
