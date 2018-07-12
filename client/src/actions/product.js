@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import axios from '../utilities/axios'
 import { URLS } from '../config/constants'
-import moment from 'moment'
 import { redirect } from './ui'
 
 import {
@@ -11,12 +10,12 @@ import {
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAILURE,
-  UPLOAD_TO_S3_REQUEST,
-  UPLOAD_TO_S3_SUCCESS,
-  UPLOAD_TO_S3_FAILURE,
   UPLOAD_PRODUCT_REQUEST,
   UPLOAD_PRODUCT_SUCCESS,
   UPLOAD_PRODUCT_FAILURE,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_FAILURE,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAILURE,
@@ -24,6 +23,8 @@ import {
   SEARCH_PRODUCTS_SUCCESS,
   SEARCH_PRODUCTS_FAILURE
 } from './types'
+
+import { uploadImagesToS3 } from './images'
 
 // =====================================================
 // ==========     GET PRODUCT CATEGORIES     ===========
@@ -99,101 +100,35 @@ const getProductFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ===============     UPLOAD TO S3     ================
-// =====================================================
-
-const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const request = await axios().put(url, image, {
-        headers: { 'Content-Type': image.type }
-      })
-      resolve(request)
-    } catch (e) {
-      reject(e)
-    }
-  })
-
-export const uploadImagesToS3 = ({ images, form }) => async dispatch => {
-  dispatch(uploadImagesToS3Request)
-
-  // Take array of image objects, and return array of file names
-  const imagesNamesArray = images.map(current => current.name)
-
-  try {
-    // BE will return an array of uploadConfigs
-    const uploadConfigs = await axios().post(`${URLS.SERVER}/uploads`, {
-      images: imagesNamesArray
-    })
-
-    const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
-      const { imageName, key, url } = uploadConfig
-      const image = images.find(image => image.name === imageName)
-
-      return uploadToS3UsingSignedUrlPromise({
-        imageName: imageName,
-        key: key,
-        url: url,
-        image
-      })
-    })
-
-    Promise.all(arrayOfUploadToS3Promises).then(values => {
-      dispatch(uploadImagesToS3Success(values))
-
-      const images = values.map(image => {
-        const tempObj = {}
-        tempObj.image_URL = image.config.url.split('?')[0]
-        tempObj.image_description = 'placeholder image description'
-        tempObj.image_date = moment().format()
-        return tempObj
-      })
-
-      dispatch(uploadProduct({ images, ...form }))
-    })
-  } catch (error) {
-    dispatch(
-      uploadImagesToS3Failure({
-        message: 'Could not upload image.',
-        error
-      })
-    )
-  }
-}
-
-const uploadImagesToS3Request = {
-  type: UPLOAD_TO_S3_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage:
-    "Uploading your product, please don't refresh the page!",
-  loadingLine: false
-}
-const uploadImagesToS3Success = response => ({
-  type: UPLOAD_TO_S3_SUCCESS,
-  loadingOverlay: false,
-  loadingLine: false,
-  payload: response
-})
-const uploadImagesToS3Failure = ({ message, error }) => ({
-  type: UPLOAD_TO_S3_FAILURE,
-  loadingOverlay: false,
-  loadingLine: false,
-  error: { message, error }
-})
-
-// =====================================================
 // ==============     UPLOAD PRODUCT     ===============
 // =====================================================
-export const uploadProduct = body => async dispatch => {
-  body.currency_id = 'GBP'
-  body.user_id = 1
+export const uploadProduct = ({ images, form }) => async (
+  dispatch,
+  getState
+) => {
+  const {
+    user: { user_id }
+  } = getState()
+  const body = {
+    ...form,
+    currency_id: 'GBP',
+    user_id
+  }
 
   dispatch(uploadProductRequest)
 
   try {
-    const { data } = await axios().post(`${URLS.SERVER}/products`, body)
+    const imageData = await dispatch(
+      uploadImagesToS3({ images, upload_type: 'product' })
+    )
+    body.images = imageData
+
+    const uploadedProduct = await axios().post(`${URLS.SERVER}/products`, body)
+
     dispatch(uploadProductSuccess())
-    dispatch(redirect(`/products/${data.data.id}`))
+
+    console.log(user_id)
+    dispatch(redirect(`/store/${user_id}`))
   } catch (error) {
     dispatch(
       uploadProductFailure({ message: 'Could not upload product.', error })
@@ -228,39 +163,19 @@ const uploadProductFailure = ({ message, error }) => ({
 
 // notes
 // when a field isn't touched, state initial values are passed to this call
-export const updateProduct = body => async (dispatch, getState) => {
-  const { product_id } = getState().product
+export const updateProduct = formValues => async (dispatch, getState) => {
+  const {
+    user: { id }
+  } = getState()
 
-  body.user_id = 1
-
-  _.pickBy(body, true)
-
-  // const updateBody = _.pick(product, [
-  //   "category_id",
-  //   "description",
-  //   "meet_in_person_YN",
-  //   "price",
-  //   "product_id",
-  //   "shipping_YN",
-  //   "user_id"
-  // ])
-
-  // updateBody.currency_id = "GBP"
-  // updateBody.user_id = 1
-
-  // return Object.keys(data).reduce((accumulator, currentItem) => {
-  //   if (data[currentItem]) {
-  //     accumulator[currentItem] = data[currentItem]
-  //   }
-  //   return accumulator
-  // }, {})
+  const body = _.pickBy(formValues, _.identity())
 
   dispatch(updateProductRequest)
 
   try {
     const { data } = await axios().put(`${URLS.SERVER}/products`, body)
     dispatch(updateProductSuccess())
-    dispatch(redirect(`/store`))
+    dispatch(redirect(`/store/${id}`))
   } catch (error) {
     dispatch(
       updateProductFailure({ message: 'Could not update product.', error })
@@ -269,7 +184,7 @@ export const updateProduct = body => async (dispatch, getState) => {
 }
 
 const updateProductRequest = {
-  type: UPLOAD_PRODUCT_REQUEST,
+  type: UPDATE_PRODUCT_REQUEST,
   loadingOverlay: true,
   loadingOverlayMessage:
     "Updating your product, please don't refresh the page!",
@@ -277,13 +192,13 @@ const updateProductRequest = {
 }
 
 const updateProductSuccess = () => ({
-  type: UPLOAD_PRODUCT_SUCCESS,
+  type: UPDATE_PRODUCT_SUCCESS,
   loadingOverlay: false,
   loadingLine: false
 })
 
 const updateProductFailure = ({ message, error }) => ({
-  type: UPLOAD_PRODUCT_FAILURE,
+  type: UPDATE_PRODUCT_FAILURE,
   loadingOverlay: false,
   loadingLine: false,
   error: { message, error }
@@ -334,10 +249,10 @@ const deleteProductFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ===============      GET PRODUCT     ================
+// ==============      SEARCH PRODUCT     ==============
 // =====================================================
 
-export const searchProduct = queryString => async dispatch => {
+export const searchProducts = queryString => async dispatch => {
   dispatch(searchProductsRequest)
   try {
     const { data } = await axios()(

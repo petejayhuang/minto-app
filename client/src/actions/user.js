@@ -8,6 +8,9 @@ import {
   AUTH_FB_WITH_BE_REQUEST,
   AUTH_FB_WITH_BE_SUCCESS,
   AUTH_FB_WITH_BE_FAILURE,
+  UPLOAD_SENSITIVE_IMAGE_REQUEST,
+  UPLOAD_SENSITIVE_IMAGE_SUCCESS,
+  UPLOAD_SENSITIVE_IMAGE_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
@@ -20,10 +23,11 @@ import {
   LOGOUT_USER
 } from './types'
 
+import { uploadImagesToS3 } from './images'
+
 // =====================================================
 // ==============      AUTH FB w/ BE     ===============
 // =====================================================
-
 export const authenticateFacebookWithBE = accessToken => async dispatch => {
   dispatch(authenticateFacebookWithBERequest)
   try {
@@ -34,11 +38,8 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
         Authorization: `Bearer ${accessToken}`
       }
     })
-
-    localStorage.setItem('x-admin-auth-token', data.headers['x-auth-token'])
-
+    localStorage.setItem('x-auth-token', data.headers['x-auth-token'])
     dispatch(authenticateFacebookWithBESuccess(data.data))
-
     if (data.data.username) {
       dispatch(redirect('/feed'))
     }
@@ -51,18 +52,15 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
     )
   }
 }
-
 const authenticateFacebookWithBERequest = {
   type: AUTH_FB_WITH_BE_REQUEST,
   loadingLine: true
 }
-
 const authenticateFacebookWithBESuccess = user => ({
   type: AUTH_FB_WITH_BE_SUCCESS,
   loadingLine: false,
   payload: user
 })
-
 const authenticateFacebookWithBEFailure = ({ message, error }) => ({
   type: AUTH_FB_WITH_BE_FAILURE,
   loadingLine: false,
@@ -72,11 +70,9 @@ const authenticateFacebookWithBEFailure = ({ message, error }) => ({
 // =====================================================
 // ========      GET USERNAME AVAILABILITY     =========
 // =====================================================
-
 export const getUsernameAvailability = username => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(getUsernameAvailabilityRequest)
-
     try {
       const data = customAxios()(`/users/username_availability/${username}`)
       dispatch(getUsernameAvailabilitySuccess)
@@ -92,22 +88,69 @@ export const getUsernameAvailability = username => dispatch => {
     }
   })
 }
-
 const getUsernameAvailabilityRequest = {
   type: GET_USERNAME_AVAILABILITY_REQUEST,
   loadingLine: true
 }
-
 const getUsernameAvailabilitySuccess = {
   type: GET_USERNAME_AVAILABILITY_SUCCESS,
   loadingLine: false
 }
-
 const getUsernameAvailabilityFailure = ({ message, error }) => ({
   type: GET_USERNAME_AVAILABILITY_FAILURE,
   loadingLine: false,
   error: { message, error }
 })
+
+// =====================================================
+// ==========     UPLOAD SENSITIVE IMAGE     ===========
+// =====================================================
+export const uploadSensitiveImage = ({ images }) => async dispatch => {
+  dispatch(uploadSensitiveImageRequest)
+  try {
+    const image = await dispatch(
+      uploadImagesToS3({ images, upload_type: 'document' })
+    )
+
+    // TODO use update user action!
+    const { data } = await customAxios().put('/users', {
+      national_id_URL: image[0].image_URL
+    })
+
+    dispatch(uploadSensitiveImageSuccess)
+  } catch (error) {
+    dispatch(
+      uploadSensitiveImageFailure({
+        message: 'Could not upload document.',
+        error
+      })
+    )
+  }
+}
+
+const uploadSensitiveImageRequest = {
+  type: UPLOAD_SENSITIVE_IMAGE_REQUEST,
+  loadingOverlay: true,
+  loadingOverlayMessage:
+    "Uploading your document, please don't refresh the page!",
+  loadingLine: false
+}
+
+const uploadSensitiveImageSuccess = {
+  type: UPLOAD_SENSITIVE_IMAGE_SUCCESS,
+  loadingOverlay: false,
+  loadingLine: false
+}
+
+const uploadSensitiveImageFailure = ({ message, error }) => ({
+  type: UPLOAD_SENSITIVE_IMAGE_FAILURE,
+  loadingOverlay: false,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// TODO update profile pic
+// { document_type: 'profile', images: []}
 
 // =====================================================
 // ===============      UPDATE USER     ================
@@ -117,16 +160,21 @@ export const updateUser = ({
   first_name,
   last_name,
   email,
-  username
+  username,
+  profile_URL,
+  redirect_URL
 }) => async dispatch => {
   dispatch(updateUserRequest)
 
+  // make this dynamic, whatever it it receives it will update
+  // could be 1 or two!
   const body = _.pickBy(
     {
       first_name,
       last_name,
       email,
-      username
+      username,
+      profile_URL
     },
     _.identity()
   )
@@ -135,6 +183,9 @@ export const updateUser = ({
     const { data } = await customAxios().put('/users', body)
 
     dispatch(updateUserSuccess(data.data))
+    if (redirect_URL) {
+      dispatch(redirect(redirect_URL))
+    }
   } catch (error) {
     dispatch(
       updateUserFailure({
@@ -211,7 +262,11 @@ const createCustomerFailure = ({ error, message }) => ({
 // =====================================================
 // ===============      LOGOUT USER     ================
 // =====================================================
-
-export const logoutUser = {
-  type: LOGOUT_USER
+export const logoutUser = () => dispatch => {
+  console.log('logout action')
+  dispatch(redirect('/feed'))
+  localStorage.removeItem('x-auth-token')
+  dispatch({
+    type: LOGOUT_USER
+  })
 }

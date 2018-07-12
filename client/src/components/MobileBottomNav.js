@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link, withRouter } from 'react-router-dom'
 
@@ -23,34 +23,6 @@ const Container = styled.div`
   }
 `
 
-const NAVIGATION_ICONS = [
-  {
-    component: <HomeIcon />,
-    activeComponent: <HomeIcon strokeWidth="3" />,
-    to: '/feed'
-  },
-  {
-    component: <SearchIcon />,
-    activeComponent: <SearchIcon strokeWidth="3" />,
-    to: '/search'
-  },
-  {
-    component: <PlusSquareIcon />,
-    activeComponent: <PlusSquareIcon strokeWidth="3" />,
-    to: '/add'
-  },
-  {
-    component: <MessageCircleIcon />,
-    activeComponent: <MessageCircleIcon strokeWidth="3" />,
-    to: '/messages'
-  },
-  {
-    component: <UserIcon />,
-    activeComponent: <UserIcon strokeWidth="3" />,
-    to: '/store/1'
-  }
-]
-
 class MobileBottomNav extends Component {
   // static functions are declared on the class, not the particular instance
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -65,8 +37,36 @@ class MobileBottomNav extends Component {
     currentPathname: this.props.location.pathname
   }
 
+  NAVIGATION_ICONS = [
+    {
+      component: <HomeIcon />,
+      activeComponent: <HomeIcon strokeWidth="3" />,
+      to: '/feed'
+    },
+    {
+      component: <SearchIcon />,
+      activeComponent: <SearchIcon strokeWidth="3" />,
+      to: '/search'
+    },
+    {
+      component: <PlusSquareIcon />,
+      activeComponent: <PlusSquareIcon strokeWidth="3" />,
+      to: '/add'
+    },
+    {
+      component: <MessageCircleIcon />,
+      activeComponent: <MessageCircleIcon strokeWidth="3" />,
+      to: '/messages'
+    },
+    {
+      component: <UserIcon />,
+      activeComponent: <UserIcon strokeWidth="3" />,
+      to: `/store/${this.props.user.id}`
+    }
+  ]
+
   renderIcons = () =>
-    NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
+    this.NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
       <div
         key={to}
         className="d-flex justify-content-center align-items-center p-1"
@@ -92,4 +92,7 @@ MobileBottomNav.propTypes = {}
 
 MobileBottomNav.defaultProps = {}
 
-export default withRouter(MobileBottomNav)
+export default connect(
+  ({ user }) => ({ user }),
+  null
+)(withRouter(MobileBottomNav))

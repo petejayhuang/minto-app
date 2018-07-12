@@ -8,7 +8,6 @@ class Orders extends Component {
     this.props.getOrders()
   }
   render() {
-    console.log(this.props.orders)
 
     return (
       <div className="container-fluid">

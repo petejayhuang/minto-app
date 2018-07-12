@@ -1,14 +1,14 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import ImageUpload from "../../components/ImageUpload"
+import ImageUpload from '../../components/ImageUpload'
 
-import { getProductCategories, uploadImagesToS3 } from "../../actions"
+import { getProductCategories, uploadProduct } from '../../actions'
 
 class Add extends Component {
   state = {
-    category_id: 11,
-    description: "",
+    category_id: null,
+    description: '',
     images: [],
     meet_in_person: null,
     shipping: null
@@ -54,7 +54,7 @@ class Add extends Component {
   }
 
   handleSubmit = () => {
-    this.props.uploadImagesToS3({
+    this.props.uploadProduct({
       images: this.state.images,
       form: {
         category_id: Number(this.state.category_id),
@@ -81,6 +81,7 @@ class Add extends Component {
   )
 
   render() {
+    console.log(this.state)
     return (
       <div className="route-container p-3">
         <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>
@@ -94,7 +95,7 @@ class Add extends Component {
           <label>Product Description</label>
           <textarea
             onChange={e =>
-              this.handleTextInputChange("description", e.target.value)
+              this.handleTextInputChange('description', e.target.value)
             }
             value={this.state.description}
           />
@@ -104,7 +105,7 @@ class Add extends Component {
           <label>Product Price</label>
           <input
             type="text"
-            onChange={e => this.handleTextInputChange("price", e.target.value)}
+            onChange={e => this.handleTextInputChange('price', e.target.value)}
             value={this.state.price}
           />
         </div>
@@ -113,7 +114,7 @@ class Add extends Component {
           <label htmlFor="shipping">UK Shipping</label>
           <input
             id="shipping"
-            onChange={e => this.handleCheckboxChange("shipping", e)}
+            onChange={e => this.handleCheckboxChange('shipping', e)}
             type="checkbox"
             value="shipping"
           />
@@ -121,7 +122,7 @@ class Add extends Component {
           <div className="d-flex">
             <label htmlFor="meet_in_person">Meet in person</label>
             <input
-              onChange={e => this.handleCheckboxChange("meet_in_person", e)}
+              onChange={e => this.handleCheckboxChange('meet_in_person', e)}
               id="meet_in_person"
               value="meet-in-person"
               type="checkbox"
@@ -139,5 +140,5 @@ class Add extends Component {
 
 export default connect(
   ({ categories }) => ({ categories }),
-  { getProductCategories, uploadImagesToS3 }
+  { getProductCategories, uploadProduct }
 )(Add)

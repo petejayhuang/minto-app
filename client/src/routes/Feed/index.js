@@ -1,7 +1,7 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { getFeed } from "../../actions"
-import ProductCard from "../../components/ProductCard"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getFeed } from '../../actions'
+import ProductCard from '../../components/ProductCard'
 
 class Feed extends Component {
   state = {

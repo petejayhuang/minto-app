@@ -35,9 +35,11 @@ class App extends Component {
       routing,
       ui: { redirect, loadingLine, loadingOverlay },
       error,
-      success
+      success,
+      user
     } = this.props
     const isHomeRoute = routing.location.pathname !== '/'
+    const isLoggedIn = user.user_id
     return (
       <ErrorBoundary>
         <AppContainer>
@@ -47,6 +49,7 @@ class App extends Component {
           {error && <ErrorNotification />}
           {success && <SuccessNotification />}
           {<MobileTopNav />}
+
           {renderRoutes()}
           {isHomeRoute && <MobileBottomNav />}
         </AppContainer>
@@ -55,11 +58,12 @@ class App extends Component {
   }
 }
 
-const mapState = ({ ui, routing, error, success }) => ({
+const mapState = ({ ui, user, routing, error, success }) => ({
   error,
   routing,
   success,
-  ui
+  ui,
+  user
 })
 
 App.propTypes = {

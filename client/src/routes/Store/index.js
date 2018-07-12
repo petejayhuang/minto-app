@@ -59,7 +59,8 @@ class Store extends Component {
             <div>
               <h3>{this.props.store.info.username}</h3>
             </div>
-            <button>follow</button>
+            <button onClick={this.handleMessage}>message seller</button>
+            <button onClick={this.handleFollow}>follow</button>
           </div>
         </div>
 
