@@ -10,7 +10,6 @@ import logger from "redux-logger"
 
 import App from "./App"
 import registerServiceWorker from "./utilities/registerServiceWorker"
-import { KEYS } from "./config/constants"
 
 export const history = createHistory()
 

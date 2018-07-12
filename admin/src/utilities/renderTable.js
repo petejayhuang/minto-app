@@ -23,7 +23,7 @@ export const renderTable = ({ values, match }) => {
   }
 }
 
-const generateTableHeader = ({ values }) => (
+export const generateTableHeader = ({ values }) => (
   <thead>
     <tr>
       {Object.keys(values[0]).map(heading => <th key={heading}>{heading}</th>)}
