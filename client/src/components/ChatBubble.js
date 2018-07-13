@@ -1,5 +1,5 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   .chat-block {
@@ -19,8 +19,8 @@ const ChatBubble = props => {
     <Container>
       <div
         className={`chat-block d-flex justify-content-${
-          right ? "end" : "start"
-        } text-${right ? "right" : "left"} mb-2`}
+          right ? 'end' : 'start'
+        } text-${right ? 'right' : 'left'} mb-2`}
       >
         <div className="chat-max">
           <div className="">

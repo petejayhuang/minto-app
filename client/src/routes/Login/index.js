@@ -10,10 +10,19 @@ import {
   getUsernameAvailability,
   updateUser,
   createCustomer,
+  uploadImagesToS3,
   addCardToCustomer,
   createTransaction
 } from '../../actions'
+import ImageUpload from '../../components/ImageUpload'
+import styled from 'styled-components'
 
+const Container = styled.div`
+img {
+  width: 200px;
+  height: 200p;x
+}
+`
 class Login extends Component {
   state = {
     isAuthenticated: false,
@@ -21,13 +30,19 @@ class Login extends Component {
     first_name: '',
     last_name: '',
     email: '',
-    username: ''
+    username: '',
+    images: [],
+    changeProfileImage: false
   }
 
   fetchTimeout = null
 
   logout = () => {
     this.setState({ isAuthenticated: false })
+  }
+
+  handleChange = () => {
+    this.setState({ changeProfileImage: !this.state.changeProfileImage })
   }
 
   facebookResponse = async fbResponse => {
@@ -66,30 +81,61 @@ class Login extends Component {
     }, 1000)
   }
 
+  addImage = image => {
+    this.setState({
+      images: this.state.images.concat(image)
+    })
+  }
+
+  removeImage = imageName => {
+    const newState = this.state.images.filter(image => {
+      return image.name !== imageName
+    })
+    this.setState({ images: newState })
+  }
+
   handleTextInputChange = (inputName, value) => {
     this.setState({ [inputName]: value })
   }
 
   handleSubmit = async e => {
     e.preventDefault()
-    const { first_name, last_name, email, username } = this.state
+    const { first_name, last_name, email, username, images } = this.state
 
-    await this.props.updateUser({
+    const image = await this.props.uploadImagesToS3({
+      images,
+      upload_type: 'profile_pic'
+    })
+
+    this.props.updateUser({
       first_name,
       last_name,
       email,
-      username
+      username,
+      profile_URL: image[0].image_URL,
+      redirect_URL: '/feed'
     })
-
-
   }
 
   render() {
-    console.log('username change', this.state.username)
     return (
-      <div className="route-container p-3">
-        {this.props.user.username === null ? (
-          <form onSubmit={this.handleSubmit}>
+      <Container className="route-container p-3">
+        {this.props.user.id ? (
+          <div>
+            {this.state.changeProfileImage ? (
+              <div className="d-flex flex-column">
+                Change your profile image
+                <ImageUpload
+                  addImage={this.addImage}
+                  removeImage={this.removeImage}
+                />
+              </div>
+            ) : (
+              <div className="d-flex flex-column">
+                <img src={this.props.user.profile_URL} />
+                <button onClick={this.handleChange}>change</button>
+              </div>
+            )}
             <div className="d-flex flex-column">
               <label>First Name</label>
               <input
@@ -129,8 +175,10 @@ class Login extends Component {
               />
               {this.state.username_message}
             </div>
-            <button type="submit">Next</button>
-          </form>
+            <button onClick={this.handleSubmit} type="submit">
+              Next
+            </button>
+          </div>
         ) : (
           <FacebookLogin
             appId={FACEBOOK_APP_ID}
@@ -139,7 +187,7 @@ class Login extends Component {
             callback={this.facebookResponse}
           />
         )}
-      </div>
+      </Container>
     )
   }
 }
@@ -154,6 +202,7 @@ export default connect(
     getUsernameAvailability,
     updateUser,
     createCustomer,
+    uploadImagesToS3,
     addCardToCustomer,
     createTransaction
   }

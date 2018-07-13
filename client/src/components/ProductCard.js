@@ -1,8 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Link } from "react-router-dom"
-import LikeButton from "./LikeButton"
+import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import LikeButton from './LikeButton'
 
 const Container = styled.div`
   .profile-image {
@@ -27,7 +26,10 @@ const ProductCard = props => {
   return (
     <Container>
       <div className="d-flex align-items-center p-2">
-        <Link to={`/store/${User.user_id}`}>
+        <Link
+          className="d-flex align-items-center"
+          to={`/store/${User.user_id}`}
+        >
           <img
             className="profile-image"
             src="https://pbs.twimg.com/profile_images/419525195540340736/O7lLIrhx_400x400.png"

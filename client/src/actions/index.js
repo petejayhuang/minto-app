@@ -1,6 +1,7 @@
 export * from "./error"
 export * from "./feed"
 export * from "./images"
+export * from "./messages"
 export * from "./orders"
 export * from "./payments"
 export * from "./product"

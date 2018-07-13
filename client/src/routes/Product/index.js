@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import LikeButton from '../../components/LikeButton'
-import { Link } from 'react-router-dom'
+
 import {
   getProductCategories,
   getProduct,
+  createMessageThread,
   updateProduct,
   deleteProduct,
   createOrder
@@ -25,6 +26,7 @@ class Product extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount in Product')
     this.props.getProduct(this.props.match.params.id)
 
     if (this.props.categories.length === 0) {
@@ -53,20 +55,29 @@ class Product extends Component {
     //   last_name: last_name || this.props.user.last_name,
     //   email: email || this.props.user.email
     // })
-
-    await this.props.addCardToCustomer()
-
-    this.props.createTransaction()
-    // check if they have a card
-    const { product_id } = this.props.product
-    this.props.createOrder({
-      product_id
-    })
+    // await this.props.addCardToCustomer()
+    // this.props.createTransaction()
+    // // check if they have a card
+    // const { product_id } = this.props.product
+    // this.props.createOrder({
+    //   product_id
+    // })
+    //
   }
 
   handleDelete = () => {
     this.props.deleteProduct(this.props.product.product_id)
   }
+
+  handleMessage = () => {
+    const { User, product_id } = this.props.product
+
+    this.props.createMessageThread({
+      participant_id: [User.user_id],
+      product_id: product_id
+    })
+  }
+
   handleUpdate = () => {
     const {
       product: {
@@ -100,35 +111,60 @@ class Product extends Component {
   )
 
   render() {
-    const {
-      User,
-      Images,
-      Prices,
-      description,
-      meet_in_person_YN,
-      shipping_YN,
-      product_id
-    } = this.props.product
-
     const { editMode } = this.state
+
     // TODO isOwnProduct
     const isOwnProduct = true
+
     if (this.props.product.Images) {
+      const {
+        categories,
+        product: {
+          User: { user_id, username },
+          Images,
+          Prices,
+          description,
+          meet_in_person_YN,
+          shipping_YN,
+          product_id,
+          category_id
+        }
+      } = this.props
       return (
         <Container className="route-container p-3">
+          {user_id === this.props.user.id && (
+            <div className="d-flex">
+              <button onClick={() => this.setState({ editMode: !editMode })}>
+                {editMode ? 'cancel edits' : 'toggle edit'}
+              </button>
+            </div>
+          )}
+
           <div className="d-flex">
-            <button onClick={() => this.setState({ editMode: !editMode })}>
-              {editMode ? 'cancel edits' : 'toggle edit'}
-            </button>
+            {<img className="img-fluid" src={Images[0].image_URL} />}
           </div>
-          <div className="d-flex">{<img src={Images[0].image_URL} />}</div>
           {!editMode && <div>{product_id}</div>}
-          {!editMode && <div>{User.username}</div>}
+          {!editMode && <div>{username}</div>}
+          {!editMode && (
+            <button onClick={this.handleMessage}>Message seller</button>
+          )}
           {!editMode && <LikeButton />}
 
-          <div className="d-flex flex-column">
-            {this.renderCategoryDropdown()}
-          </div>
+          {!editMode &&
+            categories.length > 0 && (
+              <div>
+                {
+                  categories.filter(
+                    category => category.category_id === category_id
+                  )[0].product_type
+                }
+              </div>
+            )}
+          {editMode && (
+            <div className="d-flex flex-column">
+              {this.renderCategoryDropdown()}
+            </div>
+          )}
           <div className="d-flex flex-column">
             {editMode && <label>Product Description</label>}
             {!editMode ? (
@@ -142,7 +178,6 @@ class Product extends Component {
               />
             )}
           </div>
-
           <div className="d-flex flex-column">
             {editMode && <label>Price</label>}
             {!editMode ? (
@@ -157,7 +192,6 @@ class Product extends Component {
               />
             )}
           </div>
-
           <div className="d-flex flex-column">
             {editMode && <label>meet_in_person_YN</label>}
             {!editMode ? (
@@ -172,7 +206,6 @@ class Product extends Component {
               />
             )}
           </div>
-
           <div className="d-flex flex-column">
             {editMode && <label>shipping_YN</label>}
             {!editMode ? (
@@ -187,8 +220,6 @@ class Product extends Component {
               />
             )}
           </div>
-          {/* MISSING!  */}
-          {/* <div>category_id: {category_id}</div> */}
 
           {!editMode &&
             isOwnProduct && <button onClick={this.handleBuy}>buy</button>}
@@ -202,14 +233,12 @@ class Product extends Component {
   }
 }
 
-Product.defaultProps = {}
-Product.propTypes = {}
-
 export default connect(
-  ({ product, categories }) => ({ product, categories }),
+  ({ product, categories, user }) => ({ product, categories, user }),
   {
     getProduct,
     updateProduct,
+    createMessageThread,
     deleteProduct,
     getProductCategories,
     createOrder

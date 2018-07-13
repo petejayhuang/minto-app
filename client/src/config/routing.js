@@ -4,6 +4,7 @@ import React from 'react'
 import Add from '../routes/Add'
 import AddCard from '../routes/Settings/PaymentDetails/AddCard'
 import AccountDetails from '../routes/Settings/AccountDetails'
+import BecomeASeller from '../routes/Settings/BecomeASeller'
 import Feed from '../routes/Feed'
 import Landing from '../routes/Landing'
 import Likes from '../routes/Likes'
@@ -17,7 +18,8 @@ import Notifications from '../routes/Notifications'
 import Order from '../routes/Order'
 import PaymentDetails from '../routes/Settings/PaymentDetails'
 import Product from '../routes/Product'
-import Search from '../routes/Search/'
+import Reviews from '../routes/Settings/Reviews'
+import Search from '../routes/Search'
 import Settings from '../routes/Settings'
 import ShoppingCart from '../routes/ShoppingCart'
 import Store from '../routes/Store'
@@ -33,6 +35,7 @@ import XIcon from '../assets/icons/feather-react/XIcon'
 export const routes = [
   { path: '/', component: Landing, exact: true },
   { path: '/add', component: Add },
+  { path: '/become-a-seller', component: BecomeASeller },
   { path: '/feed', component: Feed },
   { path: '/likes', component: Likes, exact: true },
   { path: '/login', component: Login, exact: true },
@@ -42,6 +45,7 @@ export const routes = [
   { path: '/orders', component: MyOrders, exact: true },
   { path: '/orders/:id', component: Order, exact: true },
   { path: '/products/:id', component: Product },
+  { path: '/reviews', component: Reviews, exact: true },
   { path: '/search', component: Search, exact: true },
   { path: '/settings', component: Settings, exact: true },
   { path: '/settings/account-details', component: AccountDetails, exact: true },
@@ -72,6 +76,14 @@ export const navItems = {
     rightOnClick: () => {
       console.log('clicked!')
     }
+  },
+  'become-a-seller': {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5 className="m-0 p-0">Become a seller</h5>
   },
   feed: {
     middle: <h5 className="m-0 p-0">Feed</h5>,
@@ -165,6 +177,19 @@ export const navItems = {
   },
   'products/:id': {
     middle: <h5 className="m-0 p-0">View item</h5>,
+    right: (
+      <Link to="/shopping-cart">
+        <ShoppingCartIcon />
+      </Link>
+    )
+  },
+  reviews: {
+    left: (
+      <Link to="/settings">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5 className="m-0 p-0">Reviews</h5>,
     right: (
       <Link to="/shopping-cart">
         <ShoppingCartIcon />

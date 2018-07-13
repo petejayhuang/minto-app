@@ -16,13 +16,21 @@ CLIENT TODO
 - 07-07-2018 app style
 - 07-07-2018 make <ImageGrid /> a pure component
 - 07-07-2018 pass categories to update via action
-- 07-07-2018 need a profile image route
 - 07-07-2018 connect search to endpoint
 - 07-07-2018 separate out payment logic to relevant flows
   - user adds payment card details
   - when they click buy, check if they are a customer, if not, create one
   - createTransaction amount shouldn't be dictated by me, BE should look up product_id and use that value
 - 07-07-2018 make admin app!
+- 12-07-2018 refactor updateUser action to accept all
+- 12-07-2018 update user/ product, doesn;t redirect
+- 12-07-2018 can't get store products?
+- 12-07-2018 make bottom nav go to dynamic store
+- 12-07-2018 update
+- 12-07-2018 create message from product
+- 12-07-2018 sort redirects! 
+- 12-07-2018 when editing product, checkboxes cannot be unchecked!
+
 
 CLIENT DONE
 
@@ -33,6 +41,8 @@ CLIENT DONE
 - 07-07-2018 07-07-2018 hijack the forward and back buttons on browser (history api to push/pop url)
 - 07-07-2018 07-07-2018 create cart page
 - 07-07-2018 07-07-2018 create like page
+
+- 07-07-2018 need a profile image route
 
 ADMIN TODO
 
