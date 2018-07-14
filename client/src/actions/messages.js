@@ -1,5 +1,6 @@
 import axios from '../utilities/axios'
 import { URLS } from '../config/constants'
+import { redirect } from './ui'
 
 import {
   GET_MESSAGE_THREADS_REQUEST,
@@ -20,21 +21,30 @@ import {
 // ==========      CREATE MESSAGE THREAD     ===========
 // =====================================================
 export const createMessageThread = ({
+  username,
   participant_id,
   product_id
 }) => async dispatch => {
   dispatch(createMessageThreadRequest)
   try {
-    const { data } = await axios().post(`${URLS.SERVER}/threads`, {
-      name: `Best Group`,
-      participant_id,
-      product_id
-    })
+    const body = {
+      name: `${product_id && `${product_id} |`} ${username}`,
+      participant_id: [participant_id]
+    }
+
+    if (product_id) {
+      body.product_id = product_id
+    }
+
+    const { data } = await axios().post(`${URLS.SERVER}/threads`, body)
     dispatch(createMessageThreadSuccess(data.data))
+    console.log('data in create message', data)
+
+    dispatch(redirect(`/messages/${data.data.id}`))
   } catch (error) {
     dispatch(
       createMessageThreadFailure({
-        message: 'Could not get message threads.',
+        message: 'Could not create message thread.',
         error
       })
     )
@@ -54,6 +64,7 @@ const createMessageThreadFailure = ({ message, error }) => ({
   loadingLine: false,
   error: { message, error }
 })
+
 // =====================================================
 // ===========      GET MESSAGE THREADS    =============
 // =====================================================
@@ -75,13 +86,11 @@ const getMessageThreadsRequest = {
   type: GET_MESSAGE_THREADS_REQUEST,
   loadingLine: true
 }
-
 const getMessageThreadsSuccess = storeProducts => ({
   type: GET_MESSAGE_THREADS_SUCCESS,
   loadingLine: false,
   payload: storeProducts
 })
-
 const getMessageThreadsFailure = ({ message, error }) => ({
   type: GET_MESSAGE_THREADS_FAILURE,
   loadingLine: false,
@@ -94,6 +103,7 @@ export const getMessageThread = thread_id => async dispatch => {
   dispatch(getMessageThreadRequest)
   try {
     const { data } = await axios()(`${URLS.SERVER}/messages/${thread_id}`)
+
     dispatch(getMessageThreadSuccess(data.data))
   } catch (error) {
     dispatch(
@@ -132,6 +142,7 @@ export const createMessage = ({ body, thread_id }) => async dispatch => {
       thread_id
     })
     dispatch(createMessageSuccess(data.data))
+    dispatch(getMessageThread(thread_id))
   } catch (error) {
     dispatch(
       createMessageFailure({

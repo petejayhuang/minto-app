@@ -27,6 +27,8 @@ import Store from '../routes/Store'
 // FOR NAV ITEMS
 import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
+import MailIcon from '../assets/icons/feather-react/MailIcon'
+import MoreVerticalIcon from '../assets/icons/feather-react/MoreVerticalIcon'
 import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
 import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
 import ShoppingCartIcon from '../assets/icons/feather-react/ShoppingCartIcon'
@@ -115,7 +117,6 @@ export const navItems = {
     )
   },
   messages: {
-    left: <PlusSquareIcon />,
     middle: <h5 className="m-0 p-0">Messages</h5>,
     right: (
       <Link to="/shopping-cart">
@@ -126,15 +127,11 @@ export const navItems = {
   'messages/:id': {
     left: (
       <Link to="/messages">
-        <ChevronLeftIcon />
+        <MailIcon />
       </Link>
     ),
     middle: <h5 className="m-0 p-0">Single Message</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    right: <MoreVerticalIcon />
   },
   notifications: {
     left: (

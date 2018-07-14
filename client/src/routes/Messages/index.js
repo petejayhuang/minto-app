@@ -24,7 +24,7 @@ class Messages extends Component {
             return (
               <TouchableRow
                 key={thread_id}
-                text={`${name} with ${ThreadParticipants['0'].User.username}`}
+                text={name}
                 to={`/messages/${thread_id}`}
               />
             )

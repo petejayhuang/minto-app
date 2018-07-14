@@ -26,7 +26,6 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount in Product')
     this.props.getProduct(this.props.match.params.id)
 
     if (this.props.categories.length === 0) {
@@ -73,6 +72,7 @@ class Product extends Component {
     const { User, product_id } = this.props.product
 
     this.props.createMessageThread({
+      username: [User.username],
       participant_id: [User.user_id],
       product_id: product_id
     })

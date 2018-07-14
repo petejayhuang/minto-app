@@ -2,6 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getMessageThread, createMessage } from '../../actions/'
 import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  .chat-input {
+    position: absolute;
+    bottom: 50px;
+  }
+`
 
 class Message extends Component {
   state = {
@@ -20,22 +28,35 @@ class Message extends Component {
     })
   }
 
+  renderMessages = () => {
+    return this.props.messages.currentThread.map(message => (
+      <p
+        className={
+          message.sender_user_id === this.props.user.id
+            ? 'text-right'
+            : 'text-left'
+        }
+      >
+        {message.body}
+      </p>
+    ))
+  }
+
   render() {
     return (
-      <div className="route-container pl-3 pr-3">
-        {this.props.messages.currentThread.map(message => {
-          return <div>{message.body}</div>
-        })}
+      <Container className="route-container pl-3 pr-3">
+        {this.renderMessages()}
 
-        <label>Your message</label>
-        <input type="text" onChange={this.handleInputChange} />
-        <button onClick={this.handleSend}>Send</button>
-      </div>
+        <div className="chat-input d-flex">
+          <input type="text" onChange={this.handleInputChange} />
+          <button onClick={this.handleSend}>Send</button>
+        </div>
+      </Container>
     )
   }
 }
 
-const mapState = ({ messages }) => ({ messages })
+const mapState = ({ user, messages }) => ({ user, messages })
 
 export default connect(
   mapState,

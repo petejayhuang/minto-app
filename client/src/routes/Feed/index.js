@@ -26,9 +26,7 @@ class Feed extends Component {
   render() {
     return (
       <div className="route-container">
-        {this.props.feed.map(product => (
-          <ProductCard key={product.product_id} {...product} />
-        ))}
+        {this.props.feed.map(product => <ProductCard {...product} />)}
         <button onClick={this.loadMoreProducts}> get more images</button>
       </div>
     )

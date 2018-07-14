@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getStoreInfo, getStoreProducts } from '../../actions'
+import {
+  getStoreInfo,
+  getStoreProducts,
+  createMessageThread
+} from '../../actions'
 import ImageGrid from '../../components/ImageGrid'
 
 class Store extends Component {
@@ -30,6 +34,14 @@ class Store extends Component {
         user_id: store_id
       })
     }
+  }
+
+  handleMessage = () => {
+    const { username, user_id } = this.props.store.info
+    this.props.createMessageThread({
+      username,
+      participant_id: user_id
+    })
   }
 
   loadMoreProducts = () => {
@@ -96,5 +108,5 @@ Store.propTypes = {}
 
 export default connect(
   mapStateToProps,
-  { getStoreInfo, getStoreProducts }
+  { getStoreInfo, getStoreProducts, createMessageThread }
 )(Store)
