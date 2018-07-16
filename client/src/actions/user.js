@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import axios from 'axios'
-import customAxios from '../utilities/axios'
+import customAxios from '../config/axios'
 import { redirect } from './ui'
 import { URLS } from '../config/constants'
 
@@ -113,7 +113,7 @@ export const uploadSensitiveImage = ({ images }) => async dispatch => {
     )
 
     // TODO use update user action!
-    const { data } = await customAxios().put('/users', {
+    await customAxios().put('/users', {
       national_id_URL: image[0].image_URL
     })
 

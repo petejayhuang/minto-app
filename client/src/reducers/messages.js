@@ -13,8 +13,7 @@ export default (state = initialState, action) => {
     case GET_MESSAGE_THREADS_SUCCESS:
       return { ...state, threads: action.payload }
     case GET_MESSAGE_THREAD_SUCCESS:
-      const currentThread = [...state.threads, ...action.payload]
-      return { ...state, currentThread }
+      return { ...state, ...action.payload }
     default:
       return state
   }

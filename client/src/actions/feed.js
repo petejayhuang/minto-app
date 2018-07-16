@@ -1,4 +1,4 @@
-import axios from "../utilities/axios"
+import axios from "../config/axios"
 import { URLS } from "../config/constants"
 
 import { GET_FEED_REQUEST, GET_FEED_SUCCESS, GET_FEED_FAILURE } from "./types"

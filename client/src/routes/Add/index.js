@@ -10,8 +10,8 @@ class Add extends Component {
     category_id: null,
     description: '',
     images: [],
-    meet_in_person: null,
-    shipping: null
+    meet_in_person: false,
+    shipping: false
   }
 
   componentDidMount() {
@@ -49,7 +49,7 @@ class Add extends Component {
 
   handleCheckboxChange = (checkboxName, e) => {
     this.setState({
-      [checkboxName]: !this.state.meet_in_person
+      [checkboxName]: !this.state[checkboxName]
     })
   }
 
@@ -117,6 +117,7 @@ class Add extends Component {
             onChange={e => this.handleCheckboxChange('shipping', e)}
             type="checkbox"
             value="shipping"
+            checked={this.state.shipping}
           />
 
           <div className="d-flex">
@@ -126,6 +127,7 @@ class Add extends Component {
               id="meet_in_person"
               value="meet-in-person"
               type="checkbox"
+              checked={this.state.meet_in_person}
             />
           </div>
         </div>

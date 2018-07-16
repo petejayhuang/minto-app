@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import axios from '../utilities/axios'
+import axios from "../config/axios"
 import { URLS } from '../config/constants'
 import { redirect } from './ui'
 
@@ -168,11 +168,21 @@ export const updateProduct = formValues => async (dispatch, getState) => {
     user: { id }
   } = getState()
 
-  const body = _.pickBy(formValues, _.identity())
+  const pickItems = [
+    'product_id',
+    'category_id',
+    'description',
+    'price',
+    'meet_in_person_YN',
+    'shipping_YN'
+  ]
+
+  const body = _.pick(formValues, pickItems)
 
   dispatch(updateProductRequest)
 
   try {
+    console.log('Body', body)
     const { data } = await axios().put(`${URLS.SERVER}/products`, body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store/${id}`))

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ChevronDownIcon = ({ fill, stroke, strokeWidth }) => (
+const SendIcon = ({ fill, stroke, strokeWidth }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -11,16 +11,17 @@ const ChevronDownIcon = ({ fill, stroke, strokeWidth }) => (
     strokeWidth={strokeWidth}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="feather feather-chevron-down"
+    className="feather feather-send"
   >
-    <polyline points="6 9 12 15 18 9" />
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
   </svg>
 )
 
-ChevronDownIcon.defaultProps = {
+SendIcon.defaultProps = {
   fill: 'none',
   stroke: 'black',
   strokeWidth: '2'
 }
 
-export default ChevronDownIcon
+export default SendIcon

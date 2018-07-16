@@ -1,4 +1,4 @@
-import customAxios from '../utilities/axios'
+import axios from "../config/axios"
 import { URLS } from '../config/constants'
 
 import {
@@ -16,7 +16,7 @@ import {
 export const addCardToCustomer = () => async dispatch => {
   dispatch(addCardToCustomerRequest)
   try {
-    const data = await customAxios().post(
+    const data = await axios().post(
       `${URLS.SERVER}/payments/credit_card`,
       {
         number: '4111111111111111',
@@ -58,7 +58,7 @@ const addCardToCustomerFailure = ({ error, message }) => ({
 export const createTransaction = () => async dispatch => {
   dispatch(createTransactionRequest)
   try {
-    const { data } = await customAxios().post(
+    const { data } = await axios().post(
       `${URLS.SERVER}/payments/transactions/sale`,
       {
         amount: 12345

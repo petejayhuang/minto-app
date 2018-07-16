@@ -9,9 +9,9 @@ const MoreVerticalIcon = ({ fill, stroke, strokeWidth }) => (
     fill={fill}
     stroke={stroke}
     strokeWidth={strokeWidth}
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="feather feather-more-vertical"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="feather feather-more-vertical"
   >
     <circle cx="12" cy="12" r="1" />
     <circle cx="12" cy="5" r="1" />

@@ -41,7 +41,8 @@ class Product extends Component {
     this.setState({ [inputName]: value })
   }
 
-  handleCheckboxChange = (checkboxName, e) => {
+  handleCheckboxChange = event => {
+    const checkboxName = event.target.name
     this.setState({
       [checkboxName]: !this.state[checkboxName]
     })
@@ -95,8 +96,8 @@ class Product extends Component {
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
       price: Number(this.state.price) || Prices[0].price,
-      meet_in_person_YN: this.state.meet_in_person || meet_in_person_YN,
-      shipping_YN: this.state.shipping || shipping_YN
+      meet_in_person_YN: this.state.meet_in_person,
+      shipping_YN: this.state.shipping
     })
   }
 
@@ -113,9 +114,6 @@ class Product extends Component {
   render() {
     const { editMode } = this.state
 
-    // TODO isOwnProduct
-    const isOwnProduct = true
-
     if (this.props.product.Images) {
       const {
         categories,
@@ -130,9 +128,14 @@ class Product extends Component {
           category_id
         }
       } = this.props
+
+      const isOwnProduct = user_id === this.props.user.id
+      // console.log('<Product />', this.state)
+      console.log('<Product /> meet in person', this.state.meet_in_person)
+      console.log('<Product /> shipping', this.state.shipping)
       return (
         <Container className="route-container p-3">
-          {user_id === this.props.user.id && (
+          {isOwnProduct && (
             <div className="d-flex">
               <button onClick={() => this.setState({ editMode: !editMode })}>
                 {editMode ? 'cancel edits' : 'toggle edit'}
@@ -143,11 +146,13 @@ class Product extends Component {
           <div className="d-flex">
             {<img className="img-fluid" src={Images[0].image_URL} />}
           </div>
+
           {!editMode && <div>{product_id}</div>}
           {!editMode && <div>{username}</div>}
-          {!editMode && (
-            <button onClick={this.handleMessage}>Message seller</button>
-          )}
+          {!editMode &&
+            !isOwnProduct && (
+              <button onClick={this.handleMessage}>Message seller</button>
+            )}
           {!editMode && <LikeButton />}
 
           {!editMode &&
@@ -193,36 +198,40 @@ class Product extends Component {
             )}
           </div>
           <div className="d-flex flex-column">
-            {editMode && <label>meet_in_person_YN</label>}
+            {editMode && (
+              <label htmlFor="meet_in_person">meet_in_person_YN</label>
+            )}
             {!editMode ? (
               <div>meet_in_person_YN: {meet_in_person_YN ? 'yes' : 'no'}</div>
             ) : (
               <input
-                onChange={e => this.handleCheckboxChange('meet_in_person', e)}
+                name="meet_in_person"
                 id="meet_in_person"
-                value="meet-in-person"
-                checked={this.state.meet_in_person || meet_in_person_YN}
                 type="checkbox"
+                onChange={this.handleCheckboxChange}
+                value="meet_in_person"
+                checked={this.state.meet_in_person}
               />
             )}
           </div>
           <div className="d-flex flex-column">
-            {editMode && <label>shipping_YN</label>}
+            {editMode && <label htmlFor="shipping">shipping_YN</label>}
             {!editMode ? (
               <div>shipping_YN: {shipping_YN ? 'yes' : 'no'}</div>
             ) : (
               <input
-                onChange={e => this.handleCheckboxChange('shipping', e)}
-                id="shipping"
-                value="shipping"
-                checked={this.state.shipping || shipping_YN}
                 type="checkbox"
+                id="shipping"
+                name="shipping"
+                value="shipping"
+                onChange={this.handleCheckboxChange}
+                checked={this.state.shipping}
               />
             )}
           </div>
 
           {!editMode &&
-            isOwnProduct && <button onClick={this.handleBuy}>buy</button>}
+            !isOwnProduct && <button onClick={this.handleBuy}>buy</button>}
           {editMode && <button onClick={this.handleUpdate}>update</button>}
           {editMode && <button onClick={this.handleDelete}>delete</button>}
         </Container>

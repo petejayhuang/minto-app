@@ -1,4 +1,4 @@
-import axios from "../utilities/axios"
+import axios from "../config/axios"
 import { URLS } from "../config/constants"
 import { redirect } from "./ui"
 

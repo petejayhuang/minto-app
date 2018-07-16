@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/9.6.1/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js dev
+  /usr/local/Cellar/node/9.6.1/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js start
 
 PATH: 
   /Users/ph/.rvm/gems/ruby-2.2.7/bin:/Users/ph/.rvm/gems/ruby-2.2.7@global/bin:/Users/ph/.rvm/rubies/ruby-2.2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ph/.rvm/gems/ruby-2.2.7/bin:/Users/ph/.rvm/gems/ruby-2.2.7@global/bin:/Users/ph/.rvm/rubies/ruby-2.2.7/bin:/Users/ph/.rvm/bin:/Users/ph/.rvm/bin
@@ -42,9 +42,9 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 127
+  Exit code: 1
   Command: sh
-  Arguments: -c concurrently " npm run server" "npm run client"
+  Arguments: -c node app.js
   Directory: /Users/ph/Desktop/jwl-fe
   Output:
   

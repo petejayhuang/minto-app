@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import { getMessageThread, createMessage } from '../../actions/'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
+import SendIcon from '../../assets/icons/feather-react/SendIcon'
 
 const Container = styled.div`
   .chat-input {
@@ -26,11 +28,13 @@ class Message extends Component {
       thread_id: this.props.match.params.id,
       body: this.state.message
     })
+    this.setState({ message: '' })
   }
 
   renderMessages = () => {
     return this.props.messages.currentThread.map(message => (
       <p
+        key={message.id}
         className={
           message.sender_user_id === this.props.user.id
             ? 'text-right'
@@ -48,8 +52,14 @@ class Message extends Component {
         {this.renderMessages()}
 
         <div className="chat-input d-flex">
-          <input type="text" onChange={this.handleInputChange} />
-          <button onClick={this.handleSend}>Send</button>
+          <input
+            type="text"
+            onChange={this.handleInputChange}
+            value={this.state.message}
+          />
+          <div onClick={this.handleSend}>
+            <SendIcon />
+          </div>
         </div>
       </Container>
     )

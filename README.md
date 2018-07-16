@@ -23,10 +23,8 @@ CLIENT TODO
   - createTransaction amount shouldn't be dictated by me, BE should look up product_id and use that value
 - 07-07-2018 make admin app!
 - 12-07-2018 refactor updateUser action to accept all
-- 12-07-2018 update user/ product, doesn't subsequently redirect
-
+- 12-07-2018 update user, doesn't subsequently redirect
 - 12-07-2018 sort redirects!
-- 12-07-2018 when editing product, checkboxes cannot be unchecked!
 
 CLIENT DONE
 
@@ -42,6 +40,8 @@ CLIENT DONE
 - 14-07-2018 create message from product
 - 14-07-2018 can't get store products?
 - 14-07-2018 create new message from store/ product => redirect and refresh page as appropriate
+- 16-07-2018 when editing product, checkboxes cannot be unchecked!
+- 16-07-2018 update product, doesn't subsequently redirect
 
 ADMIN TODO
 
