@@ -1,15 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
+import { colors } from '../styles/styleVariables'
 import { Link } from 'react-router-dom'
-import LikeButton from './LikeButton'
 
 const Container = styled.div`
+  border: 1px solid ${colors.border};
+  margin-bottom: 40px;
+  background-color: white;
   .profile-image {
     height: 50px;
     width: 50px;
   }
   .product-image {
-    width: 100%;
+    width: 100vw;
+    max-width: 600px;
+    height: 100vw;
+    max-height: 600px;
   }
 `
 
@@ -30,27 +36,29 @@ const ProductCard = props => {
           className="d-flex align-items-center"
           to={`/store/${User.user_id}`}
         >
-          <img
-            className="profile-image"
-            src="https://pbs.twimg.com/profile_images/419525195540340736/O7lLIrhx_400x400.png"
-          />
-          <div className="ml-2">
+          <img className="ml-1 profile-image" src={User.profile_URL} />
+          <div className="ml-3">
             <strong>{User.username}</strong>
           </div>
         </Link>
       </div>
       <Link to={`/products/${product_id}`}>
-        <div>
-          <img className="product-image" src={Images[0].image_URL} />
+        <div
+          className="product-image"
+          key={product_id}
+          style={{
+            backgroundImage: `url(${Images[0].image_URL})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover'
+          }}
+        />
+      </Link>
+      <Link to={`/products/${product_id}`}>
+        <div className="p-2 mb-3 d-flex flex-column">
+          <strong>£{Prices[0].price}</strong>
+          {`${description.slice(0, 500)}`}
         </div>
       </Link>
-      <div className="p-2 mb-3">
-        <LikeButton id={product_id} />
-        <div>
-          <strong>{Prices[0].price}</strong>
-        </div>
-        <div>{`${description.slice(0, 200)}...`}</div>
-      </div>
     </Container>
   )
 }

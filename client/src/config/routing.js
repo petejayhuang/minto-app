@@ -39,45 +39,23 @@ export const routes = [
   { path: '/add', component: Add },
   { path: '/become-a-seller', component: BecomeASeller },
   { path: '/feed', component: Feed },
-  { path: '/likes', component: Likes, exact: true },
   { path: '/login', component: Login, exact: true },
   { path: '/messages', component: Messages, exact: true },
   { path: '/messages/:id', component: Message },
-  { path: '/notifications', component: Notifications },
-  { path: '/orders', component: MyOrders, exact: true },
-  { path: '/orders/:id', component: Order, exact: true },
   { path: '/products/:id', component: Product },
-  { path: '/reviews', component: Reviews, exact: true },
   { path: '/search', component: Search, exact: true },
   { path: '/settings', component: Settings, exact: true },
-  { path: '/settings/account-details', component: AccountDetails, exact: true },
-  { path: '/settings/add-card', component: AddCard, exact: true },
-  { path: '/settings/payment-details', component: PaymentDetails, exact: true },
   { path: '/settings/logout', component: Logout, exact: true },
-  { path: '/shopping-cart', component: ShoppingCart, exact: true },
   { path: '/store/:id', component: Store },
   { path: '*', component: NotFound }
 ]
 
 export const navItems = {
   '': {
-    middle: <h5 className="m-0 p-0">Home</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Home</h5>
   },
   add: {
-    middle: <h5 className="m-0 p-0">Add</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    ),
-    rightOnClick: () => {
-      console.log('clicked!')
-    }
+    middle: <h5 className="m-0 p-0">Add</h5>
   },
   'become-a-seller': {
     left: (
@@ -88,12 +66,7 @@ export const navItems = {
     middle: <h5 className="m-0 p-0">Become a seller</h5>
   },
   feed: {
-    middle: <h5 className="m-0 p-0">Feed</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Feed</h5>
   },
   likes: {
     left: (
@@ -101,28 +74,13 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Likes</h5>,
-    right: (
-      <Link to="/likes">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Likes</h5>
   },
   login: {
-    middle: <h5 className="m-0 p-0">Login</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Login</h5>
   },
   messages: {
-    middle: <h5 className="m-0 p-0">Messages</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Messages</h5>
   },
   'messages/:id': {
     left: (
@@ -139,12 +97,7 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Notifications</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Notifications</h5>
   },
   orders: {
     left: (
@@ -152,12 +105,7 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">All Orders</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">All Orders</h5>
   },
   'orders/:id': {
     left: (
@@ -165,20 +113,10 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Single Order</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Single Order</h5>
   },
   'products/:id': {
-    middle: <h5 className="m-0 p-0">View item</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">View item</h5>
   },
   reviews: {
     left: (
@@ -186,20 +124,10 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Reviews</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Reviews</h5>
   },
   search: {
-    middle: <h5 className="m-0 p-0">Search</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Search</h5>
   },
   settings: {
     left: (
@@ -207,12 +135,7 @@ export const navItems = {
         <XIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Settings</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Settings</h5>
   },
   '/settings/account-details': {
     left: (
@@ -220,12 +143,7 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Account Details</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Account Details</h5>
   },
   '/settings/add-card': {
     left: (
@@ -233,12 +151,7 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Add card</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Add card</h5>
   },
   '/settings/payment-details': {
     left: (
@@ -246,12 +159,7 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Payment Details</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Payment Details</h5>
   },
   '/settings/logout': {
     left: (
@@ -259,12 +167,7 @@ export const navItems = {
         <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Log out</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Log out</h5>
   },
   'shopping-cart': {
     middle: <h5 className="m-0 p-0">Shopping Cart</h5>
@@ -275,11 +178,6 @@ export const navItems = {
         <SettingsIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Store</h5>,
-    right: (
-      <Link to="/shopping-cart">
-        <ShoppingCartIcon />
-      </Link>
-    )
+    middle: <h5 className="m-0 p-0">Store</h5>
   }
 }
