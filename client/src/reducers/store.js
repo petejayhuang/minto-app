@@ -1,7 +1,7 @@
 import {
   GET_STORE_INFO_SUCCESS,
   GET_STORE_PRODUCTS_SUCCESS
-} from "../actions/types"
+} from '../actions/types'
 
 const initialState = {
   info: {},
@@ -13,7 +13,14 @@ export default (state = initialState, action) => {
     case GET_STORE_INFO_SUCCESS:
       return { ...state, info: action.payload }
     case GET_STORE_PRODUCTS_SUCCESS:
-      return { ...state, products: state.products.concat(action.payload) }
+      return {
+        ...state,
+        products:
+          action.page > 1
+            ? state.products.concat(action.payload)
+            : action.payload
+      }
+
     default:
       return state
   }

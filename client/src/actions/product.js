@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import axios from "../config/axios"
+import axios from '../config/axios'
 import { URLS } from '../config/constants'
 import { redirect } from './ui'
 
@@ -71,7 +71,7 @@ export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
     const { data } = await axios()(`${URLS.SERVER}/products/${id}`)
-    dispatch(getProductSuccess(data.data[0]))
+    dispatch(getProductSuccess(data.data))
   } catch (error) {
     dispatch(
       getProductFailure({

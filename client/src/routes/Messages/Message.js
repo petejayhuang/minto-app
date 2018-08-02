@@ -5,6 +5,7 @@ import { getMessageThread, createMessage } from '../../actions/'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import SendIcon from '../../assets/icons/feather-react/SendIcon'
+import Button from '../../components/Button'
 
 const Container = styled.div`
   .chat-input {
@@ -24,6 +25,7 @@ class Message extends Component {
     this.setState({ message: e.target.value })
   }
   handleSend = () => {
+    console.log('handleSend in <Message />')
     this.props.createMessage({
       thread_id: this.props.match.params.id,
       body: this.state.message
@@ -57,9 +59,7 @@ class Message extends Component {
             onChange={this.handleInputChange}
             value={this.state.message}
           />
-          <div onClick={this.handleSend}>
-            <SendIcon />
-          </div>
+          <Button handleClick={this.handleSend} text="send" />
         </div>
       </Container>
     )

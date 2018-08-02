@@ -1,14 +1,16 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-// import PropTypes from 'prop-types'
-import CrossIcon from "../assets/icons/feather-react/PlusSquareIcon"
-import styled from "styled-components"
-import XCircleIcon from "../assets/icons/feather-react/XCircleIcon"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+import styled from 'styled-components'
+import XCircleIcon from '../assets/icons/feather-react/XCircleIcon'
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
+  border: 2px solid ${colors.primary};
   width: 150px;
   height: 150px;
-  input[type="file"] {
+  margin: 10px;
+  input[type='file'] {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -18,11 +20,15 @@ const Container = styled.div`
     margin: 50px;
   }
   .preview-image {
+    position: relative;
     width: 150px;
     height: 150px;
   }
   .remove-image {
     position: absolute;
+    z-index: 1;
+    right: 5px;
+    top: 5px;
   }
 
   label {
@@ -36,7 +42,7 @@ const Container = styled.div`
 
 class ImageUpload extends Component {
   state = {
-    imagePreviewUrl: "",
+    imagePreviewUrl: '',
     file: null
   }
 
@@ -56,7 +62,7 @@ class ImageUpload extends Component {
 
   handleRemoveImage = name => {
     this.props.removeImage(this.state.file.name)
-    this.setState({ imagePreviewUrl: "" })
+    this.setState({ imagePreviewUrl: '' })
   }
 
   render() {
@@ -64,7 +70,7 @@ class ImageUpload extends Component {
     return (
       <Container>
         {this.state.imagePreviewUrl ? (
-          <div className="preview-image border-all">
+          <div className="preview-image">
             <div
               className="remove-image"
               onClick={() => this.handleRemoveImage(this.state.file.name)}
@@ -74,14 +80,12 @@ class ImageUpload extends Component {
             <img className="preview-image" src={this.state.imagePreviewUrl} />
           </div>
         ) : (
-          <div className="d-flex justify-content-center align-items-center border-all">
-            <label
-              className="d-flex justify-content-center align-items-center"
-              htmlFor={`file${index}`}
-            >
-              Tap to add an image
-            </label>
-          </div>
+          <label
+            className="d-flex p-2 text-center align-items-center"
+            htmlFor={`file${index}`}
+          >
+            Tap here to add an image
+          </label>
         )}
 
         <input

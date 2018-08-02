@@ -17,6 +17,7 @@ import {
 import ImageUpload from '../../components/ImageUpload'
 import styled from 'styled-components'
 
+import Button from '../../components/Button'
 const Container = styled.div`
 img {
   width: 200px;
@@ -107,12 +108,14 @@ class Login extends Component {
       upload_type: 'profile_pic'
     })
 
+    const profile_URL = images.length > 0 ? images[0].image_URL : ''
+
     this.props.updateUser({
       first_name,
       last_name,
       email,
       username,
-      profile_URL: image[0].image_URL,
+      profile_URL,
       redirect_URL: '/feed'
     })
   }
@@ -133,7 +136,11 @@ class Login extends Component {
             ) : (
               <div className="d-flex flex-column">
                 <img src={this.props.user.profile_URL} />
-                <button onClick={this.handleChange}>change</button>
+                <Button
+                  secondary
+                  handleClick={this.handleChange}
+                  text="change"
+                />
               </div>
             )}
             <div className="d-flex flex-column">
@@ -175,9 +182,7 @@ class Login extends Component {
               />
               {this.state.username_message}
             </div>
-            <button onClick={this.handleSubmit} type="submit">
-              Next
-            </button>
+            <Button handleClick={this.handleSubmit} type="submit" />
           </div>
         ) : (
           <FacebookLogin

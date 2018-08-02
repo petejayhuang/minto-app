@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getFeed } from '../../actions'
 import ProductCard from '../../components/ProductCard'
+import Button from '../../components/Button'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  background-color: #f5f5f5;
+`
 
 class Feed extends Component {
   state = {
@@ -25,10 +31,14 @@ class Feed extends Component {
 
   render() {
     return (
-      <div className="route-container">
+      <Container className="route-container d-flex flex-column align-items-center">
         {this.props.feed.map(product => <ProductCard {...product} />)}
-        <button onClick={this.loadMoreProducts}> get more images</button>
-      </div>
+        <Button
+          handleClick={this.loadMoreProducts}
+          className="mb-3"
+          text="get more images"
+        />
+      </Container>
     )
   }
 }

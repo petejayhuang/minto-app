@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ImageUpload from '../../components/ImageUpload'
+import Button from '../../components/Button'
 
 import { getProductCategories, uploadProduct } from '../../actions'
 
@@ -36,6 +37,7 @@ class Add extends Component {
   renderImageUploaders = () =>
     [1, 2, 3, 4].map(index => (
       <ImageUpload
+        className="m-1"
         index={index}
         key={index}
         addImage={this.addImage}
@@ -81,18 +83,23 @@ class Add extends Component {
   )
 
   render() {
-    console.log(this.state)
     return (
       <div className="route-container p-3">
-        <div className="d-flex flex-wrap">{this.renderImageUploaders()}</div>
+        <div className="d-flex justify-content-center flex-wrap">
+          {this.renderImageUploaders()}
+        </div>
 
         <div className="d-flex flex-column">
-          <label>Product Category</label>
+          <label className="mt-3">
+            <strong>Product Category</strong>
+          </label>
           {this.renderCategoryDropdown()}
         </div>
 
         <div className="d-flex flex-column">
-          <label>Product Description</label>
+          <label className="mt-3">
+            <strong>Product Description</strong>
+          </label>
           <textarea
             onChange={e =>
               this.handleTextInputChange('description', e.target.value)
@@ -102,7 +109,9 @@ class Add extends Component {
         </div>
 
         <div className="d-flex flex-column">
-          <label>Product Price</label>
+          <label className="mt-3">
+            <strong>Product Price</strong>
+          </label>
           <input
             type="text"
             onChange={e => this.handleTextInputChange('price', e.target.value)}
@@ -110,18 +119,25 @@ class Add extends Component {
           />
         </div>
 
-        <div className="d-flex">
-          <label htmlFor="shipping">UK Shipping</label>
-          <input
-            id="shipping"
-            onChange={e => this.handleCheckboxChange('shipping', e)}
-            type="checkbox"
-            value="shipping"
-            checked={this.state.shipping}
-          />
+        <div className="d-flex flex-column">
+          <label className="mt-3">
+            <strong>Available Delivery Methods</strong>
+          </label>
 
-          <div className="d-flex">
-            <label htmlFor="meet_in_person">Meet in person</label>
+          <div className="d-flex align-items-center">
+            <input
+              id="shipping"
+              onChange={e => this.handleCheckboxChange('shipping', e)}
+              type="checkbox"
+              value="shipping"
+              checked={this.state.shipping}
+            />
+            <label className="ml-2 m-0" htmlFor="shipping">
+              UK Shipping
+            </label>
+          </div>
+
+          <div className="d-flex align-items-center">
             <input
               onChange={e => this.handleCheckboxChange('meet_in_person', e)}
               id="meet_in_person"
@@ -129,12 +145,15 @@ class Add extends Component {
               type="checkbox"
               checked={this.state.meet_in_person}
             />
+            <label className="ml-2 m-0" htmlFor="meet_in_person">
+              Meet in person
+            </label>
           </div>
         </div>
 
-        <button name="meet-in-person" onClick={this.handleSubmit}>
-          Submit
-        </button>
+        <div className="d-flex justify-content-center">
+          <Button handleClick={this.handleSubmit} text="Submit" />
+        </div>
       </div>
     )
   }

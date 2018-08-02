@@ -7,6 +7,7 @@ import {
   createMessageThread
 } from '../../actions'
 import ImageGrid from '../../components/ImageGrid'
+import Button from '../../components/Button'
 
 class Store extends Component {
   state = {
@@ -17,17 +18,17 @@ class Store extends Component {
   componentDidMount() {
     const {
       match,
-      store: { info, products },
+      store: { info },
       getStoreProducts
     } = this.props
 
     const store_id = match.params.id
 
-    if (!info.user_id) {
+    if (store_id !== info.user_id) {
       this.props.getStoreInfo(store_id)
     }
 
-    if (products.length === 0) {
+    if (store_id !== info.user_id) {
       getStoreProducts({
         page: this.state.page,
         limit: this.state.limit,
@@ -69,30 +70,23 @@ class Store extends Component {
 
           <div className="ml-2">
             <div>
-              <h3>{this.props.store.info.username}</h3>
+              <h3>@{this.props.store.info.username}</h3>
             </div>
-            <button onClick={this.handleMessage}>message seller</button>
-            <button onClick={this.handleFollow}>follow</button>
+            <Button handleClick={this.handleMessage} text="message seller" />
           </div>
         </div>
 
-        <div className="mt-2 pl-3 pr-3 d-flex justify-content-between align-items-center">
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <strong>{this.props.store.info.total_products}</strong>
-            <p className="m-0">items</p>
-          </div>
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <strong>{this.props.store.info.total_followers}</strong>
-            <p className="m-0">followers</p>
-          </div>
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <strong>{this.props.store.info.total_following}</strong>
-            <p className="m-0">following</p>
-          </div>
+        <div className="text-center">
+          <h4 className="mt-2 mb-2">SELLING</h4>
         </div>
-
         <ImageGrid products={this.props.store.products} />
-        <button onClick={this.loadMoreProducts}> get more images</button>
+        <div className="mt-3 d-flex justify-content-center">
+          <Button
+            handleClick={this.loadMoreProducts}
+            className="mb-3"
+            text="get more images"
+          />
+        </div>
       </div>
     )
   }

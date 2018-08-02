@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getProductCategories, searchProducts } from '../../actions'
-
+import Button from '../../components/Button'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  input {
+    max-width: 200px;
+  }
+`
 
 class Search extends Component {
   state = {
@@ -30,6 +37,7 @@ class Search extends Component {
           <Link
             key={category.category_id}
             to={`/search?category_id=${category.category_id}`}
+            className="text-center"
           >
             <div>{category.description}</div>
             <div>{category.product_type}</div>
@@ -42,16 +50,22 @@ class Search extends Component {
 
   render() {
     return (
-      <div className="route-container pl-3 pr-3">
-        <label>What are you looking for?</label>
+      <Container className="route-container d-flex flex-column align-items-center pl-3 pr-3">
+        <label className="pt-3">
+          <strong>What are you looking for?</strong>
+        </label>
         <input
           type="text"
           onChange={e => this.handleInputChange(e.target.value)}
         />
-        <button onClick={this.handleClick}>Search</button>
+        <Button
+          className="mt-2 mb-5"
+          onClick={this.handleClick}
+          text="Search"
+        />
 
         {this.renderCategoryCards()}
-      </div>
+      </Container>
     )
   }
 }

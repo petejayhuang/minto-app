@@ -1,7 +1,7 @@
-import { GET_PRODUCT_SUCCESS, UPLOAD_PRODUCT_SUCCESS } from "../actions/types"
+import { GET_PRODUCT_SUCCESS, UPLOAD_PRODUCT_SUCCESS } from '../actions/types'
 
 const initialState = {
-  description: "",
+  description: '',
   meet_in_person_YN: null,
   shipping_YN: null
 }
@@ -9,7 +9,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCT_SUCCESS:
-      return action.payload
+      return action.payload[0]
     case UPLOAD_PRODUCT_SUCCESS:
       return state
     default:

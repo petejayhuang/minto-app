@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import LikeButton from '../../components/LikeButton'
+
+import Button from '../../components/Button'
 
 import {
   getProductCategories,
@@ -26,6 +27,7 @@ class Product extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount Product/')
     this.props.getProduct(this.props.match.params.id)
 
     if (this.props.categories.length === 0) {
@@ -48,22 +50,7 @@ class Product extends Component {
     })
   }
 
-  handleBuy = async () => {
-    // check if they are a customer, if not, create using user details
-    // await this.props.createCustomer({
-    //   first_name: first_name || this.props.user.first_name,
-    //   last_name: last_name || this.props.user.last_name,
-    //   email: email || this.props.user.email
-    // })
-    // await this.props.addCardToCustomer()
-    // this.props.createTransaction()
-    // // check if they have a card
-    // const { product_id } = this.props.product
-    // this.props.createOrder({
-    //   product_id
-    // })
-    //
-  }
+  handleBuy = async () => {}
 
   handleDelete = () => {
     this.props.deleteProduct(this.props.product.product_id)
@@ -113,8 +100,9 @@ class Product extends Component {
 
   render() {
     const { editMode } = this.state
+    console.log('<Product /> props', this.props)
 
-    if (this.props.product.Images) {
+    if (this.props.product.product_id) {
       const {
         categories,
         product: {
@@ -130,41 +118,40 @@ class Product extends Component {
       } = this.props
 
       const isOwnProduct = user_id === this.props.user.id
-      // console.log('<Product />', this.state)
-      console.log('<Product /> meet in person', this.state.meet_in_person)
-      console.log('<Product /> shipping', this.state.shipping)
+
       return (
         <Container className="route-container p-3">
+          <div className="d-flex justify-content-center mb-3">
+            {
+              <img
+                className="img-fluid product-image"
+                src={Images[0].image_URL}
+              />
+            }
+          </div>
           {isOwnProduct && (
-            <div className="d-flex">
-              <button onClick={() => this.setState({ editMode: !editMode })}>
-                {editMode ? 'cancel edits' : 'toggle edit'}
-              </button>
+            <div className="d-flex justify-content-center mb-3">
+              <Button
+                secondary
+                handleClick={() => this.setState({ editMode: !editMode })}
+                text={editMode ? 'cancel edits' : 'edit item'}
+              />
             </div>
           )}
-
-          <div className="d-flex">
-            {<img className="img-fluid" src={Images[0].image_URL} />}
-          </div>
-
-          {!editMode && <div>{product_id}</div>}
-          {!editMode && <div>{username}</div>}
+          {!editMode && (
+            <div>
+              Sold by user: <strong>@{username}</strong>
+            </div>
+          )}
           {!editMode &&
             !isOwnProduct && (
-              <button onClick={this.handleMessage}>Message seller</button>
+              <Button
+                secondary
+                handleClick={this.handleMessage}
+                text="Message seller"
+              />
             )}
-          {!editMode && <LikeButton />}
 
-          {!editMode &&
-            categories.length > 0 && (
-              <div>
-                {
-                  categories.filter(
-                    category => category.category_id === category_id
-                  )[0].product_type
-                }
-              </div>
-            )}
           {editMode && (
             <div className="d-flex flex-column">
               {this.renderCategoryDropdown()}
@@ -173,7 +160,7 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label>Product Description</label>}
             {!editMode ? (
-              <div>description: {description}</div>
+              <div>{description}</div>
             ) : (
               <textarea
                 onChange={e =>
@@ -186,7 +173,9 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label>Price</label>}
             {!editMode ? (
-              <div>price: {`${Prices[0].price}`}</div>
+              <div>
+                <strong>£{`${Prices[0].price}`}</strong>
+              </div>
             ) : (
               <input
                 type="text"
@@ -202,7 +191,9 @@ class Product extends Component {
               <label htmlFor="meet_in_person">meet_in_person_YN</label>
             )}
             {!editMode ? (
-              <div>meet_in_person_YN: {meet_in_person_YN ? 'yes' : 'no'}</div>
+              <div>
+                Meet in person {meet_in_person_YN ? '' : 'not'} available
+              </div>
             ) : (
               <input
                 name="meet_in_person"
@@ -217,7 +208,7 @@ class Product extends Component {
           <div className="d-flex flex-column">
             {editMode && <label htmlFor="shipping">shipping_YN</label>}
             {!editMode ? (
-              <div>shipping_YN: {shipping_YN ? 'yes' : 'no'}</div>
+              <div>Shipping {shipping_YN ? '' : 'not'} available</div>
             ) : (
               <input
                 type="checkbox"
@@ -231,9 +222,22 @@ class Product extends Component {
           </div>
 
           {!editMode &&
-            !isOwnProduct && <button onClick={this.handleBuy}>buy</button>}
-          {editMode && <button onClick={this.handleUpdate}>update</button>}
-          {editMode && <button onClick={this.handleDelete}>delete</button>}
+            !isOwnProduct && <Button handleClick={this.handleBuy} text="buy" />}
+          {editMode && (
+            <Button
+              className="mt-2"
+              handleClick={this.handleUpdate}
+              text="update"
+            />
+          )}
+          {editMode && (
+            <Button
+              secondary
+              className="mt-2"
+              handleClick={this.handleDelete}
+              text="delete"
+            />
+          )}
         </Container>
       )
     } else {

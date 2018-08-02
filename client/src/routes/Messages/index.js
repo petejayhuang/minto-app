@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { getMessageThreads } from '../../actions/messages'
 
 import TouchableRow from '../../components/TouchableRow'
-import ChatBubble from '../../components/ChatBubble'
 
 const Container = styled.div``
 
