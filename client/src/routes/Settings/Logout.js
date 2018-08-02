@@ -5,7 +5,7 @@ import { logoutUser, redirect } from '../../actions'
 
 const Logout = props => {
   const handleYes = () => {
-    console.log('handle yes')
+    
     props.logoutUser()
   }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { getMessageThreads } from '../../actions/messages'
+import { redirect } from '../../actions/'
 
 import TouchableRow from '../../components/TouchableRow'
 
@@ -9,7 +10,11 @@ const Container = styled.div``
 
 class Messages extends Component {
   componentDidMount() {
-    this.props.getMessageThreads()
+    if (!this.props.user.id) {
+      this.props.redirect('/login')
+    } else {
+      this.props.getMessageThreads()
+    }
   }
 
   render() {
@@ -35,6 +40,6 @@ class Messages extends Component {
 }
 
 export default connect(
-  ({ messages }) => ({ messages }),
-  { getMessageThreads }
+  ({ user, messages }) => ({ user, messages }),
+  { getMessageThreads, redirect }
 )(Messages)

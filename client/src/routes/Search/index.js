@@ -5,11 +5,7 @@ import Button from '../../components/Button'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  input {
-    max-width: 200px;
-  }
-`
+const Container = styled.div``
 
 class Search extends Component {
   state = {

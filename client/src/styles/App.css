@@ -37,7 +37,11 @@ a {
 }
 
 .border-bottom {
-  border-top: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.border-bottom-light {
+  border-bottom: 1px solid #efefef;
 }
 
 .border-all {
@@ -63,12 +67,17 @@ a {
 input[type='text'] {
   height: 40px;
   border: 2px solid #88d8bf;
-  max-width: 200px;
+  width: 320px;
+}
+
+select {
+  height: 40px;
+  width: 320px;
 }
 
 textarea {
   height: 100px;
-  max-width: 200px;
+  width: 320px;
   resize: none;
   border: none;
   outline: 2px solid #88d8bf;
@@ -116,6 +125,21 @@ button {
 @keyframes spin {
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.loading-overlay {
+  opacity: 1;
+  animation: fade 1s linear;
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
 }
 

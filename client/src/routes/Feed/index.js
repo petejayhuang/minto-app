@@ -30,6 +30,7 @@ class Feed extends Component {
   }
 
   render() {
+    // key={product.product_id}
     return (
       <Container className="route-container d-flex flex-column align-items-center">
         {this.props.feed.map(product => <ProductCard {...product} />)}

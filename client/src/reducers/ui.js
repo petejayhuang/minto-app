@@ -1,24 +1,23 @@
-import { TOGGLE_UI, REDIRECT } from "../actions/types"
+import { TOGGLE_UI, REDIRECT } from '../actions/types'
 
 const initialState = {
   loadingLine: false,
   loadingOverlay: false,
-  loadingOverlayMessage: "",
-  redirect: ""
+  loadingOverlayMessage: '',
+  redirect: ''
 }
 
 export default (state = initialState, action) => {
-  // Check for loading line/overlay
-  if (action.loadingLine === true || action.loadingLine === false) {
-    return { ...state, loadingLine: action.loadingLine }
-  }
-
   if (action.loadingOverlay === true || action.loadingOverlay === false) {
     return {
       ...state,
       loadingOverlay: action.loadingOverlay,
-      loadingOverlayMessage: action.loadingOverlayMessage || ""
+      loadingOverlayMessage: action.loadingOverlayMessage || ''
     }
+  }
+
+  if (action.loadingLine === true || action.loadingLine === false) {
+    return { ...state, loadingLine: action.loadingLine }
   }
 
   switch (action.type) {

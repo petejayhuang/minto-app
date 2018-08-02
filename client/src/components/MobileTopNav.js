@@ -17,9 +17,6 @@ const Container = styled.div`
     border-bottom: 1px solid ${colors.border};
     top: 0;
     width: 100%;
-    .icon-wrapper {
-      width: 60px;
-    }
   }
 `
 
@@ -34,6 +31,7 @@ class MobileTopNav extends Component {
           {navItem.left && navItem.left}
         </div>
         <div
+          className="text-center"
           onClick={() =>
             (navItem.middleOnClick && navItem.middleOnClick) || null
           }

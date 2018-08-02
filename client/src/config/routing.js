@@ -1,4 +1,5 @@
 import React from 'react'
+import { store } from '../config/redux'
 
 // ROUTES
 import Add from '../routes/Add'
@@ -55,7 +56,12 @@ export const navItems = {
     middle: <h5 className="m-0 p-0">Become a seller</h5>
   },
   feed: {
-    middle: <h5 className="m-0 p-0">Feed</h5>
+    middle: <h5 className="m-0 p-0">Feed</h5>,
+    right: (
+      <div>
+        {!store.getState().user.id && <Link to="/login">Login/ Sign Up</Link>}
+      </div>
+    )
   },
   login: {
     middle: <h5 className="m-0 p-0">Login</h5>
@@ -100,6 +106,7 @@ export const navItems = {
         <SettingsIcon />
       </Link>
     ),
+
     middle: <h5 className="m-0 p-0">Store</h5>
   }
 }

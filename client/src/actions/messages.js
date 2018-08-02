@@ -27,7 +27,7 @@ export const createMessageThread = ({
 }) => async dispatch => {
   dispatch(createMessageThreadRequest)
   try {
-    console.log('product_id in messages.js', product_id)
+    
     const body = {
       name: `@${username} ${product_id && `about product #${product_id}`}`,
       participant_id: [participant_id]
@@ -39,7 +39,7 @@ export const createMessageThread = ({
 
     const { data } = await axios().post(`${URLS.SERVER}/threads`, body)
     dispatch(createMessageThreadSuccess(data.data))
-    console.log('data in create message', data)
+    
 
     dispatch(redirect(`/messages/${data.data.id}`))
   } catch (error) {
@@ -136,7 +136,7 @@ const getMessageThreadFailure = ({ message, error }) => ({
 // ==============      CREATE MESSAGE     ==============
 // =====================================================
 export const createMessage = ({ body, thread_id }) => async dispatch => {
-  console.log('createMessage()')
+  
   dispatch(createMessageRequest)
   try {
     const { data } = await axios().post(`${URLS.SERVER}/messages`, {

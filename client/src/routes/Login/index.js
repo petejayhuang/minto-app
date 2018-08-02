@@ -9,10 +9,7 @@ import {
   authenticateFacebookWithBE,
   getUsernameAvailability,
   updateUser,
-  createCustomer,
-  uploadImagesToS3,
-  addCardToCustomer,
-  createTransaction
+  uploadImagesToS3
 } from '../../actions'
 import ImageUpload from '../../components/ImageUpload'
 import styled from 'styled-components'
@@ -124,7 +121,7 @@ class Login extends Component {
     return (
       <Container className="route-container p-3">
         {this.props.user.id ? (
-          <div>
+          <form onSubmit={this.handleSubmit}>
             {this.state.changeProfileImage ? (
               <div className="d-flex flex-column">
                 Change your profile image
@@ -146,6 +143,7 @@ class Login extends Component {
             <div className="d-flex flex-column">
               <label>First Name</label>
               <input
+                type="text"
                 required
                 onChange={e =>
                   this.handleTextInputChange('first_name', e.target.value)
@@ -157,6 +155,7 @@ class Login extends Component {
               <label>Last Name</label>
               <input
                 required
+                type="text"
                 onChange={e =>
                   this.handleTextInputChange('last_name', e.target.value)
                 }
@@ -167,6 +166,7 @@ class Login extends Component {
               <label>Email</label>
               <input
                 required
+                type="text"
                 onChange={e =>
                   this.handleTextInputChange('email', e.target.value)
                 }
@@ -177,20 +177,24 @@ class Login extends Component {
               <label>Username</label>
               <input
                 required
+                type="text"
                 onChange={e => this.handleUsernameInputChange(e.target.value)}
                 value={this.state.username || this.props.user.username}
               />
               {this.state.username_message}
             </div>
-            <Button handleClick={this.handleSubmit} type="submit" text="Next" />
-          </div>
+            <Button type="submit" text="Next" />
+          </form>
         ) : (
-          <FacebookLogin
-            appId={FACEBOOK_APP_ID}
-            autoLoad={false}
-            fields="name,email,picture"
-            callback={this.facebookResponse}
-          />
+          <div className="d-flex flex-column justify-content-center align-items-center">
+            <p className="mt-2 mb-2">Please login to view the app!</p>
+            <FacebookLogin
+              appId={FACEBOOK_APP_ID}
+              autoLoad={false}
+              fields="name,email,picture"
+              callback={this.facebookResponse}
+            />
+          </div>
         )}
       </Container>
     )
@@ -206,9 +210,6 @@ export default connect(
     authenticateFacebookWithBE,
     getUsernameAvailability,
     updateUser,
-    createCustomer,
-    uploadImagesToS3,
-    addCardToCustomer,
-    createTransaction
+    uploadImagesToS3
   }
 )(Login)

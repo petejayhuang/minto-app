@@ -107,12 +107,12 @@ export const uploadProduct = ({ images, form }) => async (
   getState
 ) => {
   const {
-    user: { user_id }
+    user: { id }
   } = getState()
   const body = {
     ...form,
     currency_id: 'GBP',
-    user_id
+    user_id: id
   }
 
   dispatch(uploadProductRequest)
@@ -127,8 +127,7 @@ export const uploadProduct = ({ images, form }) => async (
 
     dispatch(uploadProductSuccess())
 
-    console.log(user_id)
-    dispatch(redirect(`/store/${user_id}`))
+    dispatch(redirect(`/store/${id}`))
   } catch (error) {
     dispatch(
       uploadProductFailure({ message: 'Could not upload product.', error })
@@ -182,7 +181,6 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   dispatch(updateProductRequest)
 
   try {
-    console.log('Body', body)
     const { data } = await axios().put(`${URLS.SERVER}/products`, body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store/${id}`))
@@ -213,10 +211,10 @@ const updateProductFailure = ({ message, error }) => ({
   loadingLine: false,
   error: { message, error }
 })
+
 // =====================================================
 // ==============     DELETE PRODUCT     ===============
 // =====================================================
-
 export const deleteProduct = id => async (dispatch, getState) => {
   dispatch(deleteProductRequest)
   const body = {

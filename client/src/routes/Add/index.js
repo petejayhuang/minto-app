@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import ImageUpload from '../../components/ImageUpload'
 import Button from '../../components/Button'
-
-import { getProductCategories, uploadProduct } from '../../actions'
+import { getProductCategories, uploadProduct, redirect } from '../../actions'
 
 class Add extends Component {
   state = {
@@ -16,6 +14,9 @@ class Add extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.user.id) {
+      this.props.redirect('/login')
+    }
     if (this.props.categories.length === 0) {
       this.props.getProductCategories()
     }
@@ -73,7 +74,7 @@ class Add extends Component {
   }
 
   renderCategoryDropdown = () => (
-    <select onChange={e => this.handleOption(e)}>
+    <select required onChange={e => this.handleOption(e)}>
       {this.props.categories.map(category => (
         <option value={category.category_id} key={category.product_type}>
           {category.product_type}
@@ -84,7 +85,7 @@ class Add extends Component {
 
   render() {
     return (
-      <div className="route-container p-3">
+      <div className="route-container d-flex flex-column align-items-center p-3">
         <div className="d-flex justify-content-center flex-wrap">
           {this.renderImageUploaders()}
         </div>
@@ -101,6 +102,7 @@ class Add extends Component {
             <strong>Product Description</strong>
           </label>
           <textarea
+            required
             onChange={e =>
               this.handleTextInputChange('description', e.target.value)
             }
@@ -113,6 +115,7 @@ class Add extends Component {
             <strong>Product Price</strong>
           </label>
           <input
+            required
             type="text"
             onChange={e => this.handleTextInputChange('price', e.target.value)}
             value={this.state.price}
@@ -151,7 +154,7 @@ class Add extends Component {
           </div>
         </div>
 
-        <div className="d-flex justify-content-center">
+        <div className="d-flex mt-3 justify-content-center">
           <Button handleClick={this.handleSubmit} text="Submit" />
         </div>
       </div>
@@ -160,6 +163,6 @@ class Add extends Component {
 }
 
 export default connect(
-  ({ categories }) => ({ categories }),
-  { getProductCategories, uploadProduct }
+  ({ user, categories }) => ({ user, categories }),
+  { getProductCategories, uploadProduct, redirect }
 )(Add)

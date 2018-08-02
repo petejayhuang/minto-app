@@ -1,7 +1,7 @@
-import axios from "../config/axios"
-import { URLS } from "../config/constants"
+import axios from '../config/axios'
+import { URLS } from '../config/constants'
 
-import { GET_FEED_REQUEST, GET_FEED_SUCCESS, GET_FEED_FAILURE } from "./types"
+import { GET_FEED_REQUEST, GET_FEED_SUCCESS, GET_FEED_FAILURE } from './types'
 
 // =====================================================
 // ================      GET FEED     ==================
@@ -16,7 +16,7 @@ export const getFeed = ({ page, limit }) => async dispatch => {
   } catch (error) {
     dispatch(
       getFeedFailure({
-        message: "Could not get feed.",
+        message: 'Could not get feed.',
         error
       })
     )
@@ -25,17 +25,22 @@ export const getFeed = ({ page, limit }) => async dispatch => {
 
 const getFeedRequest = {
   type: GET_FEED_REQUEST,
+  loadingOverlay: true,
+  loadingOverlayMessage: 'Loading feed...',
   loadingLine: true
 }
 
 const getFeedSuccess = feed => ({
   type: GET_FEED_SUCCESS,
   loadingLine: false,
+  loadingOverlay: false,
+  loadingOverlayMessage: '',
   payload: feed
 })
 
 const getFeedFailure = ({ message, error }) => ({
   type: GET_FEED_FAILURE,
   loadingLine: false,
+  loadingOverlayMessage: '',
   error: { message, error }
 })

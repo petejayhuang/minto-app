@@ -54,16 +54,19 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
 }
 const authenticateFacebookWithBERequest = {
   type: AUTH_FB_WITH_BE_REQUEST,
-  loadingLine: true
+  loadingLine: true,
+  loadingOverlay: true
 }
 const authenticateFacebookWithBESuccess = user => ({
   type: AUTH_FB_WITH_BE_SUCCESS,
   loadingLine: false,
+  loadingOverlay: false,
   payload: user
 })
 const authenticateFacebookWithBEFailure = ({ message, error }) => ({
   type: AUTH_FB_WITH_BE_FAILURE,
   loadingLine: false,
+  loadingOverlay: false,
   error: { message, error }
 })
 
@@ -214,56 +217,9 @@ const updateUserFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ==============     CREATE CUSTOMER     ==============
-// =====================================================
-export const createCustomer = ({
-  first_name,
-  last_name,
-  email
-}) => async dispatch => {
-  dispatch(createCustomerRequest)
-  try {
-    const { data } = await customAxios().post(
-      `${URLS.SERVER}/payments/customer`,
-      {
-        firstName: first_name,
-        lastName: last_name,
-        email
-      }
-    )
-    dispatch(createCustomerSuccess(data))
-  } catch (error) {
-    dispatch(
-      createCustomerFailure({
-        message: 'Could not create customer.',
-        error
-      })
-    )
-  }
-}
-
-const createCustomerRequest = {
-  type: CREATE_CUSTOMER_REQUEST,
-  loadingLine: true
-}
-
-const createCustomerSuccess = token => ({
-  type: CREATE_CUSTOMER_SUCCESS,
-  loadingLine: false,
-  payload: token
-})
-
-const createCustomerFailure = ({ error, message }) => ({
-  type: CREATE_CUSTOMER_FAILURE,
-  loadingLine: false,
-  error: { message, error }
-})
-
-// =====================================================
 // ===============      LOGOUT USER     ================
 // =====================================================
 export const logoutUser = () => dispatch => {
-  console.log('logout action')
   dispatch(redirect('/feed'))
   localStorage.removeItem('x-auth-token')
   dispatch({

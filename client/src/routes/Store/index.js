@@ -59,7 +59,7 @@ class Store extends Component {
   render() {
     return (
       <div className="route-container inner-container">
-        <div className="d-flex p-3">
+        <div className="d-flex p-3 border-bottom-light">
           <div className="profile-image-container">
             <img
               alt="profile"
@@ -77,7 +77,7 @@ class Store extends Component {
         </div>
 
         <div className="text-center">
-          <h4 className="mt-2 mb-2">SELLING</h4>
+          <h4 className="mt-3 mb-3">SELLING</h4>
         </div>
         <ImageGrid products={this.props.store.products} />
         <div className="mt-3 d-flex justify-content-center">

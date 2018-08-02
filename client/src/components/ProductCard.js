@@ -11,6 +11,10 @@ const Container = styled.div`
     height: 50px;
     width: 50px;
   }
+  .feed-product-image {
+    border-top: 1px solid ${colors.borderLight};
+    border-bottom: 1px solid ${colors.borderLight};
+  }
 `
 
 const ProductCard = props => {
@@ -38,7 +42,7 @@ const ProductCard = props => {
       </div>
       <Link to={`/products/${product_id}`}>
         <div
-          className="product-image"
+          className="product-image feed-product-image"
           key={product_id}
           style={{
             backgroundImage: `url(${Images[0].image_URL})`,

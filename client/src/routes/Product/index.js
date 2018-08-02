@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-
+import { Link } from 'react-router-dom'
 import Button from '../../components/Button'
 
 import {
@@ -27,7 +27,7 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount Product/')
+    
     this.props.getProduct(this.props.match.params.id)
 
     if (this.props.categories.length === 0) {
@@ -100,7 +100,7 @@ class Product extends Component {
 
   render() {
     const { editMode } = this.state
-    console.log('<Product /> props', this.props)
+
 
     if (this.props.product.product_id) {
       const {
@@ -120,7 +120,7 @@ class Product extends Component {
       const isOwnProduct = user_id === this.props.user.id
 
       return (
-        <Container className="route-container p-3">
+        <Container className="route-container d-flex flex-column align-items-center">
           <div className="d-flex justify-content-center mb-3">
             {
               <img
@@ -140,7 +140,7 @@ class Product extends Component {
           )}
           {!editMode && (
             <div>
-              Sold by user: <strong>@{username}</strong>
+              Sold by user: <Link to={`/store/${user_id}`}>@{username}</Link>
             </div>
           )}
           {!editMode &&

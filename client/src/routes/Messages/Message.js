@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import { connect } from 'react-redux'
 import { getMessageThread, createMessage } from '../../actions/'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import SendIcon from '../../assets/icons/feather-react/SendIcon'
 import Button from '../../components/Button'
 
 const Container = styled.div`
@@ -25,12 +23,17 @@ class Message extends Component {
     this.setState({ message: e.target.value })
   }
   handleSend = () => {
-    console.log('handleSend in <Message />')
     this.props.createMessage({
       thread_id: this.props.match.params.id,
       body: this.state.message
     })
     this.setState({ message: '' })
+  }
+
+  handleKeyDown = e => {
+    if (e.keyCode == 13) {
+      this.handleSend()
+    }
   }
 
   renderMessages = () => {
@@ -52,9 +55,9 @@ class Message extends Component {
     return (
       <Container className="route-container pl-3 pr-3">
         {this.renderMessages()}
-
         <div className="chat-input d-flex">
           <input
+            onKeyDown={this.handleKeyDown}
             type="text"
             onChange={this.handleInputChange}
             value={this.state.message}

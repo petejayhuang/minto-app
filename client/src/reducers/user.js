@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case UPDATE_USER_SUCCESS:
       return action.payload
     case LOGOUT_USER:
-      console.log('user LOGOUT_USER')
+      
       return initialState
     default:
       return state

@@ -21,13 +21,7 @@ import './styles/App.css'
 import styled from 'styled-components'
 import { colors } from './styles/styleVariables'
 
-const AppContainer = styled.div`
-  input[type='text'] {
-    border: 1px solid ${colors.border};
-    width: 100%;
-    padding: 5px;
-  }
-`
+const AppContainer = styled.div``
 
 class App extends Component {
   render() {
@@ -38,8 +32,10 @@ class App extends Component {
       success,
       user
     } = this.props
+
     const isHomeRoute = routing.location.pathname !== '/'
-    const isLoggedIn = user.user_id
+    const userId = user.id
+
     return (
       <ErrorBoundary>
         <AppContainer>
@@ -51,7 +47,7 @@ class App extends Component {
           {<MobileTopNav />}
 
           {renderRoutes()}
-          {isHomeRoute && <MobileBottomNav />}
+          {isHomeRoute && <MobileBottomNav userId={userId} />}
         </AppContainer>
       </ErrorBoundary>
     )
