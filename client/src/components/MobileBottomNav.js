@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-// import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Link, withRouter } from "react-router-dom"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { Link, withRouter } from 'react-router-dom'
 
-import HomeIcon from "../assets/icons/feather-react/HomeIcon"
-import SearchIcon from "../assets/icons/feather-react/SearchIcon"
-import PlusSquareIcon from "../assets/icons/feather-react/PlusSquareIcon"
-import MessageCircleIcon from "../assets/icons/feather-react/MessageCircleIcon"
-import UserIcon from "../assets/icons/feather-react/UserIcon"
+import HomeIcon from '../assets/icons/feather-react/HomeIcon'
+import SearchIcon from '../assets/icons/feather-react/SearchIcon'
+import PlusSquareIcon from '../assets/icons/feather-react/PlusSquareIcon'
+import MessageCircleIcon from '../assets/icons/feather-react/MessageCircleIcon'
+import UserIcon from '../assets/icons/feather-react/UserIcon'
 
-import { colors } from "../styles/styleVariables"
+import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
   position: fixed;
@@ -22,34 +22,6 @@ const Container = styled.div`
     min-width: 360px;
   }
 `
-
-const NAVIGATION_ICONS = [
-  {
-    component: <HomeIcon />,
-    activeComponent: <HomeIcon strokeWidth="4" />,
-    to: "/feed"
-  },
-  {
-    component: <SearchIcon />,
-    activeComponent: <SearchIcon strokeWidth="4" />,
-    to: "/search"
-  },
-  {
-    component: <PlusSquareIcon />,
-    activeComponent: <PlusSquareIcon strokeWidth="4" />,
-    to: "/add"
-  },
-  {
-    component: <MessageCircleIcon />,
-    activeComponent: <MessageCircleIcon strokeWidth="4" />,
-    to: "/messages"
-  },
-  {
-    component: <UserIcon />,
-    activeComponent: <UserIcon strokeWidth="4" />,
-    to: "/profile"
-  }
-]
 
 class MobileBottomNav extends Component {
   // static functions are declared on the class, not the particular instance
@@ -65,9 +37,40 @@ class MobileBottomNav extends Component {
     currentPathname: this.props.location.pathname
   }
 
+  NAVIGATION_ICONS = [
+    {
+      component: <HomeIcon />,
+      activeComponent: <HomeIcon strokeWidth="3" />,
+      to: '/feed'
+    },
+    {
+      component: <SearchIcon />,
+      activeComponent: <SearchIcon strokeWidth="3" />,
+      to: '/search'
+    },
+    {
+      component: <PlusSquareIcon />,
+      activeComponent: <PlusSquareIcon strokeWidth="3" />,
+      to: '/add'
+    },
+    {
+      component: <MessageCircleIcon />,
+      activeComponent: <MessageCircleIcon strokeWidth="3" />,
+      to: '/messages'
+    },
+    {
+      component: <UserIcon />,
+      activeComponent: <UserIcon strokeWidth="3" />,
+      to: `/store/${this.props.user.id}`
+    }
+  ]
+
   renderIcons = () =>
-    NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
-      <div key={to} className="flex-row center-center p-1">
+    this.NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
+      <div
+        key={to}
+        className="d-flex justify-content-center align-items-center p-1"
+      >
         <Link to={to}>
           {this.state.currentPathname === to ? activeComponent : component}
         </Link>
@@ -75,18 +78,18 @@ class MobileBottomNav extends Component {
     ))
 
   render() {
+    console.log('<MobBottomNav />', this.props)
     return (
-      <Container className="flex-row center-center">
-        <div className="inner-container flex-row between-center">
-          {this.renderIcons()}
+      <Container className="d-flex justify-content-center align-items-center">
+        <div className="inner-container d-flex justify-content-between align-items-center">
+          {this.props.user.id && this.renderIcons()}
         </div>
       </Container>
     )
   }
 }
 
-MobileBottomNav.propTypes = {}
-
-MobileBottomNav.defaultProps = {}
-
-export default withRouter(MobileBottomNav)
+export default connect(
+  ({ user }) => ({ user }),
+  null
+)(withRouter(MobileBottomNav))

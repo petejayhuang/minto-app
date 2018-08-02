@@ -1,29 +1,28 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-// import PropTypes from "prop-types"
-import { Route, withRouter } from "react-router-dom"
+// libraries
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-// routes
-import Add from "./routes/Add"
-import Feed from "./routes/Feed"
-import Landing from "./routes/Landing"
-import Messages from "./routes/Messages"
-import Profile from "./routes/Profile"
-import Search from "./routes/Search"
+// utils
+import renderRoutes from './utilities/renderRoutes'
 
 // components
-import MobileTopNav from "./components/MobileTopNav"
-import MobileBottomNav from "./components/MobileBottomNav"
-import LoadingOverlay from "./components/LoadingOverlay"
-import ErrorOverlay from "./components/ErrorOverlay"
+import ErrorBoundary from './components/ErrorBoundary'
+import ErrorNotification from './components/ErrorNotification'
+import SuccessNotification from './components/SuccessNotification'
+import LoadingLine from './components/LoadingLine'
+import LoadingOverlay from './components/LoadingOverlay'
+import MobileBottomNav from './components/MobileBottomNav'
+import MobileTopNav from './components/MobileTopNav'
+import StoreDrivenRedirect from './components/StoreDrivenRedirect'
 
 // styles
-import "./styles/App.css"
-import styled from "styled-components"
-import { colors } from "./styles/styleVariables"
+import './styles/App.css'
+import styled from 'styled-components'
+import { colors } from './styles/styleVariables'
 
 const AppContainer = styled.div`
-  input[type="text"] {
+  input[type='text'] {
     border: 1px solid ${colors.border};
     width: 100%;
     padding: 5px;
@@ -32,25 +31,49 @@ const AppContainer = styled.div`
 
 class App extends Component {
   render() {
-    const { routing, ui, error } = this.props
-    const isHomeRoute = routing.location.pathname !== "/"
+    const {
+      routing,
+      ui: { redirect, loadingLine, loadingOverlay },
+      error,
+      success,
+      user
+    } = this.props
+    const isHomeRoute = routing.location.pathname !== '/'
+    const isLoggedIn = user.user_id
     return (
-      <AppContainer>
-        {ui.showLoadingOverlay && <LoadingOverlay />}
-        {error && <ErrorOverlay />}
-        {isHomeRoute && <MobileTopNav />}
-        <Route exact path="/" component={Landing} />
-        <Route path="/feed" component={Feed} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/messages" component={Messages} />
-        <Route path="/add" component={Add} />
-        <Route path="/search" component={Search} />
-        {isHomeRoute && <MobileBottomNav />}
-      </AppContainer>
+      <ErrorBoundary>
+        <AppContainer>
+          {redirect && <StoreDrivenRedirect />}
+          {loadingLine && <LoadingLine />}
+          {loadingOverlay && <LoadingOverlay />}
+          {error && <ErrorNotification />}
+          {success && <SuccessNotification />}
+          {<MobileTopNav />}
+
+          {renderRoutes()}
+          {isHomeRoute && <MobileBottomNav />}
+        </AppContainer>
+      </ErrorBoundary>
     )
   }
 }
 
-const mapState = ({ ui, routing, error }) => ({ ui, routing, error })
+const mapState = ({ ui, user, routing, error, success }) => ({
+  error,
+  routing,
+  success,
+  ui,
+  user
+})
 
-export default connect(mapState, null)(App)
+App.propTypes = {
+  error: PropTypes.object,
+  routing: PropTypes.object,
+  success: PropTypes.string,
+  ui: PropTypes.object
+}
+
+export default connect(
+  mapState,
+  null
+)(App)

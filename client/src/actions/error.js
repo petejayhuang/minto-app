@@ -1,12 +1,9 @@
-import { PRINT_ERROR, CLEAR_ERROR } from "./types"
+import { PRINT_ERROR, CLEAR_ERROR } from './types'
 
-export const printError = ({ message, log }) => {
+export const printError = ({ message, error }) => {
   return {
     type: PRINT_ERROR,
-    error: {
-      message,
-      log
-    }
+    error: { message, error }
   }
 }
 

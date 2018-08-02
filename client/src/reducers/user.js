@@ -1,16 +1,20 @@
-import { GET_USER_REQUEST, GET_USER_SUCCESS } from "../actions/types"
+import {
+  AUTH_FB_WITH_BE_SUCCESS,
+  UPDATE_USER_SUCCESS,
+  LOGOUT_USER
+} from '../actions/types'
 
-const initialState = {
-  username: "petejayhuang",
-  id: 1
-}
+const initialState = {}
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_USER_REQUEST:
-      return state
-    case GET_USER_SUCCESS:
+    case AUTH_FB_WITH_BE_SUCCESS:
       return action.payload
+    case UPDATE_USER_SUCCESS:
+      return action.payload
+    case LOGOUT_USER:
+      console.log('user LOGOUT_USER')
+      return initialState
     default:
       return state
   }

@@ -1,45 +1,34 @@
-import React from "react"
-// import PropTypes from "prop-types"
-import styled from "styled-components"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
-  flex-wrap: wrap;
-  .image-grid {
-    max-width: 900px;
-    width: 100%;
-  }
-  .feed-photo {
-    border: 1px solid lightgray;
-    background-color: lightgray;
-    height: 32vw;
-    width: 32vw;
-    max-width: 290px;
-    max-height: 290px;
+  .store-photo {
+    width: 175px;
+    height: 175px;
   }
 `
 
-const ImageGrid = () => {
-  return (
-    <Container className="flex-row justify-center">
-      <div className="flex-column image-grid">
-        <div className="flex-row justify-between">
-          {[11, 22, 33].map(item => {
-            return <div key={item} className="feed-photo" />
-          })}
-        </div>
-
-        <div style={{ marginTop: "1vw" }} className="flex-row justify-between">
-          {[1, 2, 3].map(item => {
-            return <div key={item} className="feed-photo" />
-          })}
-        </div>
-      </div>
-    </Container>
-  )
+class ImageGrid extends Component {
+  render() {
+    const { products } = this.props
+    return (
+      <Container className="d-flex justify-content-center flex-wrap">
+        {products.map(product => (
+          <Link key={product.product_id} to={`/products/${product.product_id}`}>
+            <div
+              className="store-photo m-1"
+              key={product.product_id}
+              style={{
+                backgroundImage: `url(${product.Images[0].image_URL})`,
+                backgroundPosition: 'cover'
+              }}
+            />
+          </Link>
+        ))}
+      </Container>
+    )
+  }
 }
-
-ImageGrid.propTypes = {}
-
-ImageGrid.defaultProps = {}
 
 export default ImageGrid

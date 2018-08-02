@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 const XIcon = ({ fill, stroke, strokeWidth }) => (
   <svg
@@ -19,9 +19,9 @@ const XIcon = ({ fill, stroke, strokeWidth }) => (
 )
 
 XIcon.defaultProps = {
-  fill: "none",
-  stroke: "black",
-  strokeWidth: "2"
+  fill: 'none',
+  stroke: 'black',
+  strokeWidth: '2'
 }
 
 export default XIcon

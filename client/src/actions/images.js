@@ -1,23 +1,22 @@
-// TODO:
-// extract signedURL into it's own async function?
-// better naming convention
-// add stuff to redux?
-// on successful POST to add product, redirect to new page?
-// actions that demonstrate loading
-
-import axios from "axios"
+import axios from "../config/axios"
+import { URLS } from '../config/constants'
+import moment from 'moment'
 
 import {
   UPLOAD_TO_S3_REQUEST,
   UPLOAD_TO_S3_SUCCESS,
   UPLOAD_TO_S3_FAILURE
-} from "./types"
+} from './types'
 
-const uploadToS3UsingSignedUrlPromise = ({ imageName, key, url, image }) =>
+// =====================================================
+// ===============     UPLOAD TO S3     ================
+// =====================================================
+
+const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const request = await axios.put(url, image, {
-        headers: { "Content-Type": image.type }
+      const request = await axios().put(url, image, {
+        headers: { 'Content-Type': image.type }
       })
       resolve(request)
     } catch (e) {
@@ -25,64 +24,77 @@ const uploadToS3UsingSignedUrlPromise = ({ imageName, key, url, image }) =>
     }
   })
 
-export const uploadImagesToS3 = ({ images, productName }) => async (
-  dispatch,
-  getState
-) => {
-  dispatch(uploadImagesToS3Request)
-  const { user } = getState()
+export const uploadImagesToS3 = ({ images, upload_type }) => dispatch => {
+  return new Promise(async (resolve, reject) => {
+    dispatch(uploadImagesToS3Request)
 
-  // Take array of image objects, and return array of file names
-  const imagesNamesArray = images.map(current => current.name)
+    // Take array of image objects, and return array of file names
+    const imagesNamesArray = images.map(current => current.name)
 
-  try {
-    // BE will return an array of uploadConfigs
-    const uploadConfigs = await axios.post("/api/upload", {
+    const body = {
+      upload_type,
       images: imagesNamesArray
-    })
+    }
 
-    //
-    const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
-      const { imageName, key, url } = uploadConfig
-      const image = images.find(image => image.name === imageName)
+    if (upload_type === 'document') {
+      body.document_type = 'national_id'
+    }
 
-      return uploadToS3UsingSignedUrlPromise({
-        imageName: imageName,
-        key: key,
-        url: url,
-        image
+    try {
+      // BE will return an array of uploadConfigs
+      const uploadConfigs = await axios().post(`${URLS.SERVER}/uploads`, body)
+
+      const arrayOfUploadToS3Promises = uploadConfigs.data.map(uploadConfig => {
+        const { imageName, key, url } = uploadConfig
+        const image = images.find(image => image.name === imageName)
+
+        return uploadToS3UsingSignedUrlPromise({
+          imageName: imageName,
+          key: key,
+          url: url,
+          image
+        })
       })
-    })
 
-    const { id, username } = user
-
-    Promise.all(arrayOfUploadToS3Promises).then(values => {
-      dispatch(uploadImagesToS3Success(values))
-      // req to justin BE
-    })
-  } catch (e) {
-    dispatch(
-      uploadImagesToS3Failure({
-        message: "Could not upload image.",
-        log: e
+      Promise.all(arrayOfUploadToS3Promises).then(values => {
+        dispatch(uploadImagesToS3Success(values))
+        const images = values.map(image => {
+          const tempObj = {}
+          tempObj.image_URL = image.config.url.split('?')[0]
+          tempObj.image_description = 'placeholder image description'
+          tempObj.image_date = moment().format()
+          return tempObj
+        })
+        resolve(images)
       })
-    )
-  }
+    } catch (error) {
+      dispatch(
+        uploadImagesToS3Failure({
+          message: 'Could not upload image.',
+          error
+        })
+      )
+      reject('Could not upload image.')
+    }
+  })
 }
 
 const uploadImagesToS3Request = {
   type: UPLOAD_TO_S3_REQUEST,
-  loadingOverlay: true
+  loadingOverlay: true,
+  loadingOverlayMessage:
+    "Uploading your product, please don't refresh the page!",
+  loadingLine: false
 }
-
 const uploadImagesToS3Success = response => ({
   type: UPLOAD_TO_S3_SUCCESS,
   loadingOverlay: false,
+  loadingLine: false,
   payload: response
 })
-
-const uploadImagesToS3Failure = error => ({
+const uploadImagesToS3Failure = ({ message, error }) => ({
   type: UPLOAD_TO_S3_FAILURE,
   loadingOverlay: false,
-  error
+  loadingLine: false,
+  error: { message, error }
 })

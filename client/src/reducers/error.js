@@ -1,4 +1,4 @@
-import { CLEAR_ERROR } from "../actions/types"
+import { CLEAR_ERROR } from '../actions/types'
 
 const initialState = null
 
