@@ -182,7 +182,7 @@ class Login extends Component {
               />
               {this.state.username_message}
             </div>
-            <Button handleClick={this.handleSubmit} type="submit" />
+            <Button handleClick={this.handleSubmit} type="submit" text="Next" />
           </div>
         ) : (
           <FacebookLogin
