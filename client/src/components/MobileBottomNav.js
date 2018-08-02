@@ -78,11 +78,11 @@ class MobileBottomNav extends Component {
     ))
 
   render() {
-    console.log(this.props)
+    console.log('<MobBottomNav />', this.props)
     return (
       <Container className="d-flex justify-content-center align-items-center">
         <div className="inner-container d-flex justify-content-between align-items-center">
-          {this.renderIcons()}
+          {this.props.user.id && this.renderIcons()}
         </div>
       </Container>
     )

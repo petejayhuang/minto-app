@@ -1,4 +1,4 @@
-import axios from "../config/axios"
+import axios from '../config/axios'
 import { URLS } from '../config/constants'
 import { redirect } from './ui'
 
@@ -27,8 +27,9 @@ export const createMessageThread = ({
 }) => async dispatch => {
   dispatch(createMessageThreadRequest)
   try {
+    console.log('product_id in messages.js', product_id)
     const body = {
-      name: `${product_id && `${product_id} |`} ${username}`,
+      name: `@${username} ${product_id && `about product #${product_id}`}`,
       participant_id: [participant_id]
     }
 
@@ -135,6 +136,7 @@ const getMessageThreadFailure = ({ message, error }) => ({
 // ==============      CREATE MESSAGE     ==============
 // =====================================================
 export const createMessage = ({ body, thread_id }) => async dispatch => {
+  console.log('createMessage()')
   dispatch(createMessageRequest)
   try {
     const { data } = await axios().post(`${URLS.SERVER}/messages`, {

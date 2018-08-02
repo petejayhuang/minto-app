@@ -18,17 +18,17 @@ class Store extends Component {
   componentDidMount() {
     const {
       match,
-      store: { info, products },
+      store: { info },
       getStoreProducts
     } = this.props
 
     const store_id = match.params.id
 
-    if (!info.user_id) {
+    if (store_id !== info.user_id) {
       this.props.getStoreInfo(store_id)
     }
 
-    if (products.length === 0) {
+    if (store_id !== info.user_id) {
       getStoreProducts({
         page: this.state.page,
         limit: this.state.limit,
@@ -72,7 +72,7 @@ class Store extends Component {
             <div>
               <h3>@{this.props.store.info.username}</h3>
             </div>
-            <Button onClick={this.handleMessage} text="message seller" />
+            <Button handleClick={this.handleMessage} text="message seller" />
           </div>
         </div>
 
@@ -82,7 +82,7 @@ class Store extends Component {
         <ImageGrid products={this.props.store.products} />
         <div className="mt-3 d-flex justify-content-center">
           <Button
-            onClick={this.loadMoreProducts}
+            handleClick={this.loadMoreProducts}
             className="mb-3"
             text="get more images"
           />

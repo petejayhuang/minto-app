@@ -34,7 +34,7 @@ class Feed extends Component {
       <Container className="route-container d-flex flex-column align-items-center">
         {this.props.feed.map(product => <ProductCard {...product} />)}
         <Button
-          onClick={this.loadMoreProducts}
+          handleClick={this.loadMoreProducts}
           className="mb-3"
           text="get more images"
         />

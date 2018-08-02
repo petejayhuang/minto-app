@@ -1,5 +1,5 @@
-import axios from "../config/axios"
-import { URLS } from "../config/constants"
+import axios from '../config/axios'
+import { URLS } from '../config/constants'
 
 import {
   GET_STORE_INFO_REQUEST,
@@ -8,7 +8,7 @@ import {
   GET_STORE_PRODUCTS_REQUEST,
   GET_STORE_PRODUCTS_SUCCESS,
   GET_STORE_PRODUCTS_FAILURE
-} from "./types"
+} from './types'
 
 // =====================================================
 // =============      GET STORE INFO     ===============
@@ -21,7 +21,7 @@ export const getStoreInfo = id => async dispatch => {
     dispatch(getStoreInfoSuccess(data.data))
   } catch (error) {
     dispatch(
-      getStoreInfoFailure({ message: "Could not get store info.", error })
+      getStoreInfoFailure({ message: 'Could not get store info.', error })
     )
   }
 }
@@ -57,11 +57,11 @@ export const getStoreProducts = ({
     const { data } = await axios()(
       `/products?page=${page}&limit=${limit}&user_id=${user_id}`
     )
-    dispatch(getStoreProductsSuccess(data.data))
+    dispatch(getStoreProductsSuccess({ storeProducts: data.data, page }))
   } catch (error) {
     dispatch(
       getStoreProductsFailure({
-        message: "Could not get store products.",
+        message: 'Could not get store products.',
         error
       })
     )
@@ -73,10 +73,11 @@ const getStoreProductsRequest = {
   loadingLine: true
 }
 
-const getStoreProductsSuccess = storeProducts => ({
+const getStoreProductsSuccess = ({ storeProducts, page }) => ({
   type: GET_STORE_PRODUCTS_SUCCESS,
   loadingLine: false,
-  payload: storeProducts
+  payload: storeProducts,
+  page
 })
 
 const getStoreProductsFailure = ({ message, error }) => ({

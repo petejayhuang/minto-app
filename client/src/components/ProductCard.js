@@ -11,12 +11,6 @@ const Container = styled.div`
     height: 50px;
     width: 50px;
   }
-  .product-image {
-    width: 100vw;
-    max-width: 600px;
-    height: 100vw;
-    max-height: 600px;
-  }
 `
 
 const ProductCard = props => {

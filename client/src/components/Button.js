@@ -5,23 +5,32 @@ import { colors } from '../styles/styleVariables'
 const Container = styled.div`
   button {
     padding: 5px 10px;
-    border: none;
+    border: ${props =>
+      props.secondary ? `1px solid ${colors.primary}` : 'none'};
     border-radius: 8px;
-    background-color: ${colors.primary};
-    color: white;
+    background-color: ${props => (props.secondary ? 'white' : colors.primary)};
+    color: ${props => (props.secondary ? colors.primary : 'white')};
     font-weight: 600;
     &:hover {
       cursor: pointer;
-      background-color: ${colors.primaryLight};
+      color: white;
+      background-color: ${props =>
+        props.secondary ? colors.primary : colors.primaryLight};
     }
   }
 `
 
 const Button = props => {
-  const { className, text, onClick } = props
+  const { className, text, handleClick, children } = props
   return (
-    <Container className={className}>
-      <button onClick={onClick}>{text}</button>
+    <Container {...props} className={className}>
+      <button
+        className="d-flex justify-content-center align-items-center"
+        onClick={handleClick}
+      >
+        {text}
+        {children}
+      </button>
     </Container>
   )
 }

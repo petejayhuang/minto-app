@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Button from '../../components/Button'
 import { logoutUser, redirect } from '../../actions'
 
 const Logout = props => {
@@ -13,10 +14,10 @@ const Logout = props => {
   }
 
   return (
-    <div className="route-container pl-3 pr-3">
+    <div className="route-container d-flex flex-column align-items-center justify-content-center mt-5 pl-3 pr-3">
       Are you sure?
-      <button onClick={handleYes}>yes</button>
-      <button onClick={handleNo}>no</button>
+      <Button className="mt-2" secondary handleClick={handleYes} text="yes" />
+      <Button className="mt-2" handleClick={handleNo} text="no" />
     </div>
   )
 }

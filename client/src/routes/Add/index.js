@@ -152,7 +152,7 @@ class Add extends Component {
         </div>
 
         <div className="d-flex justify-content-center">
-          <Button onClick={this.handleSubmit} text="Submit" />
+          <Button handleClick={this.handleSubmit} text="Submit" />
         </div>
       </div>
     )
