@@ -14,10 +14,13 @@ import styled from 'styled-components'
 
 import Button from '../../components/Button'
 const Container = styled.div`
-img {
-  width: 200px;
-  height: 200p;x
-}
+  img {
+    width: 200px;
+    height: 200p;x
+  }
+  label {
+    font-weight: 600;
+  }
 `
 class Login extends Component {
   state = {
@@ -90,9 +93,12 @@ class Login extends Component {
   render() {
     return (
       <Container className="route-container p-3">
-        {this.props.user.id ? (
-          <form onSubmit={this.handleSubmit}>
-            <p>
+        {this.props.user.id && !this.props.user.username ? (
+          <form
+            className="d-flex flex-column align-items-center"
+            onSubmit={this.handleSubmit}
+          >
+            <p className="text-center">
               <strong>
                 Welcome to Minto! Please check your details and add an username
                 to get started.
@@ -101,7 +107,7 @@ class Login extends Component {
             <img alt="profile" src={this.props.user.profile_URL} />
 
             <div className="d-flex flex-column">
-              <label>First Name</label>
+              <label className="pt-3">First Name</label>
               <input
                 type="text"
                 className="small-input"

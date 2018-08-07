@@ -76,6 +76,7 @@ class Search extends Component {
         </label>
         <input type="text" className="mb-3" onChange={this.handleInputChange} />
         {this.renderCategoryDropdown()}
+
         {search.length > 0 && this.state.searchTouched ? (
           <div className="d-flex flex-column align-items-center">
             <Button
@@ -94,7 +95,7 @@ class Search extends Component {
           </div>
         ) : (
           <Button
-            className="mt-1 mb-5"
+            className="mt-3 mb-5"
             onClick={this.handleSearch}
             text="search"
           />

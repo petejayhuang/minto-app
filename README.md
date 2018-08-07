@@ -6,15 +6,19 @@ Style Guidelines
 
 PRELAUNCH LIST!
 
-[TODO] facebook URI!
 bottom navbar redirects to navbar
 privacy policy
+checkboxes go from uncontrolled to controlled input
+validation on input to be number
+design inputs
 
 
 [NOPE] fix errors & warnings
 [NOPE] chat bubbles!
 [NOPE] hijack forward and back buttons
+[NOPE] hamburger menu should have go to product => BUILD DROPDOWN?
 
+[DONE] facebook URI!
 [DONE] success message
 [DONE] new store => refetch
 [DONE] align the message send button & input
@@ -33,9 +37,9 @@ privacy policy
 [DONE] press "enter" should send message
 [DONE] fix merge problems
 
-hamburger menu should have go to product => BUILD DROPDOWN?
+
 
 BE
-
 - repeated products in the FEED products response
 - can't delete my own product
+- can't update delivery fields

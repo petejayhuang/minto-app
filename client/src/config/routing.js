@@ -37,10 +37,9 @@ export const routes = [
   { path: '*', component: NotFound }
 ]
 
-// !store.getState().user.id && <Link to="/login">Login/ Sign Up</Link>}
 export const navItems = {
   '': {
-    middle: <h5 className="m-0 p-0">Home</h5>
+    middle: <h5 className="m-0 p-0">Minto</h5>
   },
   add: {
     middle: <h5 className="m-0 p-0">Add</h5>
