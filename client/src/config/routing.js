@@ -3,7 +3,6 @@ import { store } from '../config/redux'
 
 // ROUTES
 import Add from '../routes/Add'
-import BecomeASeller from '../routes/Settings/BecomeASeller'
 import Feed from '../routes/Feed'
 import Landing from '../routes/Landing'
 import Login from '../routes/Login'
@@ -19,15 +18,12 @@ import Store from '../routes/Store'
 // FOR NAV ITEMS
 import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
-import MailIcon from '../assets/icons/feather-react/MailIcon'
-import MoreVerticalIcon from '../assets/icons/feather-react/MoreVerticalIcon'
 import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
 import XIcon from '../assets/icons/feather-react/XIcon'
 
 export const routes = [
   { path: '/', component: Landing, exact: true },
   { path: '/add', component: Add },
-  { path: '/become-a-seller', component: BecomeASeller },
   { path: '/feed', component: Feed },
   { path: '/login', component: Login, exact: true },
   { path: '/messages', component: Messages, exact: true },
@@ -47,14 +43,6 @@ export const navItems = {
   add: {
     middle: <h5 className="m-0 p-0">Add</h5>
   },
-  'become-a-seller': {
-    left: (
-      <Link to="/settings">
-        <ChevronLeftIcon />
-      </Link>
-    ),
-    middle: <h5 className="m-0 p-0">Become a seller</h5>
-  },
   feed: {
     middle: <h5 className="m-0 p-0">Feed</h5>,
     right: (
@@ -72,11 +60,10 @@ export const navItems = {
   'messages/:id': {
     left: (
       <Link to="/messages">
-        <MailIcon />
+        <ChevronLeftIcon />
       </Link>
     ),
-    middle: <h5 className="m-0 p-0">Single Message</h5>,
-    right: <MoreVerticalIcon />
+    middle: <h5 className="m-0 p-0">Single Message</h5>
   },
   'products/:id': {
     middle: <h5 className="m-0 p-0">View item</h5>

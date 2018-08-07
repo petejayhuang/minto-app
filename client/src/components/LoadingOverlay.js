@@ -11,13 +11,15 @@ const Container = styled.div`
   z-index: 900;
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: ${colors.primaryLight};
+  color: white;
+  font-size: 20px;
 `
 const LoadingOverlay = props => (
   <Container className="loading-overlay d-flex justify-content-center align-items-center">
     <div className="d-flex flex-column justify-content-center align-items-center">
       <p className="mb-4">{props.ui.loadingOverlayMessage}</p>
-      <LoaderIcon />
+      <LoaderIcon stroke="white" />
     </div>
   </Container>
 )

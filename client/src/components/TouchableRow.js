@@ -1,5 +1,7 @@
 // Add a way to go between a react router dom LINK, to an external link, to a
-// Idea: <TouchableRow.InternaLink/>, <TouchableRow.Externalink/>, <TouchableRow.CustomHandler/>,
+// Idea: <TouchableRow.InternaLink/>
+// <TouchableRow.Externalink/>
+// <TouchableRow.CustomHandler/>
 // for now just an internal link
 
 import React, { Component } from 'react'

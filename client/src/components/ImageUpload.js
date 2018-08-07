@@ -77,7 +77,11 @@ class ImageUpload extends Component {
             >
               <XCircleIcon />
             </div>
-            <img className="preview-image" src={this.state.imagePreviewUrl} />
+            <img
+              alt="upload"
+              className="preview-image"
+              src={this.state.imagePreviewUrl}
+            />
           </div>
         ) : (
           <label

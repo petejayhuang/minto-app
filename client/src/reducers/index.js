@@ -7,6 +7,7 @@ import messages from './messages'
 import orders from './orders'
 import product from './product'
 import { routerReducer as routing } from 'react-router-redux'
+import search from './search'
 import store from './store'
 import success from './success'
 import ui from './ui'
@@ -20,6 +21,7 @@ export default combineReducers({
   orders,
   product,
   routing,
+  search,
   store,
   success,
   ui,

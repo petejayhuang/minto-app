@@ -8,10 +8,8 @@ import { FACEBOOK_APP_ID } from '../../config/constants'
 import {
   authenticateFacebookWithBE,
   getUsernameAvailability,
-  updateUser,
-  uploadImagesToS3
+  updateUser
 } from '../../actions'
-import ImageUpload from '../../components/ImageUpload'
 import styled from 'styled-components'
 
 import Button from '../../components/Button'
@@ -28,19 +26,13 @@ class Login extends Component {
     first_name: '',
     last_name: '',
     email: '',
-    username: '',
-    images: [],
-    changeProfileImage: false
+    username: ''
   }
 
   fetchTimeout = null
 
   logout = () => {
     this.setState({ isAuthenticated: false })
-  }
-
-  handleChange = () => {
-    this.setState({ changeProfileImage: !this.state.changeProfileImage })
   }
 
   facebookResponse = async fbResponse => {
@@ -68,7 +60,7 @@ class Login extends Component {
             this.setState({
               available: response.data.data.available,
               username_message: response.data.data.available
-                ? 'Yes can do!'
+                ? 'Yes that username works!'
                 : "That username isn't available =("
             })
           })
@@ -78,41 +70,19 @@ class Login extends Component {
       }
     }, 1000)
   }
-
-  addImage = image => {
-    this.setState({
-      images: this.state.images.concat(image)
-    })
-  }
-
-  removeImage = imageName => {
-    const newState = this.state.images.filter(image => {
-      return image.name !== imageName
-    })
-    this.setState({ images: newState })
-  }
-
   handleTextInputChange = (inputName, value) => {
     this.setState({ [inputName]: value })
   }
 
   handleSubmit = async e => {
     e.preventDefault()
-    const { first_name, last_name, email, username, images } = this.state
-
-    const image = await this.props.uploadImagesToS3({
-      images,
-      upload_type: 'profile_pic'
-    })
-
-    const profile_URL = images.length > 0 ? images[0].image_URL : ''
+    const { first_name, last_name, email, username } = this.state
 
     this.props.updateUser({
       first_name,
       last_name,
       email,
       username,
-      profile_URL,
       redirect_URL: '/feed'
     })
   }
@@ -122,28 +92,19 @@ class Login extends Component {
       <Container className="route-container p-3">
         {this.props.user.id ? (
           <form onSubmit={this.handleSubmit}>
-            {this.state.changeProfileImage ? (
-              <div className="d-flex flex-column">
-                Change your profile image
-                <ImageUpload
-                  addImage={this.addImage}
-                  removeImage={this.removeImage}
-                />
-              </div>
-            ) : (
-              <div className="d-flex flex-column">
-                <img src={this.props.user.profile_URL} />
-                <Button
-                  secondary
-                  handleClick={this.handleChange}
-                  text="change"
-                />
-              </div>
-            )}
+            <p>
+              <strong>
+                Welcome to Minto! Please check your details and add an username
+                to get started.
+              </strong>
+            </p>
+            <img alt="profile" src={this.props.user.profile_URL} />
+
             <div className="d-flex flex-column">
               <label>First Name</label>
               <input
                 type="text"
+                className="small-input"
                 required
                 onChange={e =>
                   this.handleTextInputChange('first_name', e.target.value)
@@ -155,6 +116,7 @@ class Login extends Component {
               <label>Last Name</label>
               <input
                 required
+                className="small-input"
                 type="text"
                 onChange={e =>
                   this.handleTextInputChange('last_name', e.target.value)
@@ -166,6 +128,7 @@ class Login extends Component {
               <label>Email</label>
               <input
                 required
+                className="small-input"
                 type="text"
                 onChange={e =>
                   this.handleTextInputChange('email', e.target.value)
@@ -177,13 +140,14 @@ class Login extends Component {
               <label>Username</label>
               <input
                 required
+                className="small-input"
                 type="text"
                 onChange={e => this.handleUsernameInputChange(e.target.value)}
                 value={this.state.username || this.props.user.username}
               />
               {this.state.username_message}
             </div>
-            <Button type="submit" text="Next" />
+            <Button className="mt-3" submit text="Save" />
           </form>
         ) : (
           <div className="d-flex flex-column justify-content-center align-items-center">
@@ -192,6 +156,7 @@ class Login extends Component {
               appId={FACEBOOK_APP_ID}
               autoLoad={false}
               fields="name,email,picture"
+              scope="public_profile"
               callback={this.facebookResponse}
             />
           </div>
@@ -205,11 +170,10 @@ Login.defaultProps = {}
 Login.propTypes = {}
 
 export default connect(
-  ({ user }) => ({ user }),
+  ({ ui, user }) => ({ ui, user }),
   {
     authenticateFacebookWithBE,
     getUsernameAvailability,
-    updateUser,
-    uploadImagesToS3
+    updateUser
   }
 )(Login)

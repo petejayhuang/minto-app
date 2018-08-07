@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+
 import findNavItem from '../utilities/findNavItem'
 import { navItems } from '../config/routing'
-
 import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`

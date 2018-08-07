@@ -21,10 +21,11 @@ const Container = styled.div`
 `
 
 const Button = props => {
-  const { className, text, handleClick, children } = props
+  const { className, text, handleClick, children, submit } = props
   return (
     <Container {...props} className={className}>
       <button
+        type={submit ? 'submit' : 'button'}
         className="d-flex justify-content-center align-items-center"
         onClick={handleClick}
       >

@@ -19,7 +19,6 @@ import StoreDrivenRedirect from './components/StoreDrivenRedirect'
 // styles
 import './styles/App.css'
 import styled from 'styled-components'
-import { colors } from './styles/styleVariables'
 
 const AppContainer = styled.div``
 
@@ -41,7 +40,7 @@ class App extends Component {
         <AppContainer>
           {redirect && <StoreDrivenRedirect />}
           {loadingLine && <LoadingLine />}
-          {loadingOverlay && <LoadingOverlay />}
+          {false && <LoadingOverlay />}
           {error && <ErrorNotification />}
           {success && <SuccessNotification />}
           {<MobileTopNav />}

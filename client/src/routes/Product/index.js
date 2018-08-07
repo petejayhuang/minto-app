@@ -23,11 +23,11 @@ class Product extends Component {
     errorMessage: '',
     meet_in_person: this.props.product.meet_in_person_YN,
     price: null,
-    shipping: this.props.product.shipping_YN
+    shipping: this.props.product.shipping_YN,
+    buyMessage: ''
   }
 
   componentDidMount() {
-    
     this.props.getProduct(this.props.match.params.id)
 
     if (this.props.categories.length === 0) {
@@ -50,7 +50,13 @@ class Product extends Component {
     })
   }
 
-  handleBuy = async () => {}
+  handleBuy = () => {
+    // HIT EVENT!
+    this.setState({
+      buyMessage:
+        "Whoops, our buy feature isn't working at the moment. Please try again later."
+    })
+  }
 
   handleDelete = () => {
     this.props.deleteProduct(this.props.product.product_id)
@@ -62,7 +68,7 @@ class Product extends Component {
     this.props.createMessageThread({
       username: [User.username],
       participant_id: [User.user_id],
-      product_id: product_id
+      product_id: product_id || ''
     })
   }
 
@@ -101,7 +107,6 @@ class Product extends Component {
   render() {
     const { editMode } = this.state
 
-
     if (this.props.product.product_id) {
       const {
         categories,
@@ -124,6 +129,7 @@ class Product extends Component {
           <div className="d-flex justify-content-center mb-3">
             {
               <img
+                alt="product"
                 className="img-fluid product-image"
                 src={Images[0].image_URL}
               />
@@ -223,6 +229,8 @@ class Product extends Component {
 
           {!editMode &&
             !isOwnProduct && <Button handleClick={this.handleBuy} text="buy" />}
+
+          <p className="text-center">{this.state.buyMessage}</p>
           {editMode && (
             <Button
               className="mt-2"

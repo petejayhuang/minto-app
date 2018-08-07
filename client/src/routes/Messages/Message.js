@@ -8,7 +8,8 @@ import Button from '../../components/Button'
 const Container = styled.div`
   .chat-input {
     position: absolute;
-    bottom: 50px;
+    bottom: 60px;
+    width: 100vw;
   }
 `
 
@@ -31,7 +32,7 @@ class Message extends Component {
   }
 
   handleKeyDown = e => {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       this.handleSend()
     }
   }
@@ -53,16 +54,16 @@ class Message extends Component {
 
   render() {
     return (
-      <Container className="route-container pl-3 pr-3">
+      <Container className="route-container pr-3">
         {this.renderMessages()}
-        <div className="chat-input d-flex">
+        <div className="chat-input border-top pt-3 d-flex justify-content-center">
           <input
             onKeyDown={this.handleKeyDown}
             type="text"
             onChange={this.handleInputChange}
             value={this.state.message}
           />
-          <Button handleClick={this.handleSend} text="send" />
+          <Button className="ml-2" handleClick={this.handleSend} text="send" />
         </div>
       </Container>
     )

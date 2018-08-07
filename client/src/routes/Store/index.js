@@ -68,11 +68,13 @@ class Store extends Component {
             />
           </div>
 
-          <div className="ml-2">
+          <div className="ml-2 d-flex flex-column justify-content-center">
             <div>
               <h3>@{this.props.store.info.username}</h3>
             </div>
-            <Button handleClick={this.handleMessage} text="message seller" />
+            {this.props.user.id !== this.props.store.info.user_id && (
+              <Button handleClick={this.handleMessage} text="message seller" />
+            )}
           </div>
         </div>
 
@@ -80,21 +82,28 @@ class Store extends Component {
           <h4 className="mt-3 mb-3">SELLING</h4>
         </div>
         <ImageGrid products={this.props.store.products} />
-        <div className="mt-3 d-flex justify-content-center">
-          <Button
-            handleClick={this.loadMoreProducts}
-            className="mb-3"
-            text="get more images"
-          />
-        </div>
+        {this.props.store.products.length > 0 ? (
+          <div className="mt-3 d-flex justify-content-center">
+            <Button
+              handleClick={this.loadMoreProducts}
+              className="mb-3"
+              text="get more images"
+            />
+          </div>
+        ) : (
+          <p className="text-center">
+            =( you haven't listed anything to sell!{' '}
+          </p>
+        )}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ store, ui }) => ({
+const mapStateToProps = ({ store, ui, user }) => ({
   store,
-  ui
+  ui,
+  user
 })
 
 Store.defaultProps = {}

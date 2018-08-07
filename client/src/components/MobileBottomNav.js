@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link, withRouter } from 'react-router-dom'
-import { store } from '../config/redux'
 
 import HomeIcon from '../assets/icons/feather-react/HomeIcon'
 import SearchIcon from '../assets/icons/feather-react/SearchIcon'
@@ -70,7 +69,7 @@ class MobileBottomNav extends Component {
     {
       component: <UserIcon />,
       activeComponent: <UserIcon strokeWidth="3" />,
-      to: this.props.userId ? `/store/${this.props.userId}` : '/login'
+      to: this.props.user.id ? `/store/${this.props.user.id}` : '/login'
     }
   ]
 
@@ -87,13 +86,6 @@ class MobileBottomNav extends Component {
     ))
 
   render() {
-    console.log(
-      '============================= <MobileBottomNav/> render ============================= '
-    )
-    console.log(
-      'LINK goes:',
-      store.getState().user.id ? `/store/${store.getState().user.id}` : '/login'
-    )
     return (
       <Container className="d-flex justify-content-center align-items-center">
         <div className="inner-container d-flex justify-content-between align-items-center">

@@ -18,10 +18,7 @@ import {
   UPDATE_PRODUCT_FAILURE,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_FAILURE,
-  SEARCH_PRODUCTS_REQUEST,
-  SEARCH_PRODUCTS_SUCCESS,
-  SEARCH_PRODUCTS_FAILURE
+  DELETE_PRODUCT_FAILURE
 } from './types'
 
 import { uploadImagesToS3 } from './images'
@@ -66,12 +63,11 @@ const getProductCategoriesFailure = ({ message, error }) => ({
 // =====================================================
 // ===============      GET PRODUCT     ================
 // =====================================================
-
 export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
     const { data } = await axios()(`${URLS.SERVER}/products/${id}`)
-    dispatch(getProductSuccess(data.data))
+    dispatch(getProductSuccess(data.data[0]))
   } catch (error) {
     dispatch(
       getProductFailure({
@@ -123,7 +119,7 @@ export const uploadProduct = ({ images, form }) => async (
     )
     body.images = imageData
 
-    const uploadedProduct = await axios().post(`${URLS.SERVER}/products`, body)
+    await axios().post(`${URLS.SERVER}/products`, body)
 
     dispatch(uploadProductSuccess())
 
@@ -181,7 +177,7 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   dispatch(updateProductRequest)
 
   try {
-    const { data } = await axios().put(`${URLS.SERVER}/products`, body)
+    await axios().put(`${URLS.SERVER}/products`, body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store/${id}`))
   } catch (error) {
@@ -252,44 +248,6 @@ const deleteProductSuccess = () => ({
 const deleteProductFailure = ({ message, error }) => ({
   type: DELETE_PRODUCT_FAILURE,
   loadingOverlay: false,
-  loadingLine: false,
-  error: { message, error }
-})
-
-// =====================================================
-// ==============      SEARCH PRODUCT     ==============
-// =====================================================
-
-export const searchProducts = queryString => async dispatch => {
-  dispatch(searchProductsRequest)
-  try {
-    const { data } = await axios()(
-      `${URLS.SERVER}/products/search${queryString}`
-    )
-    dispatch(searchProductsSuccess(data.data[0]))
-  } catch (error) {
-    dispatch(
-      searchProductsFailure({
-        message: 'Could not search products.',
-        error
-      })
-    )
-  }
-}
-
-const searchProductsRequest = {
-  type: SEARCH_PRODUCTS_REQUEST,
-  loadingLine: true
-}
-
-const searchProductsSuccess = product => ({
-  type: SEARCH_PRODUCTS_SUCCESS,
-  loadingLine: false,
-  payload: product
-})
-
-const searchProductsFailure = ({ message, error }) => ({
-  type: SEARCH_PRODUCTS_FAILURE,
   loadingLine: false,
   error: { message, error }
 })

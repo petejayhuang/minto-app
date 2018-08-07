@@ -64,7 +64,8 @@ a {
 }
 
 /* COMPONENT SPECIFIC */
-input[type='text'] {
+
+.small-input input[type='text'] {
   height: 40px;
   border: 2px solid #88d8bf;
   width: 320px;
@@ -119,7 +120,7 @@ button {
 }
 
 .spinner {
-  animation: spin 4s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
@@ -130,7 +131,7 @@ button {
 
 .loading-overlay {
   opacity: 1;
-  animation: fade 1s linear;
+  animation: fade 0.1s linear;
 }
 
 @keyframes fade {

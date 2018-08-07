@@ -10,10 +10,11 @@ const Container = styled.div``
 
 class Messages extends Component {
   componentDidMount() {
-    if (!this.props.user.id) {
-      this.props.redirect('/login')
+    const { user, redirect, getMessageThreads } = this.props
+    if (!user.id) {
+      redirect('/login')
     } else {
-      this.props.getMessageThreads()
+      getMessageThreads()
     }
   }
 
@@ -23,8 +24,8 @@ class Messages extends Component {
       <Container>
         <div className="route-container">
           {threads.map(thread => {
-            const { ThreadParticipants, name, product_id, thread_id } = thread
-            ThreadParticipants['0'].User.username
+            const { name, thread_id } = thread
+
             return (
               <TouchableRow
                 key={thread_id}
