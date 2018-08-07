@@ -26,9 +26,6 @@ class Store extends Component {
 
     if (store_id !== info.user_id) {
       this.props.getStoreInfo(store_id)
-    }
-
-    if (store_id !== info.user_id) {
       getStoreProducts({
         page: this.state.page,
         limit: this.state.limit,

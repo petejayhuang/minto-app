@@ -217,7 +217,7 @@ const updateUserFailure = ({ message, error }) => ({
 // ===============      LOGOUT USER     ================
 // =====================================================
 export const logoutUser = () => dispatch => {
-  dispatch(redirect('/feed'))
+  dispatch(redirect('/'))
   localStorage.removeItem('x-auth-token')
   dispatch({
     type: LOGOUT_USER

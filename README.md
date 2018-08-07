@@ -6,15 +6,14 @@ Style Guidelines
 
 PRELAUNCH LIST!
 
-store => undefined
 hijack forward and back buttons
-new store => refetch
-
-[DONE] align the message send button & input
 
 [NOPE] fix errors & warnings
 [NOPE] chat bubbles!
 
+[DONE] new store => refetch
+[DONE] align the message send button & input
+[DONE] store => undefined
 [DONE] facebook login
 [DONE] form validations (sign up, add product)
 [DONE] buy flow
