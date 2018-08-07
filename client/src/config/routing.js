@@ -15,11 +15,11 @@ import Search from '../routes/Search'
 import Settings from '../routes/Settings'
 import Store from '../routes/Store'
 
-// FOR NAV ITEMS
 import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
 import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
 import XIcon from '../assets/icons/feather-react/XIcon'
+import { PrivacyPolicy } from '../routes/PrivacyPolicy'
 
 export const routes = [
   { path: '/', component: Landing, exact: true },
@@ -28,6 +28,7 @@ export const routes = [
   { path: '/login', component: Login, exact: true },
   { path: '/messages', component: Messages, exact: true },
   { path: '/messages/:id', component: Message },
+  { path: '/privacy-policy', component: PrivacyPolicy },
   { path: '/products/:id', component: Product },
   { path: '/search', component: Search, exact: true },
   { path: '/settings', component: Settings, exact: true },
@@ -36,6 +37,7 @@ export const routes = [
   { path: '*', component: NotFound }
 ]
 
+// !store.getState().user.id && <Link to="/login">Login/ Sign Up</Link>}
 export const navItems = {
   '': {
     middle: <h5 className="m-0 p-0">Home</h5>
@@ -44,12 +46,7 @@ export const navItems = {
     middle: <h5 className="m-0 p-0">Add</h5>
   },
   feed: {
-    middle: <h5 className="m-0 p-0">Feed</h5>,
-    right: (
-      <div>
-        {!store.getState().user.id && <Link to="/login">Login/ Sign Up</Link>}
-      </div>
-    )
+    middle: <h5 className="m-0 p-0">Feed</h5>
   },
   login: {
     middle: <h5 className="m-0 p-0">Login</h5>
@@ -64,6 +61,14 @@ export const navItems = {
       </Link>
     ),
     middle: <h5 className="m-0 p-0">Single Message</h5>
+  },
+  'privacy-policy': {
+    left: (
+      <Link to="/">
+        <ChevronLeftIcon />
+      </Link>
+    ),
+    middle: <h5 className="m-0 p-0">Privacy Policy</h5>
   },
   'products/:id': {
     middle: <h5 className="m-0 p-0">View item</h5>

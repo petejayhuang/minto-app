@@ -48,27 +48,27 @@ class MobileBottomNav extends Component {
   NAVIGATION_ICONS = [
     {
       component: <HomeIcon />,
-      activeComponent: <HomeIcon strokeWidth="3" />,
+      activeComponent: <HomeIcon stroke={colors.primary} />,
       to: '/feed'
     },
     {
       component: <SearchIcon />,
-      activeComponent: <SearchIcon strokeWidth="3" />,
+      activeComponent: <SearchIcon stroke={colors.primary} />,
       to: '/search'
     },
     {
       component: <PlusSquareIcon />,
-      activeComponent: <PlusSquareIcon strokeWidth="3" />,
+      activeComponent: <PlusSquareIcon stroke={colors.primary} />,
       to: '/add'
     },
     {
       component: <MessageCircleIcon />,
-      activeComponent: <MessageCircleIcon strokeWidth="3" />,
+      activeComponent: <MessageCircleIcon stroke={colors.primary} />,
       to: '/messages'
     },
     {
       component: <UserIcon />,
-      activeComponent: <UserIcon strokeWidth="3" />,
+      activeComponent: <UserIcon stroke={colors.primary} />,
       to: this.props.user.id ? `/store/${this.props.user.id}` : '/login'
     }
   ]

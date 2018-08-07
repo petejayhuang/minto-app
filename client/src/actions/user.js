@@ -21,6 +21,7 @@ import {
 } from './types'
 
 import { uploadImagesToS3 } from './images'
+import { printSuccess } from './success'
 
 // =====================================================
 // ==============      AUTH FB w/ BE     ===============
@@ -40,6 +41,7 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
     if (data.data.username) {
       dispatch(redirect('/feed'))
     }
+    dispatch(printSuccess('Successfully logged in'))
   } catch (error) {
     dispatch(
       authenticateFacebookWithBEFailure({

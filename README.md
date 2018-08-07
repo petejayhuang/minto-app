@@ -6,11 +6,16 @@ Style Guidelines
 
 PRELAUNCH LIST!
 
-hijack forward and back buttons
+[TODO] facebook URI!
+bottom navbar redirects to navbar
+privacy policy
+
 
 [NOPE] fix errors & warnings
 [NOPE] chat bubbles!
+[NOPE] hijack forward and back buttons
 
+[DONE] success message
 [DONE] new store => refetch
 [DONE] align the message send button & input
 [DONE] store => undefined

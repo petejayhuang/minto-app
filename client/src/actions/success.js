@@ -1,9 +1,9 @@
-import { PRINT_SUCCESS, CLEAR_SUCCESS } from "./types"
+import { PRINT_SUCCESS, CLEAR_SUCCESS } from './types'
 
-export const printSuccess = ({ message, success }) => {
+export const printSuccess = message => {
   return {
     type: PRINT_SUCCESS,
-    SUCCESS: { message, success }
+    success: message
   }
 }
 
