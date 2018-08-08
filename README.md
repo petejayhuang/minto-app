@@ -4,43 +4,47 @@ Style Guidelines
 // loading UI 900
 // navigation 800
 
-PRELAUNCH LIST!
+TODO
 
-bottom navbar redirects to navbar
-checkboxes go from uncontrolled to controlled input
-validation on input to be number
-remove ability to message person
-add fb to landing
-reset the search page
-back button: store > product oR feed > product
-if not logged in, don't show message seller (redirect)
-sync staging and master now
+- bottom navbar redirects to navbar
+- checkboxes go from uncontrolled to controlled input
+- validation on input to be number
+- remove ability to message person
+- add fb to landing
+- reset the search page
+- back button: store > product oR feed > product
+- if not logged in, don't show message seller (redirect)
+- sync staging and master now
 
-[NOPE] fix errors & warnings
-[NOPE] hijack forward and back buttons
-[NOPE] hamburger menu should have go to product => BUILD DROPDOWN?
+NOPE
 
-[DONE] privacy policy
-[DONE] design inputs
-[DONE] chat bubbles!
-[DONE] facebook URI!
-[DONE] success message
-[DONE] new store => refetch
-[DONE] align the message send button & input
-[DONE] store => undefined
-[DONE] facebook login
-[DONE] form validations (sign up, add product)
-[DONE] buy flow
-[DONE] can't see message seller if it's yourself!
-[DONE] search functionality
-[DONE] fix loading overlay
-[DONE] bottom nav bar not showing
-[DONE] logged out, bottom nav, when click => /login page, but allow visits to /store/:id
-[DONE] better landing
-[DONE] don’t show profile pages etc when logged out (show login page instead)
-[DONE] text in “next” button
-[DONE] press "enter" should send message
-[DONE] fix merge problems
+- fix errors & warnings
+- hijack forward and back buttons
+- hamburger menu should have go to product => BUILD DROPDOWN?
+
+DONE
+
+- privacy policy
+- design inputs
+- chat bubbles!
+- facebook URI!
+- success message
+- new store => refetch
+- align the message send button & input
+- store => undefined
+- facebook login
+- form validations (sign up, add product)
+- buy flow
+- can't see message seller if it's yourself!
+- search functionality
+- fix loading overlay
+- bottom nav bar not showing
+- logged out, bottom nav, when click => /login page, but allow visits to /store/:id
+- better landing
+- don’t show profile pages etc when logged out (show login page instead)
+- text in “next” button
+- press "enter" should send message
+- fix merge problems
 
 BE
 
