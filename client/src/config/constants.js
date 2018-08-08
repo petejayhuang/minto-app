@@ -1,9 +1,9 @@
 const URLS = {
-  SERVER:
-    process.env.NODE_ENV === 'production'
-      ? 'https://jwl-be-master.herokuapp.com/api/v1'
-      : 'https://jwl-be-staging.herokuapp.com/api/v1'
+  SERVER: 'https://jwl-be-staging.herokuapp.com/api/v1'
 }
+
+// process.env.NODE_ENV === 'production'
+// ? 'https://jwl-be-master.herokuapp.com/api/v1'
 
 const KEYS = {}
 
