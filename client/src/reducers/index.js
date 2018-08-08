@@ -4,7 +4,6 @@ import categories from './categories'
 import error from './error'
 import feed from './feed'
 import messages from './messages'
-import orders from './orders'
 import product from './product'
 import { routerReducer as routing } from 'react-router-redux'
 import search from './search'
@@ -18,7 +17,6 @@ export default combineReducers({
   error,
   feed,
   messages,
-  orders,
   product,
   routing,
   search,

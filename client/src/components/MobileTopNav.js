@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import findNavItem from '../utilities/findNavItem'
 import { navItems } from '../config/routing'
 import { colors } from '../styles/styleVariables'
 
@@ -50,7 +49,7 @@ class MobileTopNav extends Component {
 
   render() {
     const { location } = this.props.routing
-    return <div>{this.renderTopNav(navItems[findNavItem(location)])}</div>
+    return <div>{this.renderTopNav(navItems(this.props))}</div>
   }
 }
 

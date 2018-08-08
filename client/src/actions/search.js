@@ -30,8 +30,6 @@ export const getSearchResults = queryString => async dispatch => {
 
 const getSearchResultsRequest = {
   type: GET_SEARCH_RESULTS_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage: 'Loading search results...',
   loadingLine: true
 }
 
@@ -44,7 +42,6 @@ const getSearchResultsSuccess = searchResults => ({
 const getSearchResultsFailure = ({ message, error }) => ({
   type: GET_SEARCH_RESULTS_FAILURE,
   loadingLine: false,
-  loadingOverlayMessage: '',
   error: { message, error }
 })
 

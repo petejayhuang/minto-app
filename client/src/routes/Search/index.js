@@ -81,7 +81,7 @@ class Search extends Component {
           <div className="d-flex flex-column align-items-center">
             <Button
               secondary
-              className="mt-5"
+              className="mt-3 mb-3"
               onClick={this.handleResetSearch}
               text="reset search"
             />
@@ -89,13 +89,13 @@ class Search extends Component {
 
             <Button
               handleClick={this.loadMoreSearchResults}
-              className="mb-3"
+              className="mt-3 mb-3"
               text="view more results"
             />
           </div>
         ) : (
           <Button
-            className="mt-3 mb-5"
+            className="mt-3 mb-3"
             onClick={this.handleSearch}
             text="search"
           />

@@ -1,29 +1,36 @@
-Style Guidelines
-// Z indices
-// error notification 1000
-// loading UI 900
-// navigation 800
+#Style Guidelines
 
-TODO
+##Z indices
 
-- bottom navbar redirects to navbar
+- error notification 1000
+- loading UI 900
+- navigation 800
+
+#TODO short term
+
 - checkboxes go from uncontrolled to controlled input
 - validation on input to be number
-- remove ability to message person
-- add fb to landing
 - reset the search page
 - back button: store > product oR feed > product
-- if not logged in, don't show message seller (redirect)
-- sync staging and master now
 
-NOPE
+#TODO long term
 
+- validation on inputs
+- topNav spacing of elements
+
+#NOPE
+
+- add fb to landing
+- remove ability to message person
 - fix errors & warnings
 - hijack forward and back buttons
 - hamburger menu should have go to product => BUILD DROPDOWN?
 
-DONE
+#DONE
 
+- improve update profile
+- if not logged in, don't show message seller (redirect)
+- sync staging and master now
 - privacy policy
 - design inputs
 - chat bubbles!

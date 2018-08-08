@@ -8,9 +8,6 @@ import {
   AUTH_FB_WITH_BE_REQUEST,
   AUTH_FB_WITH_BE_SUCCESS,
   AUTH_FB_WITH_BE_FAILURE,
-  UPLOAD_SENSITIVE_IMAGE_REQUEST,
-  UPLOAD_SENSITIVE_IMAGE_SUCCESS,
-  UPLOAD_SENSITIVE_IMAGE_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
@@ -20,7 +17,6 @@ import {
   LOGOUT_USER
 } from './types'
 
-import { uploadImagesToS3 } from './images'
 import { printSuccess } from './success'
 
 // =====================================================
@@ -38,10 +34,19 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
     })
     localStorage.setItem('x-auth-token', data.headers['x-auth-token'])
     dispatch(authenticateFacebookWithBESuccess(data.data))
+
+    // if they have an username, it's not their first time here
     if (data.data.username) {
+      // send them to feed!
       dispatch(redirect('/feed'))
+      dispatch(printSuccess('Successfully logged in'))
     }
-    dispatch(printSuccess('Successfully logged in'))
+
+    // if they don't have a username
+    if (!data.data.username) {
+      // send them to update their profile!
+      dispatch(redirect('/settings/update-profile'))
+    }
   } catch (error) {
     dispatch(
       authenticateFacebookWithBEFailure({
@@ -103,56 +108,6 @@ const getUsernameAvailabilityFailure = ({ message, error }) => ({
   loadingLine: false,
   error: { message, error }
 })
-
-// =====================================================
-// ==========     UPLOAD SENSITIVE IMAGE     ===========
-// =====================================================
-export const uploadSensitiveImage = ({ images }) => async dispatch => {
-  dispatch(uploadSensitiveImageRequest)
-  try {
-    const image = await dispatch(
-      uploadImagesToS3({ images, upload_type: 'document' })
-    )
-
-    // TODO use update user action!
-    await customAxios().put('/users', {
-      national_id_URL: image[0].image_URL
-    })
-
-    dispatch(uploadSensitiveImageSuccess)
-  } catch (error) {
-    dispatch(
-      uploadSensitiveImageFailure({
-        message: 'Could not upload document.',
-        error
-      })
-    )
-  }
-}
-
-const uploadSensitiveImageRequest = {
-  type: UPLOAD_SENSITIVE_IMAGE_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage:
-    "Uploading your document, please don't refresh the page!",
-  loadingLine: false
-}
-
-const uploadSensitiveImageSuccess = {
-  type: UPLOAD_SENSITIVE_IMAGE_SUCCESS,
-  loadingOverlay: false,
-  loadingLine: false
-}
-
-const uploadSensitiveImageFailure = ({ message, error }) => ({
-  type: UPLOAD_SENSITIVE_IMAGE_FAILURE,
-  loadingOverlay: false,
-  loadingLine: false,
-  error: { message, error }
-})
-
-// TODO update profile pic
-// { document_type: 'profile', images: []}
 
 // =====================================================
 // ===============      UPDATE USER     ================

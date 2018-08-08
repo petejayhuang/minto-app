@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import {
-  getStoreInfo,
-  getStoreProducts,
-  createMessageThread
-} from '../../actions'
+import { getStoreInfo, getStoreProducts } from '../../actions'
+import { Link } from 'react-router-dom'
 import ImageGrid from '../../components/ImageGrid'
 import Button from '../../components/Button'
 
@@ -32,14 +29,6 @@ class Store extends Component {
         user_id: store_id
       })
     }
-  }
-
-  handleMessage = () => {
-    const { username, user_id } = this.props.store.info
-    this.props.createMessageThread({
-      username,
-      participant_id: user_id
-    })
   }
 
   loadMoreProducts = () => {
@@ -69,9 +58,6 @@ class Store extends Component {
             <div>
               <h3>@{this.props.store.info.username}</h3>
             </div>
-            {this.props.user.id !== this.props.store.info.user_id && (
-              <Button handleClick={this.handleMessage} text="message seller" />
-            )}
           </div>
         </div>
 
@@ -88,9 +74,14 @@ class Store extends Component {
             />
           </div>
         ) : (
-          <p className="text-center">
-            =( you haven't listed anything to sell!{' '}
-          </p>
+          <div>
+            <p className="text-center">
+              You haven't listed anything to sell! Start{' '}
+              <Link className="highlighted-link" to="/add">
+                here
+              </Link>
+            </p>
+          </div>
         )}
       </div>
     )
@@ -108,5 +99,5 @@ Store.propTypes = {}
 
 export default connect(
   mapStateToProps,
-  { getStoreInfo, getStoreProducts, createMessageThread }
+  { getStoreInfo, getStoreProducts }
 )(Store)

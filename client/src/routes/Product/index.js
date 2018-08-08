@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import Button from '../../components/Button'
 
 import {
@@ -9,8 +9,7 @@ import {
   getProduct,
   createMessageThread,
   updateProduct,
-  deleteProduct,
-  createOrder
+  deleteProduct
 } from '../../actions'
 
 const Container = styled.div``
@@ -123,6 +122,8 @@ class Product extends Component {
       } = this.props
 
       const isOwnProduct = user_id === this.props.user.id
+      const loggedIn = !!this.props.user.id
+      console.log(this.props)
 
       return (
         <Container className="route-container d-flex flex-column align-items-center">
@@ -139,6 +140,7 @@ class Product extends Component {
             <div className="d-flex justify-content-center mb-3">
               <Button
                 secondary
+                className="mt-3 mb-3"
                 handleClick={() => this.setState({ editMode: !editMode })}
                 text={editMode ? 'cancel edits' : 'edit item'}
               />
@@ -149,9 +151,12 @@ class Product extends Component {
               Sold by user: <Link to={`/store/${user_id}`}>@{username}</Link>
             </div>
           )}
+
           {!editMode &&
-            !isOwnProduct && (
+            !isOwnProduct &&
+            loggedIn && (
               <Button
+                className="mt-3 mb-3"
                 secondary
                 handleClick={this.handleMessage}
                 text="Message seller"
@@ -228,7 +233,13 @@ class Product extends Component {
           </div>
 
           {!editMode &&
-            !isOwnProduct && <Button handleClick={this.handleBuy} text="buy" />}
+            !isOwnProduct && (
+              <Button
+                className="mt-3 mb-3"
+                handleClick={this.handleBuy}
+                text="buy"
+              />
+            )}
 
           <p className="text-center">{this.state.buyMessage}</p>
           {editMode && (
@@ -261,7 +272,6 @@ export default connect(
     updateProduct,
     createMessageThread,
     deleteProduct,
-    getProductCategories,
-    createOrder
+    getProductCategories
   }
-)(Product)
+)(withRouter(Product))

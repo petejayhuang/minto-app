@@ -25,23 +25,17 @@ export const getFeed = ({ page, limit }) => async dispatch => {
 
 const getFeedRequest = {
   type: GET_FEED_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage: 'Loading feed...',
   loadingLine: true
 }
 
 const getFeedSuccess = feed => ({
   type: GET_FEED_SUCCESS,
   loadingLine: false,
-  loadingOverlay: false,
-  loadingOverlayMessage: '',
   payload: feed
 })
 
 const getFeedFailure = ({ message, error }) => ({
   type: GET_FEED_FAILURE,
   loadingLine: false,
-  loadingOverlayMessage: '',
   error: { message, error }
 })
-

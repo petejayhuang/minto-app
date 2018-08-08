@@ -21,7 +21,7 @@ const Landing = props => {
         handleClick={() => props.redirect('/search')}
         text="Search items"
       />
-      <Link className="mt-3" to="/login">
+      <Link className="mt-3 highlighted-link" to="/login">
         Login
       </Link>
     </div>
