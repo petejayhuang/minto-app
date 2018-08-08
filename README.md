@@ -7,17 +7,22 @@ Style Guidelines
 PRELAUNCH LIST!
 
 bottom navbar redirects to navbar
-privacy policy
 checkboxes go from uncontrolled to controlled input
 validation on input to be number
-design inputs
-
+remove ability to message person
+add fb to landing
+reset the search page
+back button: store > product oR feed > product
+if not logged in, don't show message seller (redirect)
+sync staging and master now
 
 [NOPE] fix errors & warnings
-[NOPE] chat bubbles!
 [NOPE] hijack forward and back buttons
 [NOPE] hamburger menu should have go to product => BUILD DROPDOWN?
 
+[DONE] privacy policy
+[DONE] design inputs
+[DONE] chat bubbles!
 [DONE] facebook URI!
 [DONE] success message
 [DONE] new store => refetch
@@ -37,9 +42,8 @@ design inputs
 [DONE] press "enter" should send message
 [DONE] fix merge problems
 
-
-
 BE
+
 - repeated products in the FEED products response
 - can't delete my own product
 - can't update delivery fields
