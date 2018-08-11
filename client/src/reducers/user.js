@@ -1,8 +1,4 @@
-import {
-  AUTH_FB_WITH_BE_SUCCESS,
-  UPDATE_USER_SUCCESS,
-  LOGOUT_USER
-} from '../actions/types'
+import { AUTH_FB_WITH_BE_SUCCESS, UPDATE_USER_SUCCESS } from '../actions/types'
 
 const initialState = {}
 
@@ -12,8 +8,6 @@ export default (state = initialState, action) => {
       return action.payload
     case UPDATE_USER_SUCCESS:
       return { ...state, ...action.payload }
-    case LOGOUT_USER:
-      return initialState
     default:
       return state
   }

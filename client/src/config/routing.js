@@ -42,7 +42,6 @@ export const routes = [
 
 export const navItems = store => {
   const { location } = store
-  console.log('history', history)
   const navItemsHash = {
     '': {
       middle: <h5 className="m-0 p-0">Minto</h5>

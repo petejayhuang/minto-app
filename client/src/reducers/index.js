@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { LOGOUT_USER } from '../actions/types'
 
 import categories from './categories'
 import error from './error'
@@ -12,7 +13,7 @@ import success from './success'
 import ui from './ui'
 import user from './user'
 
-export default combineReducers({
+const appReducer = combineReducers({
   categories,
   error,
   feed,
@@ -25,3 +26,12 @@ export default combineReducers({
   ui,
   user
 })
+
+const rootReducer = (state, action) => {
+  if (action.type === LOGOUT_USER) {
+    return {}
+  }
+  return appReducer(state, action)
+}
+
+export default rootReducer

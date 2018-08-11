@@ -12,11 +12,14 @@
 - validation on input to be number
 - reset the search page
 - back button: store > product oR feed > product
+- separate get first set of products, and then get more products
+- home make facebook login
 
 #TODO long term
 
 - validation on inputs
 - topNav spacing of elements
+- add redux dev tools: https://github.com/reduxjs/redux-devtools/blob/master/docs/Walkthrough.md
 
 #NOPE
 

@@ -65,15 +65,16 @@ class Store extends Component {
           <h4 className="mt-3 mb-3">SELLING</h4>
         </div>
         <ImageGrid products={this.props.store.products} />
-        {this.props.store.products.length > 0 ? (
+        {this.props.store.products.length > 3 && (
           <div className="mt-3 d-flex justify-content-center">
             <Button
               handleClick={this.loadMoreProducts}
               className="mb-3"
-              text="get more images"
+              text="load more images"
             />
           </div>
-        ) : (
+        )}
+        {this.props.store.products.length === 0 && (
           <div>
             <p className="text-center">
               You haven't listed anything to sell! Start{' '}

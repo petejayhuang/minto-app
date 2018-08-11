@@ -123,7 +123,6 @@ class Product extends Component {
 
       const isOwnProduct = user_id === this.props.user.id
       const loggedIn = !!this.props.user.id
-      console.log(this.props)
 
       return (
         <Container className="route-container d-flex flex-column align-items-center">
