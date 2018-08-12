@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors } from '../styles/styleVariables'
+import LoaderIcon from '../assets/icons/feather-react/LoaderIcon'
 
 const Container = styled.div`
   button {
@@ -21,16 +22,24 @@ const Container = styled.div`
 `
 
 const Button = props => {
-  const { className, text, handleClick, children, submit } = props
+  const { className, text, handleClick, submit, loading } = props
+
+  const renderContent = () => {
+    if (loading) {
+      return <LoaderIcon stroke="white" />
+    } else {
+      return text
+    }
+  }
   return (
     <Container {...props} className={className}>
       <button
+        disabled={loading}
         type={submit ? 'submit' : 'button'}
         className="d-flex justify-content-center align-items-center"
         onClick={handleClick}
       >
-        {text}
-        {children}
+        {renderContent()}
       </button>
     </Container>
   )

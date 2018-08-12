@@ -1,6 +1,6 @@
 import {
   GET_STORE_INFO_SUCCESS,
-  GET_STORE_PRODUCTS_SUCCESS
+  GET_INITIAL_STORE_PRODUCTS_SUCCESS
 } from '../actions/types'
 
 const initialState = {
@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case GET_STORE_INFO_SUCCESS:
       return { ...state, info: action.payload }
-    case GET_STORE_PRODUCTS_SUCCESS:
+    case GET_INITIAL_STORE_PRODUCTS_SUCCESS:
       return {
         ...state,
         products:

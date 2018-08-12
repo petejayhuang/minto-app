@@ -39,10 +39,12 @@ class Store extends Component {
       limit,
       user_id: this.props.match.params.id
     })
+
     this.setState({ page: page + 1 })
   }
 
   render() {
+    const isOwnStore = this.props.user.id === this.props.store.info.user_id
     return (
       <div className="route-container inner-container">
         <div className="d-flex p-3 border-bottom-light">
@@ -65,25 +67,29 @@ class Store extends Component {
           <h4 className="mt-3 mb-3">SELLING</h4>
         </div>
         <ImageGrid products={this.props.store.products} />
+
         {this.props.store.products.length > 3 && (
           <div className="mt-3 d-flex justify-content-center">
             <Button
+              loading={this.props.ui.loadingLine}
               handleClick={this.loadMoreProducts}
               className="mb-3"
               text="load more images"
             />
           </div>
         )}
-        {this.props.store.products.length === 0 && (
-          <div>
-            <p className="text-center">
-              You haven't listed anything to sell! Start{' '}
-              <Link className="highlighted-link" to="/add">
-                here
-              </Link>
-            </p>
-          </div>
-        )}
+
+        {this.props.store.products.length === 0 &&
+          isOwnStore && (
+            <div>
+              <p className="text-center">
+                You haven't listed anything to sell! Start{' '}
+                <Link className="highlighted-link" to="/add">
+                  here
+                </Link>
+              </p>
+            </div>
+          )}
       </div>
     )
   }

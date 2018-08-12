@@ -75,14 +75,6 @@ export const navItems = store => {
       middle: <h5 className="m-0 p-0">Privacy Policy</h5>
     },
     'products/:id': {
-      left:
-        store.history.action === 'PUSH' ? (
-          <div onClick={() => history.goBack()}>
-            <ChevronLeftIcon />
-          </div>
-        ) : (
-          <div />
-        ),
       middle: <h5 className="m-0 p-0">View item</h5>
     },
     search: {

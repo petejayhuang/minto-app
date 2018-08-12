@@ -58,19 +58,16 @@ export const authenticateFacebookWithBE = accessToken => async dispatch => {
 }
 const authenticateFacebookWithBERequest = {
   type: AUTH_FB_WITH_BE_REQUEST,
-  loadingLine: true,
-  loadingOverlay: true
+  loadingLine: true
 }
 const authenticateFacebookWithBESuccess = user => ({
   type: AUTH_FB_WITH_BE_SUCCESS,
   loadingLine: false,
-  loadingOverlay: false,
   payload: user
 })
 const authenticateFacebookWithBEFailure = ({ message, error }) => ({
   type: AUTH_FB_WITH_BE_FAILURE,
   loadingLine: false,
-  loadingOverlay: false,
   error: { message, error }
 })
 
@@ -174,9 +171,12 @@ const updateUserFailure = ({ message, error }) => ({
 // ===============      LOGOUT USER     ================
 // =====================================================
 export const logoutUser = () => dispatch => {
-  dispatch(redirect('/'))
   localStorage.removeItem('x-auth-token')
+
   dispatch({
     type: LOGOUT_USER
   })
+
+  dispatch(redirect('/feed'))
+  dispatch(printSuccess('Successfully logged out'))
 }

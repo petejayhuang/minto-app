@@ -36,6 +36,7 @@ class Feed extends Component {
           <ProductCard key={product.product_id} {...product} />
         ))}
         <Button
+          loading={this.props.ui.loadingLine}
           handleClick={this.loadMoreProducts}
           className="mb-3"
           text="get more images"
@@ -48,7 +49,7 @@ class Feed extends Component {
 Feed.defaultProps = {}
 Feed.propTypes = {}
 
-const mapState = ({ feed }) => ({ feed })
+const mapState = ({ feed, ui }) => ({ feed, ui })
 
 export default connect(
   mapState,

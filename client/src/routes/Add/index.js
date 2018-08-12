@@ -9,6 +9,7 @@ class Add extends Component {
     category_id: null,
     description: '',
     images: [],
+    price: 0,
     meet_in_person: false,
     shipping: false
   }
@@ -16,9 +17,10 @@ class Add extends Component {
   componentDidMount() {
     if (!this.props.user.id) {
       this.props.redirect('/login')
-    }
-    if (this.props.categories.length === 0) {
-      this.props.getProductCategories()
+    } else {
+      if (this.props.categories.length === 0) {
+        this.props.getProductCategories()
+      }
     }
   }
 
@@ -84,6 +86,9 @@ class Add extends Component {
   )
 
   render() {
+    const {
+      ui: { loadingLine }
+    } = this.props
     return (
       <div className="route-container d-flex flex-column align-items-center p-3">
         <div className="d-flex justify-content-center flex-wrap">
@@ -112,11 +117,11 @@ class Add extends Component {
 
         <div className="d-flex flex-column">
           <label className="mt-3">
-            <strong>Product Price</strong>
+            <strong>Product Price (£)</strong>
           </label>
           <input
             required
-            type="text"
+            type="number"
             onChange={e => this.handleTextInputChange('price', e.target.value)}
             value={this.state.price}
           />
@@ -155,7 +160,11 @@ class Add extends Component {
         </div>
 
         <div className="d-flex mt-3 justify-content-center">
-          <Button handleClick={this.handleSubmit} text="Submit" />
+          <Button
+            loading={loadingLine}
+            handleClick={this.handleSubmit}
+            text="Submit"
+          />
         </div>
       </div>
     )
@@ -163,6 +172,6 @@ class Add extends Component {
 }
 
 export default connect(
-  ({ user, categories }) => ({ user, categories }),
+  ({ user, categories, ui }) => ({ user, categories, ui }),
   { getProductCategories, uploadProduct, redirect }
 )(Add)

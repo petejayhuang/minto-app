@@ -138,7 +138,12 @@ class UpdateProfile extends Component {
           )}
           {this.state.username_message}
 
-          <Button className="mt-3" submit text="Save" />
+          <Button
+            loading={this.props.ui.loadingLine}
+            className="mt-3"
+            submit
+            text="Save"
+          />
           <Button
             handleClick={() => this.props.redirect('/settings')}
             secondary
@@ -153,7 +158,7 @@ class UpdateProfile extends Component {
 }
 
 export default connect(
-  ({ user }) => ({ user }),
+  ({ user, ui }) => ({ user, ui }),
   {
     getUsernameAvailability,
     redirect,

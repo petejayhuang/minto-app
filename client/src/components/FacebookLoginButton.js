@@ -1,21 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { authenticateFacebookWithBE } from '../actions'
+import Button from './Button'
 
 const FacebookLoginButton = props => {
   const getLoginStatus = () => {
-    console.log()
-    console.log('getLoginStatus')
     window.FB.getLoginStatus(function(response) {
       props.authenticateFacebookWithBE(response.authResponse.accessToken)
-      console.log('response', response)
     })
   }
 
-  return <button onClick={getLoginStatus}>Login with Facebook </button>
+  return (
+    <Button
+      handleClick={getLoginStatus}
+      loading={props.ui.loadingLine}
+      text="Login with Facebook"
+    />
+  )
 }
 
 export default connect(
-  null,
+  ({ ui }) => ({ ui }),
   { authenticateFacebookWithBE }
 )(FacebookLoginButton)

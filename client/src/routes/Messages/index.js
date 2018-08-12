@@ -11,6 +11,7 @@ const Container = styled.div``
 class Messages extends Component {
   componentDidMount() {
     const { user, redirect, getMessageThreads } = this.props
+
     if (!user.id) {
       redirect('/login')
     } else {

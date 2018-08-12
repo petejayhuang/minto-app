@@ -5,9 +5,9 @@ import {
   GET_STORE_INFO_REQUEST,
   GET_STORE_INFO_SUCCESS,
   GET_STORE_INFO_FAILURE,
-  GET_STORE_PRODUCTS_REQUEST,
-  GET_STORE_PRODUCTS_SUCCESS,
-  GET_STORE_PRODUCTS_FAILURE
+  GET_INITIAL_STORE_PRODUCTS_REQUEST,
+  GET_INITIAL_STORE_PRODUCTS_SUCCESS,
+  GET_INITIAL_STORE_PRODUCTS_FAILURE
 } from './types'
 
 // =====================================================
@@ -69,19 +69,19 @@ export const getStoreProducts = ({
 }
 
 const getStoreProductsRequest = {
-  type: GET_STORE_PRODUCTS_REQUEST,
+  type: GET_INITIAL_STORE_PRODUCTS_REQUEST,
   loadingLine: true
 }
 
 const getStoreProductsSuccess = ({ storeProducts, page }) => ({
-  type: GET_STORE_PRODUCTS_SUCCESS,
+  type: GET_INITIAL_STORE_PRODUCTS_SUCCESS,
   loadingLine: false,
   payload: storeProducts,
   page
 })
 
 const getStoreProductsFailure = ({ message, error }) => ({
-  type: GET_STORE_PRODUCTS_FAILURE,
+  type: GET_INITIAL_STORE_PRODUCTS_FAILURE,
   loadingLine: false,
   error: { message, error }
 })

@@ -8,18 +8,16 @@
 
 #TODO short term
 
-- checkboxes go from uncontrolled to controlled input
-- validation on input to be number
-- reset the search page
 - back button: store > product oR feed > product
-- separate get first set of products, and then get more products
-- home make facebook login
 
 #TODO long term
 
 - validation on inputs
 - topNav spacing of elements
 - add redux dev tools: https://github.com/reduxjs/redux-devtools/blob/master/docs/Walkthrough.md
+- back on certain flows & go back once
+- cancel requests on new route changes
+- success and error notifications in 1 component
 
 #NOPE
 
@@ -31,6 +29,14 @@
 
 #DONE
 
+- improve FB login button
+- separate get first set of products, and then get more products
+- validation on input to be number
+- fix warning: checkboxes go from uncontrolled to controlled input
+- reset the search page on component mount
+- add loading spinner & disable button when doing something async
+- fix the bottom nav going to /login when log in first time (no refresh)
+- home make facebook login
 - improve update profile
 - if not logged in, don't show message seller (redirect)
 - sync staging and master now

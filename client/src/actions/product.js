@@ -133,21 +133,16 @@ export const uploadProduct = ({ images, form }) => async (
 
 const uploadProductRequest = {
   type: UPLOAD_PRODUCT_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage:
-    "Uploading your product, please don't refresh the page!",
-  loadingLine: false
+  loadingLine: true
 }
 
 const uploadProductSuccess = () => ({
   type: UPLOAD_PRODUCT_SUCCESS,
-  loadingOverlay: false,
   loadingLine: false
 })
 
 const uploadProductFailure = ({ message, error }) => ({
   type: UPLOAD_PRODUCT_FAILURE,
-  loadingOverlay: false,
   loadingLine: false,
   error: { message, error }
 })
@@ -189,21 +184,16 @@ export const updateProduct = formValues => async (dispatch, getState) => {
 
 const updateProductRequest = {
   type: UPDATE_PRODUCT_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage:
-    "Updating your product, please don't refresh the page!",
-  loadingLine: false
+  loadingLine: true
 }
 
 const updateProductSuccess = () => ({
   type: UPDATE_PRODUCT_SUCCESS,
-  loadingOverlay: false,
   loadingLine: false
 })
 
 const updateProductFailure = ({ message, error }) => ({
   type: UPDATE_PRODUCT_FAILURE,
-  loadingOverlay: false,
   loadingLine: false,
   error: { message, error }
 })
@@ -232,22 +222,17 @@ export const deleteProduct = id => async (dispatch, getState) => {
 
 const deleteProductRequest = {
   type: DELETE_PRODUCT_REQUEST,
-  loadingOverlay: true,
-  loadingOverlayMessage:
-    "Deleting your product, please don't refresh the page!",
   loadingLine: true
 }
 
 const deleteProductSuccess = () => ({
   type: DELETE_PRODUCT_SUCCESS,
   success: 'Product successfully deleted.',
-  loadingOverlay: false,
   loadingLine: false
 })
 
 const deleteProductFailure = ({ message, error }) => ({
   type: DELETE_PRODUCT_FAILURE,
-  loadingOverlay: false,
   loadingLine: false,
   error: { message, error }
 })
