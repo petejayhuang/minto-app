@@ -203,13 +203,8 @@ const updateProductFailure = ({ message, error }) => ({
 // =====================================================
 export const deleteProduct = id => async (dispatch, getState) => {
   dispatch(deleteProductRequest)
-  const body = {
-    product_id: id
-  }
   try {
-    const data = await axios().delete(`${URLS.SERVER}/products`, {
-      data: body
-    })
+    const data = await axios().delete(`${URLS.SERVER}/products/${id}`)
 
     dispatch(deleteProductSuccess(data))
     dispatch(redirect('/feed'))

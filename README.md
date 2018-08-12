@@ -8,6 +8,9 @@
 
 #TODO short term
 
+- background images
+- validation on username input
+- update delivery options
 - back button: store > product oR feed > product
 
 #TODO long term
@@ -29,6 +32,8 @@
 
 #DONE
 
+- delete product
+- fixed: repeated products in the FEED products response
 - improve FB login button
 - separate get first set of products, and then get more products
 - validation on input to be number
@@ -64,6 +69,5 @@
 
 BE
 
-- repeated products in the FEED products response
-- can't delete my own product
 - can't update delivery fields
+- remove name from createThread

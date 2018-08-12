@@ -3,7 +3,6 @@ import TouchableRow from '../../components/TouchableRow'
 
 const SettingsList = props => (
   <div className="route-container">
-    <TouchableRow to="/settings/update-profile" text="Update Profile" />
     <TouchableRow borderBottom to="/settings/logout" text="Log out" />
     <div className="pl-3 mt-5 text-center">
       We'd love to hear your feedback.{' '}

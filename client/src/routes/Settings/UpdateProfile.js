@@ -92,40 +92,8 @@ class UpdateProfile extends Component {
 
           <img className="pt-4" alt="profile" src={profile_URL} />
 
-          <label className="pt-3">First Name</label>
-          <input
-            type="text"
-            className="small-input"
-            required
-            onChange={e =>
-              this.handleTextInputChange('first_name', e.target.value)
-            }
-            value={this.state.first_name || first_name}
-          />
-
-          <label>Last Name</label>
-          <input
-            required
-            className="small-input"
-            type="text"
-            onChange={e =>
-              this.handleTextInputChange('last_name', e.target.value)
-            }
-            value={this.state.last_name || last_name}
-          />
           {!username && (
             <Fragment>
-              <label>Email</label>
-              <input
-                required
-                className="small-input"
-                type="text"
-                onChange={e =>
-                  this.handleTextInputChange('email', e.target.value)
-                }
-                value={this.state.email || email}
-              />
-
               <label>Username</label>
               <input
                 required
@@ -143,13 +111,6 @@ class UpdateProfile extends Component {
             className="mt-3"
             submit
             text="Save"
-          />
-          <Button
-            handleClick={() => this.props.redirect('/settings')}
-            secondary
-            className="mt-3"
-            submit
-            text="Cancel"
           />
         </form>
       </Container>

@@ -97,7 +97,7 @@ export const navItems = store => {
       middle: <h5 className="m-0 p-0">Log out</h5>
     },
     '/settings/update-profile': {
-      middle: <h5 className="m-0 p-0">Update Profile</h5>
+      middle: <h5 className="m-0 p-0">Add a username</h5>
     },
     'store/:id': {
       left: (
