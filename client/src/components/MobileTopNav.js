@@ -48,7 +48,6 @@ class MobileTopNav extends Component {
   )
 
   render() {
-    const { location } = this.props.routing
     return <div>{this.renderTopNav(navItems(this.props))}</div>
   }
 }

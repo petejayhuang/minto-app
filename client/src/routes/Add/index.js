@@ -78,7 +78,7 @@ class Add extends Component {
   renderCategoryDropdown = () => (
     <select required onChange={e => this.handleOption(e)}>
       {this.props.categories.map(category => (
-        <option value={category.category_id} key={category.product_type}>
+        <option value={category.category_id} key={category.category_id}>
           {category.product_type}
         </option>
       ))}

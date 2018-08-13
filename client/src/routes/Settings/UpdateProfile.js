@@ -26,15 +26,27 @@ class UpdateProfile extends Component {
   fetchTimeout = null
 
   handleUsernameInputChange = value => {
+    const regEx = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/
+    const { getUsernameAvailability } = this.props
+
+    const validUsername = regEx.test(value)
+
     this.setState({ username: value })
+
+    if (!validUsername || value.length < 6) {
+      this.setState({
+        username_message:
+          'Username must be at least 5 characters and contain only letters and numbers'
+      })
+    }
+
     if (this.fetchTimeout) {
       clearTimeout(this.fetchTimeout)
     }
 
     this.fetchTimeout = setTimeout(() => {
-      if (value.length > 5) {
-        this.props
-          .getUsernameAvailability(value)
+      if (validUsername && value.length > 5) {
+        getUsernameAvailability(value)
           .then(response => {
             this.setState({
               available: response.data.data.available,
@@ -48,10 +60,6 @@ class UpdateProfile extends Component {
           })
       }
     }, 1000)
-  }
-
-  handleTextInputChange = (inputName, value) => {
-    this.setState({ [inputName]: value })
   }
 
   handleSubmit = async e => {
@@ -68,13 +76,7 @@ class UpdateProfile extends Component {
   }
 
   render() {
-    const {
-      profile_URL,
-      first_name,
-      last_name,
-      email,
-      username
-    } = this.props.user
+    const { profile_URL, username } = this.props.user
     return (
       <Container className="route-container p-3">
         <form
@@ -100,11 +102,11 @@ class UpdateProfile extends Component {
                 className="small-input"
                 type="text"
                 onChange={e => this.handleUsernameInputChange(e.target.value)}
-                value={this.state.username || username}
+                value={this.state.username}
               />
             </Fragment>
           )}
-          {this.state.username_message}
+          <p className="text-center">{this.state.username_message}</p>
 
           <Button
             loading={this.props.ui.loadingLine}

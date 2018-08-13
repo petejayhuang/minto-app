@@ -1,5 +1,4 @@
 import React from 'react'
-import { history } from '../config/redux'
 import findNavItem from '../utilities/findNavItem'
 
 // ROUTES

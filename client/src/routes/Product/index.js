@@ -73,13 +73,7 @@ class Product extends Component {
 
   handleUpdate = () => {
     const {
-      product: {
-        category_id,
-        description,
-        Prices,
-        meet_in_person_YN,
-        shipping_YN
-      }
+      product: { category_id, description, Prices }
     } = this.props
 
     // either the state was changed, or it remains the same as before
@@ -108,16 +102,13 @@ class Product extends Component {
 
     if (this.props.product.product_id) {
       const {
-        categories,
         product: {
           User: { user_id, username },
           Images,
           Prices,
           description,
           meet_in_person_YN,
-          shipping_YN,
-          product_id,
-          category_id
+          shipping_YN
         }
       } = this.props
 
@@ -131,7 +122,12 @@ class Product extends Component {
               <img
                 alt="product"
                 className="img-fluid product-image"
-                src={Images[0].image_URL}
+                style={{
+                  backgroundImage: `url(${Images[0].image_URL})`,
+                  backgroundPosition: 'cover',
+                  backgroundSize: '150%',
+                  backgroundRepeat: 'no-repeat'
+                }}
               />
             }
           </div>

@@ -21,7 +21,6 @@ import {
 // ==========      CREATE MESSAGE THREAD     ===========
 // =====================================================
 export const createMessageThread = ({
-  username,
   participant_id,
   product_id
 }) => async dispatch => {

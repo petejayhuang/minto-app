@@ -8,9 +8,6 @@
 
 #TODO short term
 
-- background images
-- validation on username input
-- prevent horizontal scroll
 
 #TODO long term
 
@@ -33,6 +30,9 @@
 
 #DONE
 
+- background images
+- validation on username input
+- prevent horizontal scroll
 - change redirect URIs
 - update delivery options
 - google analytics page views

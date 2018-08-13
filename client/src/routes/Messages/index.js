@@ -25,7 +25,7 @@ class Messages extends Component {
       <Container>
         <div className="route-container">
           {threads.map(thread => {
-            const { name, product_id, thread_id, ThreadParticipants } = thread
+            const { product_id, thread_id, ThreadParticipants } = thread
 
             return (
               <TouchableRow

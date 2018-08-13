@@ -21,7 +21,9 @@ class ImageGrid extends Component {
               key={product.product_id}
               style={{
                 backgroundImage: `url(${product.Images[0].image_URL})`,
-                backgroundPosition: 'cover'
+                backgroundPosition: 'cover',
+                backgroundSize: '150%',
+                backgroundRepeat: 'no-repeat'
               }}
             />
           </Link>
