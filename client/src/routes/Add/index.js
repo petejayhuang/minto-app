@@ -65,8 +65,8 @@ class Add extends Component {
         category_id: Number(this.state.category_id),
         description: this.state.description,
         price: Number(this.state.price),
-        meet_in_person_YN: this.state.meet_in_person ? 1 : 0,
-        shipping_YN: this.state.shipping ? 1 : 0
+        meet_in_person_YN: this.state.meet_in_person,
+        shipping_YN: this.state.shipping
       }
     })
   }

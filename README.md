@@ -10,8 +10,6 @@
 
 - background images
 - validation on username input
-- update delivery options
-- back button: store > product oR feed > product
 - prevent horizontal scroll
 
 #TODO long term
@@ -26,6 +24,7 @@
 
 #NOPE
 
+- back button: store > product oR feed > product
 - add fb to landing
 - remove ability to message person
 - fix errors & warnings
@@ -34,7 +33,9 @@
 
 #DONE
 
-- google analytics
+- change redirect URIs
+- update delivery options
+- google analytics page views
 - delete product
 - fixed: repeated products in the FEED products response
 - improve FB login button
