@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { ConnectedRouter } from 'react-router-redux'
 import App from './App'
 import { store, persistor, history } from './config/redux'
-// import registerServiceWorker from './utilities/registerServiceWorker'
+import registerServiceWorker from './services/registerServiceWorker'
 
 ReactDOM.render(
   <Provider store={store}>
@@ -18,4 +18,4 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
-// registerServiceWorker()
+registerServiceWorker()
