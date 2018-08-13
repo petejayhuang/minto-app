@@ -8,7 +8,6 @@
 
 #TODO short term
 
-
 #TODO long term
 
 - validation on inputs
@@ -30,6 +29,7 @@
 
 #DONE
 
+- improved NotFound route/ component
 - background images
 - validation on username input
 - prevent horizontal scroll
