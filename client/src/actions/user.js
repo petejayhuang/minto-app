@@ -25,6 +25,7 @@ import { printSuccess } from './success'
 export const authenticateFacebookWithBE = accessToken => async dispatch => {
   dispatch(authenticateFacebookWithBERequest)
   try {
+    // don't destructure because we want access to data.headers
     const data = await axios({
       method: 'post',
       url: `${URLS.SERVER}/auth/facebook`,

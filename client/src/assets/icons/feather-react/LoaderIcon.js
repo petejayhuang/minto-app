@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 const LoaderIcon = ({ fill, stroke, strokeWidth }) => (
   <svg
@@ -25,9 +25,9 @@ const LoaderIcon = ({ fill, stroke, strokeWidth }) => (
 )
 
 LoaderIcon.defaultProps = {
-  fill: "none",
-  stroke: "black",
-  strokeWidth: "2"
+  fill: 'none',
+  stroke: 'black',
+  strokeWidth: '2'
 }
 
 export default LoaderIcon

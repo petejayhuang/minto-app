@@ -14,7 +14,7 @@ const FacebookLoginButton = props => {
     <Button
       handleClick={getLoginStatus}
       loading={props.ui.loadingLine}
-      text="Login with Facebook"
+      text="Login/ Sign up with Facebook"
     />
   )
 }

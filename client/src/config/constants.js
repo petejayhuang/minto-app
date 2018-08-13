@@ -1,9 +1,9 @@
 const URLS = {
-  SERVER: 'https://jwl-be-staging.herokuapp.com/api/v1'
+  SERVER:
+    process.env.APP_ENV === 'production'
+      ? 'https://minto-api-master.herokuapp.com/api/v1'
+      : 'https://minto-api-staging.herokuapp.com/api/v1'
 }
-
-// process.env.NODE_ENV === 'production'
-// ? 'https://jwl-be-master.herokuapp.com/api/v1'
 
 const KEYS = {}
 

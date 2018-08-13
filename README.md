@@ -22,6 +22,7 @@
 - back on certain flows & go back once
 - cancel requests on new route changes
 - success and error notifications in 1 component
+- dynamically generate google analytics scripts based on APP_ENV
 
 #NOPE
 
@@ -33,6 +34,7 @@
 
 #DONE
 
+- google analytics
 - delete product
 - fixed: repeated products in the FEED products response
 - improve FB login button

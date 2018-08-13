@@ -25,14 +25,11 @@ const AppContainer = styled.div``
 class App extends Component {
   render() {
     const {
-      routing,
-      ui: { redirect, loadingLine, loadingOverlay },
+      ui: { redirect, loadingLine },
       error,
       success,
       user: { id }
     } = this.props
-    console.log('id', id)
-    console.log('redirect', redirect)
 
     return (
       <ErrorBoundary>

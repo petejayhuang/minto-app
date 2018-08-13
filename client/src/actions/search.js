@@ -12,7 +12,6 @@ import {
 // ===========      GET SEARCH RESULTS     =============
 // =====================================================
 export const getSearchResults = ({ queryString, page }) => async dispatch => {
-  console.log('page', page)
   dispatch(getSearchResultsRequest)
   try {
     const { data } = await axios()(
