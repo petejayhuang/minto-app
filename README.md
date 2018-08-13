@@ -12,6 +12,7 @@
 - validation on username input
 - update delivery options
 - back button: store > product oR feed > product
+- prevent horizontal scroll
 
 #TODO long term
 
