@@ -33,48 +33,44 @@ class MobileBottomNav extends Component {
       : null
   }
 
-  shouldComponentUpdate(nextProps) {
-    // TODO!
-
-    const shouldUpdate = !!nextProps.user.id === !!this.props.user.id
-
-    return shouldUpdate
-  }
-
   state = {
     currentPathname: this.props.location.pathname
   }
 
-  NAVIGATION_ICONS = [
-    {
-      component: <HomeIcon />,
-      activeComponent: <HomeIcon stroke={colors.primary} />,
-      to: '/feed'
-    },
-    {
-      component: <SearchIcon />,
-      activeComponent: <SearchIcon stroke={colors.primary} />,
-      to: '/search'
-    },
-    {
-      component: <PlusSquareIcon />,
-      activeComponent: <PlusSquareIcon stroke={colors.primary} />,
-      to: '/add'
-    },
-    {
-      component: <MessageCircleIcon />,
-      activeComponent: <MessageCircleIcon stroke={colors.primary} />,
-      to: '/messages'
-    },
-    {
-      component: <UserIcon />,
-      activeComponent: <UserIcon stroke={colors.primary} />,
-      to: this.props.user.id ? `/store/${this.props.user.id}` : '/login'
-    }
-  ]
+  generateNavigationIcons = () => {
+    const NAVIGATION_ICONS = [
+      {
+        component: <HomeIcon />,
+        activeComponent: <HomeIcon stroke={colors.primary} />,
+        to: '/feed'
+      },
+      {
+        component: <SearchIcon />,
+        activeComponent: <SearchIcon stroke={colors.primary} />,
+        to: '/search'
+      },
+      {
+        component: <PlusSquareIcon />,
+        activeComponent: <PlusSquareIcon stroke={colors.primary} />,
+        to: '/add'
+      },
+      {
+        component: <MessageCircleIcon />,
+        activeComponent: <MessageCircleIcon stroke={colors.primary} />,
+        to: '/messages'
+      },
+      {
+        component: <UserIcon />,
+        activeComponent: <UserIcon stroke={colors.primary} />,
+        to: this.props.userId ? `/store/${this.props.userId}` : '/login'
+      }
+    ]
+
+    return NAVIGATION_ICONS
+  }
 
   renderIcons = () =>
-    this.NAVIGATION_ICONS.map(({ to, component, activeComponent }) => (
+    this.generateNavigationIcons().map(({ to, component, activeComponent }) => (
       <div
         key={to}
         className="d-flex justify-content-center align-items-center p-1"

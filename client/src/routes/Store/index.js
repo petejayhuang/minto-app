@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import {
-  getStoreInfo,
-  getStoreProducts,
-  createMessageThread
-} from '../../actions'
+import { getStoreInfo, getStoreProducts } from '../../actions'
+import { Link } from 'react-router-dom'
 import ImageGrid from '../../components/ImageGrid'
 import Button from '../../components/Button'
 
@@ -34,14 +31,6 @@ class Store extends Component {
     }
   }
 
-  handleMessage = () => {
-    const { username, user_id } = this.props.store.info
-    this.props.createMessageThread({
-      username,
-      participant_id: user_id
-    })
-  }
-
   loadMoreProducts = () => {
     const { page, limit } = this.state
 
@@ -50,10 +39,12 @@ class Store extends Component {
       limit,
       user_id: this.props.match.params.id
     })
+
     this.setState({ page: page + 1 })
   }
 
   render() {
+    const isOwnStore = this.props.user.id === this.props.store.info.user_id
     return (
       <div className="route-container inner-container">
         <div className="d-flex p-3 border-bottom-light">
@@ -69,9 +60,6 @@ class Store extends Component {
             <div>
               <h3>@{this.props.store.info.username}</h3>
             </div>
-            {this.props.user.id !== this.props.store.info.user_id && (
-              <Button handleClick={this.handleMessage} text="message seller" />
-            )}
           </div>
         </div>
 
@@ -79,19 +67,29 @@ class Store extends Component {
           <h4 className="mt-3 mb-3">SELLING</h4>
         </div>
         <ImageGrid products={this.props.store.products} />
-        {this.props.store.products.length > 0 ? (
+
+        {this.props.store.products.length > 3 && (
           <div className="mt-3 d-flex justify-content-center">
             <Button
+              loading={this.props.ui.loadingLine}
               handleClick={this.loadMoreProducts}
               className="mb-3"
-              text="get more images"
+              text="load more images"
             />
           </div>
-        ) : (
-          <p className="text-center">
-            =( you haven't listed anything to sell!{' '}
-          </p>
         )}
+
+        {this.props.store.products.length === 0 &&
+          isOwnStore && (
+            <div>
+              <p className="text-center">
+                You haven't listed anything to sell! Start{' '}
+                <Link className="highlighted-link" to="/add">
+                  here
+                </Link>
+              </p>
+            </div>
+          )}
       </div>
     )
   }
@@ -108,5 +106,5 @@ Store.propTypes = {}
 
 export default connect(
   mapStateToProps,
-  { getStoreInfo, getStoreProducts, createMessageThread }
+  { getStoreInfo, getStoreProducts }
 )(Store)

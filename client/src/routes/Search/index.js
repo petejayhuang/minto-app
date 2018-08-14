@@ -27,6 +27,7 @@ class Search extends Component {
 
   componentDidMount() {
     if (this.props.categories.length === 0) this.props.getProductCategories()
+    this.handleResetSearch()
   }
 
   handleInputChange = e => this.setState({ description: e.target.value })
@@ -34,10 +35,17 @@ class Search extends Component {
   handleOptionSelect = e => this.setState({ category_id: e.target.value })
 
   loadMoreSearchResults = () => {
+    console.log('loadMoreSearchResults')
     const newState = { ...this.state, page: this.state.page + 1 }
     const queryString = generateQueryStringFromObject(newState)
     this.setState({ ...newState })
-    this.props.getSearchResults(`${queryString}`)
+
+    console.log('queryString in Search.js', queryString)
+
+    this.props.getSearchResults({
+      queryString,
+      page: this.state.page
+    })
   }
 
   handleResetSearch = () => {
@@ -47,7 +55,7 @@ class Search extends Component {
 
   handleSearch = () => {
     const queryString = generateQueryStringFromObject(this.state)
-    this.props.getSearchResults(`${queryString}`)
+    this.props.getSearchResults({ queryString, page: this.state.page })
     this.setState({ searchTouched: true })
   }
 
@@ -81,21 +89,23 @@ class Search extends Component {
           <div className="d-flex flex-column align-items-center">
             <Button
               secondary
-              className="mt-5"
+              className="mt-3 mb-3"
               onClick={this.handleResetSearch}
               text="reset search"
             />
             <ImageGrid products={search} />
 
             <Button
+              loading={this.props.ui.loadingLine}
               handleClick={this.loadMoreSearchResults}
-              className="mb-3"
+              className="mt-3 mb-3"
               text="view more results"
             />
           </div>
         ) : (
           <Button
-            className="mt-3 mb-5"
+            loading={this.props.ui.loadingLine}
+            className="mt-3 mb-3"
             onClick={this.handleSearch}
             text="search"
           />

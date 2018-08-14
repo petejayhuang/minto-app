@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import Button from '../../components/Button'
 
 import {
@@ -9,8 +9,7 @@ import {
   getProduct,
   createMessageThread,
   updateProduct,
-  deleteProduct,
-  createOrder
+  deleteProduct
 } from '../../actions'
 
 const Container = styled.div``
@@ -74,13 +73,7 @@ class Product extends Component {
 
   handleUpdate = () => {
     const {
-      product: {
-        category_id,
-        description,
-        Prices,
-        meet_in_person_YN,
-        shipping_YN
-      }
+      product: { category_id, description, Prices }
     } = this.props
 
     // either the state was changed, or it remains the same as before
@@ -109,20 +102,18 @@ class Product extends Component {
 
     if (this.props.product.product_id) {
       const {
-        categories,
         product: {
           User: { user_id, username },
           Images,
           Prices,
           description,
           meet_in_person_YN,
-          shipping_YN,
-          product_id,
-          category_id
+          shipping_YN
         }
       } = this.props
 
       const isOwnProduct = user_id === this.props.user.id
+      const loggedIn = !!this.props.user.id
 
       return (
         <Container className="route-container d-flex flex-column align-items-center">
@@ -131,7 +122,12 @@ class Product extends Component {
               <img
                 alt="product"
                 className="img-fluid product-image"
-                src={Images[0].image_URL}
+                style={{
+                  backgroundImage: `url(${Images[0].image_URL})`,
+                  backgroundPosition: 'cover',
+                  backgroundSize: '150%',
+                  backgroundRepeat: 'no-repeat'
+                }}
               />
             }
           </div>
@@ -139,6 +135,7 @@ class Product extends Component {
             <div className="d-flex justify-content-center mb-3">
               <Button
                 secondary
+                className="mt-3 mb-3"
                 handleClick={() => this.setState({ editMode: !editMode })}
                 text={editMode ? 'cancel edits' : 'edit item'}
               />
@@ -149,9 +146,12 @@ class Product extends Component {
               Sold by user: <Link to={`/store/${user_id}`}>@{username}</Link>
             </div>
           )}
+
           {!editMode &&
-            !isOwnProduct && (
+            !isOwnProduct &&
+            loggedIn && (
               <Button
+                className="mt-3 mb-3"
                 secondary
                 handleClick={this.handleMessage}
                 text="Message seller"
@@ -228,7 +228,13 @@ class Product extends Component {
           </div>
 
           {!editMode &&
-            !isOwnProduct && <Button handleClick={this.handleBuy} text="buy" />}
+            !isOwnProduct && (
+              <Button
+                className="mt-3 mb-3"
+                handleClick={this.handleBuy}
+                text="buy"
+              />
+            )}
 
           <p className="text-center">{this.state.buyMessage}</p>
           {editMode && (
@@ -261,7 +267,6 @@ export default connect(
     updateProduct,
     createMessageThread,
     deleteProduct,
-    getProductCategories,
-    createOrder
+    getProductCategories
   }
-)(Product)
+)(withRouter(Product))

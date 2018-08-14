@@ -1,5 +1,5 @@
 import React from 'react'
-import { store } from '../config/redux'
+import findNavItem from '../utilities/findNavItem'
 
 // ROUTES
 import Add from '../routes/Add'
@@ -14,6 +14,7 @@ import Product from '../routes/Product'
 import Search from '../routes/Search'
 import Settings from '../routes/Settings'
 import Store from '../routes/Store'
+import UpdateProfile from '../routes/Settings/UpdateProfile'
 
 import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
@@ -33,71 +34,79 @@ export const routes = [
   { path: '/search', component: Search, exact: true },
   { path: '/settings', component: Settings, exact: true },
   { path: '/settings/logout', component: Logout, exact: true },
+  { path: '/settings/update-profile', component: UpdateProfile },
   { path: '/store/:id', component: Store },
   { path: '*', component: NotFound }
 ]
 
-export const navItems = {
-  '': {
-    middle: <h5 className="m-0 p-0">Minto</h5>
-  },
-  add: {
-    middle: <h5 className="m-0 p-0">Add</h5>
-  },
-  feed: {
-    middle: <h5 className="m-0 p-0">Feed</h5>
-  },
-  login: {
-    middle: <h5 className="m-0 p-0">Login</h5>
-  },
-  messages: {
-    middle: <h5 className="m-0 p-0">Messages</h5>
-  },
-  'messages/:id': {
-    left: (
-      <Link to="/messages">
-        <ChevronLeftIcon />
-      </Link>
-    ),
-    middle: <h5 className="m-0 p-0">Single Message</h5>
-  },
-  'privacy-policy': {
-    left: (
-      <Link to="/">
-        <ChevronLeftIcon />
-      </Link>
-    ),
-    middle: <h5 className="m-0 p-0">Privacy Policy</h5>
-  },
-  'products/:id': {
-    middle: <h5 className="m-0 p-0">View item</h5>
-  },
-  search: {
-    middle: <h5 className="m-0 p-0">Search</h5>
-  },
-  settings: {
-    left: (
-      <Link to="/store/1">
-        <XIcon />
-      </Link>
-    ),
-    middle: <h5 className="m-0 p-0">Settings</h5>
-  },
-  '/settings/logout': {
-    left: (
-      <Link to="/settings">
-        <ChevronLeftIcon />
-      </Link>
-    ),
-    middle: <h5 className="m-0 p-0">Log out</h5>
-  },
-  'store/:id': {
-    left: (
-      <Link to="/settings">
-        <SettingsIcon />
-      </Link>
-    ),
-
-    middle: <h5 className="m-0 p-0">Store</h5>
+export const navItems = store => {
+  const { location } = store
+  const navItemsHash = {
+    '': {
+      middle: <h5 className="m-0 p-0">Minto</h5>
+    },
+    add: {
+      middle: <h5 className="m-0 p-0">Add</h5>
+    },
+    feed: {
+      middle: <h5 className="m-0 p-0">Feed</h5>
+    },
+    login: {
+      middle: <h5 className="m-0 p-0">Login</h5>
+    },
+    messages: {
+      middle: <h5 className="m-0 p-0">Messages</h5>
+    },
+    'messages/:id': {
+      left: (
+        <Link to="/messages">
+          <ChevronLeftIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Single Message</h5>
+    },
+    'privacy-policy': {
+      left: (
+        <Link to="/">
+          <ChevronLeftIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Privacy Policy</h5>
+    },
+    'products/:id': {
+      middle: <h5 className="m-0 p-0">View item</h5>
+    },
+    search: {
+      middle: <h5 className="m-0 p-0">Search</h5>
+    },
+    settings: {
+      left: (
+        <Link to="/store/1">
+          <XIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Settings</h5>
+    },
+    '/settings/logout': {
+      left: (
+        <Link to="/settings">
+          <ChevronLeftIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Log out</h5>
+    },
+    '/settings/update-profile': {
+      middle: <h5 className="m-0 p-0">Add a username</h5>
+    },
+    'store/:id': {
+      left: (
+        <Link to="/settings">
+          <SettingsIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Store</h5>
+    }
   }
+
+  return navItemsHash[findNavItem(location)]
 }

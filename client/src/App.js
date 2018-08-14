@@ -25,15 +25,11 @@ const AppContainer = styled.div``
 class App extends Component {
   render() {
     const {
-      routing,
-      ui: { redirect, loadingLine, loadingOverlay },
+      ui: { redirect, loadingLine },
       error,
       success,
-      user
+      user: { id }
     } = this.props
-
-    const isHomeRoute = routing.location.pathname !== '/'
-    const userId = user.id
 
     return (
       <ErrorBoundary>
@@ -46,7 +42,7 @@ class App extends Component {
           {<MobileTopNav />}
 
           {renderRoutes()}
-          {isHomeRoute && <MobileBottomNav userId={userId} />}
+          {<MobileBottomNav userId={id} />}
         </AppContainer>
       </ErrorBoundary>
     )

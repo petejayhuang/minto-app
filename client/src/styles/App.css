@@ -1,6 +1,9 @@
-/* #88d8bf */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-/* APP CONTAINER */
 body {
   margin: 0;
   padding: 0;
@@ -12,6 +15,11 @@ body {
 a {
   font-weight: 300;
   color: #333;
+}
+
+.highlighted-link {
+  font-weight: 600;
+  color: #88d8bf;
 }
 
 /* TEXT */
@@ -59,12 +67,13 @@ a {
 
 /* CONTAINERS */
 .route-container {
-  margin-top: 25px;
+  margin-top: 50px;
   margin-bottom: 50px;
 }
 
 /* COMPONENT SPECIFIC */
 input[type='text'] {
+  padding-left: 10px;
   height: 40px;
   border: 2px solid #88d8bf;
   width: 320px;

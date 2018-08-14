@@ -16,6 +16,7 @@ class Feed extends Component {
   }
 
   componentDidMount() {
+    console.log('Feed componentDidMount')
     this.props.getFeed({ page: 1, limit: 3 })
   }
 
@@ -32,8 +33,11 @@ class Feed extends Component {
   render() {
     return (
       <Container className="route-container d-flex flex-column align-items-center">
-        {this.props.feed.map(product => <ProductCard {...product} />)}
+        {this.props.feed.map(product => (
+          <ProductCard key={product.product_id} {...product} />
+        ))}
         <Button
+          loading={this.props.ui.loadingLine}
           handleClick={this.loadMoreProducts}
           className="mb-3"
           text="get more images"
@@ -46,7 +50,7 @@ class Feed extends Component {
 Feed.defaultProps = {}
 Feed.propTypes = {}
 
-const mapState = ({ feed }) => ({ feed })
+const mapState = ({ feed, ui }) => ({ feed, ui })
 
 export default connect(
   mapState,

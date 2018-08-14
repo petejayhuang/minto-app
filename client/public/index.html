@@ -3,8 +3,18 @@
 
 <head>
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123715733-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-123715733-1');
+  </script>
+
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
   <!--
       manifest.json provides metadata used when your web app is added to the
@@ -14,7 +24,7 @@
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="client/src/stylesheets/App.css">
+  <link rel="stylesheet" href="client/src/styles/App.css">
 
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -29,13 +39,34 @@
 </head>
 
 <body>
-  <script src="https://cdn.ravenjs.com/3.25.2/raven.min.js" crossorigin="anonymous"></script>
-  <!-- need to put keys elsewhere and then inject in? -->
-  <script>Raven.config('https://2e83501a4f584925bd45aacd97177d31@sentry.io/1219843').install()</script>
-  <script src="https://js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
-  <noscript></noscript>
+  <!-- FB SDK for login, ads and analytics -->
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '1771048822975022',
+        cookie: true,
+        xfbml: true,
+        version: 'v3.1'
+      });
 
-  You need to enable JavaScript to run this app.
+      FB.AppEvents.logPageView();
+
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <!-- Raven for error logging -->
+  <script src="https://cdn.ravenjs.com/3.25.2/raven.min.js" crossorigin="anonymous"></script>
+  <script>Raven.config('https://2e83501a4f584925bd45aacd97177d31@sentry.io/1219843').install()</script>
+  <noscript>
+    You need to enable JavaScript to run this app.
   </noscript>
   <div id="root"></div>
 </body>

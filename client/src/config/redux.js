@@ -9,6 +9,12 @@ import logger from 'redux-logger'
 
 const history = createHistory()
 
+// GA in sync with history
+history.listen(function(location) {
+  window.ga('set', 'page', location.pathname + location.search)
+  window.ga('send', 'pageview', location.pathname + location.search)
+})
+
 const middleware = routerMiddleware(history)
 
 const persistConfig = {
