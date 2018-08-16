@@ -15,7 +15,7 @@ const FacebookLoginButton = props => {
       }
 
       if (statusResponse.status === 'not_authorized') {
-        console.log('not_authorized')
+        console.log('not_authorized!')
         window.FB.login(
           function(loginResponse) {
             props.authenticateFacebookWithBE(
