@@ -1,6 +1,6 @@
 const URLS = {
   SERVER:
-    process.env.NODE_ENV === 'production'
+    process.env.APP_ENV === 'production'
       ? 'https://minto-api-master.herokuapp.com/api/v1'
       : 'https://minto-api-staging.herokuapp.com/api/v1'
 }
