@@ -37,16 +37,13 @@ class Add extends Component {
     this.setState({ images: newState })
   }
 
-  renderImageUploaders = () =>
-    [1, 2, 3, 4].map(index => (
-      <ImageUpload
-        className="m-1"
-        index={index}
-        key={index}
-        addImage={this.addImage}
-        removeImage={this.removeImage}
-      />
-    ))
+  renderImageUploaders = () => (
+    <ImageUpload
+      className="m-1"
+      addImage={this.addImage}
+      removeImage={this.removeImage}
+    />
+  )
 
   handleTextInputChange = (inputName, value) => {
     this.setState({ [inputName]: value })

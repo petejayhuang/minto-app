@@ -4,6 +4,7 @@ import { colors } from '../styles/styleVariables'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div`
+  max-width: 600px;
   border: 1px solid ${colors.border};
   margin-bottom: 40px;
   background-color: white;
@@ -11,7 +12,7 @@ const Container = styled.div`
     height: 50px;
     width: 50px;
   }
-  .feed-product-image {
+  .product-image {
     border-top: 1px solid ${colors.borderLight};
     border-bottom: 1px solid ${colors.borderLight};
   }
@@ -37,14 +38,11 @@ const ProductCard = props => {
         </Link>
       </div>
       <Link to={`/products/${product_id}`}>
-        <div
-          className="product-image feed-product-image"
+        <img
+          className="product-image img-fluid"
           key={product_id}
-          style={{
-            backgroundImage: `url(${Images[0].image_URL})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-          }}
+          alt="product"
+          src={Images[0].image_URL}
         />
       </Link>
       <Link to={`/products/${product_id}`}>

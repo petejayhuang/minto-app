@@ -5,9 +5,24 @@ import Button from './Button'
 
 const FacebookLoginButton = props => {
   const getLoginStatus = () => {
-    window.FB.getLoginStatus(function(response) {
-      console.log(response)
-      props.authenticateFacebookWithBE(response.authResponse.accessToken)
+    window.FB.getLoginStatus(function(statusResponse) {
+      console.log('statusResponse', statusResponse)
+      if (statusResponse.status === 'connected') {
+        props.authenticateFacebookWithBE(
+          statusResponse.authResponse.accessToken
+        )
+      }
+
+      if (statusResponse.status === 'not_authorized') {
+        window.FB.login(
+          function(loginResponse) {
+            props.authenticateFacebookWithBE(
+              loginResponse.authResponse.accessToken
+            )
+          },
+          { scope: 'email,user_link' }
+        )
+      }
     })
   }
 
