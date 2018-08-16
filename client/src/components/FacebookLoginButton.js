@@ -6,6 +6,7 @@ import Button from './Button'
 const FacebookLoginButton = props => {
   const getLoginStatus = () => {
     window.FB.getLoginStatus(function(response) {
+      console.log(response)
       props.authenticateFacebookWithBE(response.authResponse.accessToken)
     })
   }
