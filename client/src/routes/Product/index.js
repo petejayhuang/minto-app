@@ -211,6 +211,7 @@ class Product extends Component {
                 />
               )}
             </div>
+
             <div className="d-flex flex-column">
               {editMode && <label htmlFor="shipping">shipping_YN</label>}
               {!editMode ? (
@@ -226,6 +227,7 @@ class Product extends Component {
                 />
               )}
             </div>
+
             {!editMode &&
               !isOwnProduct && (
                 <Button
