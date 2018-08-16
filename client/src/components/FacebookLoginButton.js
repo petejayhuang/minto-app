@@ -30,7 +30,7 @@ class FacebookLoginButton extends Component {
                 loginResponse.authResponse.accessToken
               )
             },
-            { scope: 'email,user_link' }
+            { scope: 'email' }
           )
         }
         loading={this.props.ui.loadingLine}

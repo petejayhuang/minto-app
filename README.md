@@ -7,8 +7,9 @@
 - navigation 800
 
 #TODO short term
+
 - product feed images
-- if already logged into facebook, auth works, 
+- if already logged into facebook, auth works,
 
 #TODO long term
 
@@ -21,7 +22,10 @@
 - success and error notifications in 1 component
 - dynamically generate google analytics scripts based on APP_ENV
 
-#NOPE
+#Features
+
+- facebook/ ebay verified
+  #NOPE
 
 - back button: store > product oR feed > product
 - add fb to landing
