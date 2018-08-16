@@ -20,21 +20,19 @@ class FacebookLoginButton extends Component {
     }
   }
 
-  facebookAuthenticate = () => {
-    window.FB.login(
-      loginResponse => {
-        this.props.authenticateFacebookWithBE(
-          loginResponse.authResponse.accessToken
-        )
-      },
-      { scope: 'email,user_link' }
-    )
-  }
-
   render() {
     return (
       <Button
-        handleClick={this.facebookAuthenticate}
+        handleClick={() =>
+          window.FB.login(
+            loginResponse => {
+              this.props.authenticateFacebookWithBE(
+                loginResponse.authResponse.accessToken
+              )
+            },
+            { scope: 'email,user_link' }
+          )
+        }
         loading={this.props.ui.loadingLine}
         text="Login/ Sign up with Facebook"
       />
