@@ -9,22 +9,19 @@ const FacebookLoginButton = props => {
       console.log('statusResponse', statusResponse)
 
       if (statusResponse.status === 'connected') {
-        props.authenticateFacebookWithBE(
+        return props.authenticateFacebookWithBE(
           statusResponse.authResponse.accessToken
         )
       }
 
-      if (statusResponse.status === 'not_authorized') {
-        console.log('not_authorized!')
-        window.FB.login(
-          function(loginResponse) {
-            props.authenticateFacebookWithBE(
-              loginResponse.authResponse.accessToken
-            )
-          },
-          { scope: 'email,user_link' }
-        )
-      }
+      return window.FB.login(
+        function(loginResponse) {
+          props.authenticateFacebookWithBE(
+            loginResponse.authResponse.accessToken
+          )
+        },
+        { scope: 'email,user_link' }
+      )
     })
   }
 
