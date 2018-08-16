@@ -1,42 +1,45 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { authenticateFacebookWithBE } from '../actions'
 import Button from './Button'
 
-const FacebookLoginButton = props => {
-  const getLoginStatus = () => {
+class FacebookLoginButton extends Component {
+  state = {}
+
+  componentDidMount() {
+    if (window) {
+      window.FB.getLoginStatus(response => {
+        console.log('response', response)
+        if (response.status === 'connected') {
+          this.props.authenticateFacebookWithBE(
+            response.authResponse.accessToken
+          )
+          this.setState({ response })
+        }
+      })
+    }
+  }
+
+  facebookAuthenticate = () => {
     window.FB.login(
-      function(loginResponse) {
-        props.authenticateFacebookWithBE(loginResponse.authResponse.accessToken)
+      loginResponse => {
+        this.props.authenticateFacebookWithBE(
+          loginResponse.authResponse.accessToken
+        )
       },
       { scope: 'email,user_link' }
     )
-    // window.FB.getLoginStatus(function(statusResponse) {
-
-    //   if (statusResponse.status === 'connected') {
-    //     return props.authenticateFacebookWithBE(
-    //       statusResponse.authResponse.accessToken
-    //     )
-    //   }
-
-    //   return window.FB.login(
-    //     function(loginResponse) {
-    //       props.authenticateFacebookWithBE(
-    //         loginResponse.authResponse.accessToken
-    //       )
-    //     },
-    //     { scope: 'email,user_link' }
-    //   )
-    // })
   }
 
-  return (
-    <Button
-      handleClick={getLoginStatus}
-      loading={props.ui.loadingLine}
-      text="Login/ Sign up with Facebook"
-    />
-  )
+  render() {
+    return (
+      <Button
+        handleClick={this.facebookAuthenticate}
+        loading={this.props.ui.loadingLine}
+        text="Login/ Sign up with Facebook"
+      />
+    )
+  }
 }
 
 export default connect(
