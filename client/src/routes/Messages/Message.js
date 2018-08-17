@@ -9,8 +9,22 @@ import { colors } from '../../styles/styleVariables'
 const Container = styled.div`
   .chat-input {
     position: absolute;
-    bottom: 60px;
+    bottom: 0;
+    transform: translateY(-60px);
     width: 100vw;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 0 0 0;
+    justify-content: center;
+  }
+  .chat-input input{
+    width:45vw;
+  }
+  .chat-input button{
+    width: 45vw;
+    max-width: 150px;
+    margin-left: 10px;
   }
   .chat-bubble {
     display: inline;
@@ -77,15 +91,20 @@ class Message extends Component {
     return (
       <Container className="route-container">
         <div className="pl-3 pr-3">{this.renderMessages()}</div>
-        <div className="chat-input border-top pt-3 pl-3 pr-3 d-flex justify-content-center align-items-center">
-          <input
-            onKeyDown={this.handleKeyDown}
-            type="text"
-            onChange={this.handleInputChange}
-            value={this.state.message}
-          />
-          <Button className="ml-2" handleClick={this.handleSend} text="send" />
-        </div>
+
+          <div className="chat-input border-top">
+
+              <input
+                className=""
+                onKeyDown={this.handleKeyDown}
+                type="text"
+                onChange={this.handleInputChange}
+                value={this.state.message}
+              />
+
+              <Button handleClick={this.handleSend} text="send" />
+          </div>
+
       </Container>
     )
   }
