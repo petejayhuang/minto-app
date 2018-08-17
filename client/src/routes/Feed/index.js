@@ -40,7 +40,7 @@ class Feed extends Component {
           loading={this.props.ui.loadingLine}
           handleClick={this.loadMoreProducts}
           className="mb-3"
-          text="get more images"
+          text="get more items"
         />
       </Container>
     )
