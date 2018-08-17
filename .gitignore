@@ -17,5 +17,4 @@ client/node_modules
 .env.production.local
 npm-debug.log*
 keys.js
-.package-lock.json
-client/.package-lock.json
+
