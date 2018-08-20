@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { compose } from 'redux'
+import requireAuth from '../../components/HigherOrder/requireAuth'
 
 import {
   getProductCategories,
@@ -118,11 +120,14 @@ class Search extends Component {
   }
 }
 
-export default connect(
-  ({ categories, search, ui }) => ({ categories, search, ui }),
-  {
-    getProductCategories,
-    getSearchResults,
-    resetSearchResults
-  }
+export default compose(
+  connect(
+    ({ categories, search, ui }) => ({ categories, search, ui }),
+    {
+      getProductCategories,
+      getSearchResults,
+      resetSearchResults
+    }
+  ),
+  requireAuth
 )(Search)
