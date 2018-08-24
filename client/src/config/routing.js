@@ -10,6 +10,8 @@ import Logout from '../routes/Settings/Logout'
 import Message from '../routes/Messages/Message'
 import Messages from '../routes/Messages'
 import NotFound from '../routes/NotFound'
+import OrderConfirmation from '../routes/Payments/OrderConfirmation'
+import Payments from '../routes/Payments'
 import Product from '../routes/Product'
 import Search from '../routes/Search'
 import Settings from '../routes/Settings'
@@ -25,6 +27,8 @@ import { PrivacyPolicy } from '../routes/PrivacyPolicy'
 export const routes = [
   { path: '/', component: Landing, exact: true },
   { path: '/add', component: Add },
+  { path: '/buy/:id', component: Payments },
+  { path: '/order-confirmation', component: OrderConfirmation },
   { path: '/feed', component: Feed },
   { path: '/login', component: Login, exact: true },
   { path: '/messages', component: Messages, exact: true },
@@ -48,6 +52,9 @@ export const navItems = store => {
     add: {
       middle: <h5 className="m-0 p-0">Add</h5>
     },
+    'buy/:id': {
+      middle: <h5 className="m-0 p-0">Buy</h5>
+    },
     feed: {
       middle: <h5 className="m-0 p-0">Feed</h5>
     },
@@ -64,6 +71,9 @@ export const navItems = store => {
         </Link>
       ),
       middle: <h5 className="m-0 p-0">Single Message</h5>
+    },
+    'order-confirmation': {
+      middle: <h5 className="m-0 p-0">Order Confirmation</h5>
     },
     'privacy-policy': {
       left: (

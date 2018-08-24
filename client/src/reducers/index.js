@@ -5,6 +5,7 @@ import categories from './categories'
 import error from './error'
 import feed from './feed'
 import messages from './messages'
+import orderConfirmed from './orderConfirmed'
 import product from './product'
 import { routerReducer as routing } from 'react-router-redux'
 import search from './search'
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   error,
   feed,
   messages,
+  orderConfirmed,
   product,
   routing,
   search,

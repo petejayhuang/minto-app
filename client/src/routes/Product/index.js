@@ -53,14 +53,6 @@ class Product extends Component {
     })
   }
 
-  handleBuy = () => {
-    // HIT EVENT!
-    this.setState({
-      buyMessage:
-        "Whoops, our buy feature isn't working at the moment. Please try again later."
-    })
-  }
-
   handleDelete = () => {
     this.props.deleteProduct(this.props.product.product_id)
   }
@@ -230,11 +222,12 @@ class Product extends Component {
 
             {!editMode &&
               !isOwnProduct && (
-                <Button
+                <Link
                   className="mt-3 mb-3"
-                  handleClick={this.handleBuy}
-                  text="buy"
-                />
+                  to={`/buy/${this.props.product.product_id}`}
+                >
+                  Buy
+                </Link>
               )}
             <p className="text-center">{this.state.buyMessage}</p>
 

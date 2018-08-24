@@ -36,7 +36,7 @@ class Store extends Component {
     const currentStoreId = prevProps.match.params.id
     const nextStoreId = match.params.id
 
-    if (currentStoreId != nextStoreId) {
+    if (currentStoreId !== nextStoreId) {
       this.props.getStoreInfo(nextStoreId)
       getStoreProducts({
         page: 1,

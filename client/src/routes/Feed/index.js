@@ -16,7 +16,6 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    console.log('Feed componentDidMount')
     this.props.getFeed({ page: 1, limit: 3 })
   }
 

@@ -7,6 +7,8 @@
 - navigation 800
 
 #TODO short term
+- validation on buy button
+- 
 
 #TODO long term
 
@@ -18,6 +20,7 @@
 - cancel requests on new route changes
 - success and error notifications in 1 component
 - dynamically generate google analytics scripts based on APP_ENV
+- all actions of request and success are the same!
 
 #Features
 

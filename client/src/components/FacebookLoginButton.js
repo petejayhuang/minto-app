@@ -9,7 +9,6 @@ class FacebookLoginButton extends Component {
   componentDidMount() {
     if (window) {
       window.FB.getLoginStatus(response => {
-        console.log('response', response)
         if (response.status === 'connected') {
           this.props.authenticateFacebookWithBE(
             response.authResponse.accessToken

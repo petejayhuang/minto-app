@@ -92,11 +92,6 @@ textarea {
   outline: 2px solid #88d8bf;
 }
 
-button {
-  width: 200px;
-  border-radius: 0px;
-}
-
 /* REACT COMPONENTS */
 .feed-image {
   max-width: 600px;
