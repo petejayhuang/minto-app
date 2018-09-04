@@ -32,7 +32,7 @@ const Landing = props => (
       text="Search items"
     />
     <Link className="mt-3 highlighted-link" to="/login">
-      Login
+      Login / Signup
     </Link>
   </div>
 )

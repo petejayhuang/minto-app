@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 const Container = styled.div`
   max-width: 600px;
   border: 1px solid ${colors.border};
-  margin-bottom: 40px;
+  border-radius: 3px;
+  margin-bottom: 10px;
   background-color: white;
   .profile-image {
     height: 50px;
