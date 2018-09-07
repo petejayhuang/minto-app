@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { StripeProvider } from 'react-stripe-elements'
+import { KEYS } from './config/constants'
 
 // utils
 import renderRoutes from './utilities/renderRoutes'
@@ -33,17 +35,18 @@ class App extends Component {
 
     return (
       <ErrorBoundary>
-        <AppContainer>
-          {redirect && <StoreDrivenRedirect />}
-          {loadingLine && <LoadingLine />}
-          {false && <LoadingOverlay />}
-          {error && <ErrorNotification />}
-          {success && <SuccessNotification />}
-          {<MobileTopNav />}
-
-          {renderRoutes()}
-          {<MobileBottomNav userId={id} />}
-        </AppContainer>
+        <StripeProvider apiKey={KEYS.STRIPE_PUBLISHABLE_KEY}>
+          <AppContainer>
+            {redirect && <StoreDrivenRedirect />}
+            {loadingLine && <LoadingLine />}
+            {false && <LoadingOverlay />}
+            {error && <ErrorNotification />}
+            {success && <SuccessNotification />}
+            {<MobileTopNav />}
+            {renderRoutes()}
+            {<MobileBottomNav userId={id} />}
+          </AppContainer>
+        </StripeProvider>
       </ErrorBoundary>
     )
   }
