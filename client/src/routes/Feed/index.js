@@ -16,7 +16,7 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    this.props.getFeed({ page: 1, limit: 3 })
+    this.props.getFeed({ page: 1, limit: 5 })
   }
 
   loadMoreProducts = () => {
