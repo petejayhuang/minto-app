@@ -40,7 +40,10 @@ export const routes = [
 ]
 
 export const navItems = store => {
-  const { location } = store
+  const {
+    location,
+    user: { id }
+  } = store
   const navItemsHash = {
     '': {
       middle: <h5 className="m-0 p-0">Minto</h5>
@@ -81,7 +84,7 @@ export const navItems = store => {
     },
     settings: {
       left: (
-        <Link to="/store/1">
+        <Link to={`/store/${id}`}>
           <XIcon />
         </Link>
       ),

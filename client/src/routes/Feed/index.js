@@ -16,7 +16,6 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    console.log('Feed componentDidMount')
     this.props.getFeed({ page: 1, limit: 3 })
   }
 
@@ -40,7 +39,7 @@ class Feed extends Component {
           loading={this.props.ui.loadingLine}
           handleClick={this.loadMoreProducts}
           className="mb-3"
-          text="get more items"
+          text="More items"
         />
       </Container>
     )

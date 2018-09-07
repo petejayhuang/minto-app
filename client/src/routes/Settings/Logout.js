@@ -5,7 +5,6 @@ import { logoutUser, redirect } from '../../actions'
 
 const Logout = props => {
   const handleYes = () => {
-    
     props.logoutUser()
   }
 
@@ -14,10 +13,10 @@ const Logout = props => {
   }
 
   return (
-    <div className="route-container d-flex flex-column align-items-center justify-content-center mt-5 pl-3 pr-3">
+    <div className="route-container d-flex flex-column align-items-center justify-content-center mt-5 pt-3 pl-3 pr-3">
       Are you sure?
-      <Button className="mt-2" secondary handleClick={handleYes} text="yes" />
-      <Button className="mt-2" handleClick={handleNo} text="no" />
+      <Button className="mt-2" secondary handleClick={handleYes} text="Yes" />
+      <Button className="mt-2" handleClick={handleNo} text="No" />
     </div>
   )
 }

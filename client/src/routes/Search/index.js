@@ -37,12 +37,9 @@ class Search extends Component {
   handleOptionSelect = e => this.setState({ category_id: e.target.value })
 
   loadMoreSearchResults = () => {
-    console.log('loadMoreSearchResults')
     const newState = { ...this.state, page: this.state.page + 1 }
     const queryString = generateQueryStringFromObject(newState)
     this.setState({ ...newState })
-
-    console.log('queryString in Search.js', queryString)
 
     this.props.getSearchResults({
       queryString,
@@ -101,7 +98,7 @@ class Search extends Component {
               loading={this.props.ui.loadingLine}
               handleClick={this.loadMoreSearchResults}
               className="mt-3 mb-3"
-              text="view more results"
+              text="View more results"
             />
           </div>
         ) : (
@@ -109,7 +106,7 @@ class Search extends Component {
             loading={this.props.ui.loadingLine}
             className="mt-3 mb-3"
             onClick={this.handleSearch}
-            text="search"
+            text="Search"
           />
         )}
         {this.state.searchTouched &&

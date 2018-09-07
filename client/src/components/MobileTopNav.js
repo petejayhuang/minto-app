@@ -56,7 +56,7 @@ class MobileTopNav extends Component {
   }
 }
 
-const mapStateToProps = ({ routing }) => ({ routing })
+const mapStateToProps = ({ routing, user }) => ({ routing, user })
 
 export default connect(
   mapStateToProps,

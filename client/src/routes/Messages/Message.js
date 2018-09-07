@@ -84,7 +84,7 @@ class Message extends Component {
             onChange={this.handleInputChange}
             value={this.state.message}
           />
-          <Button className="ml-2" handleClick={this.handleSend} text="send" />
+          <Button className="ml-2" handleClick={this.handleSend} text="Send" />
         </div>
       </Container>
     )
