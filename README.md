@@ -7,9 +7,12 @@
 - navigation 800
 
 #TODO short term
+- validation on buy button
+- 
 
 #TODO long term
 
+- https local host https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
 - validation on inputs
 - topNav spacing of elements
 - add redux dev tools: https://github.com/reduxjs/redux-devtools/blob/master/docs/Walkthrough.md
@@ -17,6 +20,11 @@
 - cancel requests on new route changes
 - success and error notifications in 1 component
 - dynamically generate google analytics scripts based on APP_ENV
+- all actions of request and success are the same!
+
+#Features
+
+- facebook/ ebay verified
 
 #NOPE
 
@@ -29,6 +37,9 @@
 
 #DONE
 
+- fix product feed images
+- facebook auth (logged in or new)
+- fix reset store info/ images
 - improved NotFound route/ component
 - background images
 - validation on username input

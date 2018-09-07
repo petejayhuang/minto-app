@@ -16,15 +16,11 @@ class ImageGrid extends Component {
       <Container className="d-flex justify-content-center flex-wrap">
         {products.map(product => (
           <Link key={product.product_id} to={`/products/${product.product_id}`}>
-            <div
-              className="store-photo m-1"
+            <img
+              className="store-photo img-fluid m-1"
               key={product.product_id}
-              style={{
-                backgroundImage: `url(${product.Images[0].image_URL})`,
-                backgroundPosition: 'cover',
-                backgroundSize: '150%',
-                backgroundRepeat: 'no-repeat'
-              }}
+              src={product.Images[0].image_URL}
+              alt="product"
             />
           </Link>
         ))}

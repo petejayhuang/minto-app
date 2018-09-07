@@ -12,7 +12,11 @@ import {
   deleteProduct
 } from '../../actions'
 
-const Container = styled.div``
+const Container = styled.div`
+  .product-image-container {
+    max-width: 600px;
+  }
+`
 
 class Product extends Component {
   state = {
@@ -46,14 +50,6 @@ class Product extends Component {
     const checkboxName = event.target.name
     this.setState({
       [checkboxName]: !this.state[checkboxName]
-    })
-  }
-
-  handleBuy = () => {
-    // HIT EVENT!
-    this.setState({
-      buyMessage:
-        "Whoops, our buy feature isn't working at the moment. Please try again later."
     })
   }
 
@@ -117,141 +113,136 @@ class Product extends Component {
 
       return (
         <Container className="route-container d-flex flex-column align-items-center">
-          <div className="d-flex justify-content-center mb-3">
-            {
+          <div className="product-image-container pl-3 pr-3">
+            <div>
               <img
                 alt="product"
-                className="img-fluid product-image"
-                style={{
-                  backgroundImage: `url(${Images[0].image_URL})`,
-                  backgroundPosition: 'cover',
-                  backgroundSize: '150%',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              />
-            }
-          </div>
-          {isOwnProduct && (
-            <div className="d-flex justify-content-center mb-3">
-              <Button
-                secondary
-                className="mt-3 mb-3"
-                handleClick={() => this.setState({ editMode: !editMode })}
-                text={editMode ? 'cancel edits' : 'edit item'}
+                className="img-fluid"
+                src={Images[0].image_URL}
               />
             </div>
-          )}
-          {!editMode && (
-            <div>
-              Sold by user: <Link to={`/store/${user_id}`}>@{username}</Link>
-            </div>
-          )}
-
-          {!editMode &&
-            !isOwnProduct &&
-            loggedIn && (
-              <Button
-                className="mt-3 mb-3"
-                secondary
-                handleClick={this.handleMessage}
-                text="Message seller"
-              />
-            )}
-
-          {editMode && (
-            <div className="d-flex flex-column">
-              {this.renderCategoryDropdown()}
-            </div>
-          )}
-          <div className="d-flex flex-column">
-            {editMode && <label>Product Description</label>}
-            {!editMode ? (
-              <div>{description}</div>
-            ) : (
-              <textarea
-                onChange={e =>
-                  this.handleTextInputChange('description', e.target.value)
-                }
-                value={this.state.description || description}
-              />
-            )}
-          </div>
-          <div className="d-flex flex-column">
-            {editMode && <label>Price</label>}
-            {!editMode ? (
-              <div>
-                <strong>£{`${Prices[0].price}`}</strong>
+            {isOwnProduct && (
+              <div className="d-flex justify-content-center mb-3">
+                <Button
+                  secondary
+                  className="mt-3 mb-3"
+                  handleClick={() => this.setState({ editMode: !editMode })}
+                  text={editMode ? 'cancel edits' : 'edit item'}
+                />
               </div>
-            ) : (
-              <input
-                type="text"
-                onChange={e =>
-                  this.handleTextInputChange('price', e.target.value)
-                }
-                value={this.state.price || Prices[0].price}
-              />
             )}
-          </div>
-          <div className="d-flex flex-column">
+
+            {!editMode && (
+              <div className="d-flex align-items-center">
+                <div>
+                  Sold by user:{' '}
+                  <Link to={`/store/${user_id}`}>@{username}</Link>
+                </div>
+                {!isOwnProduct &&
+                  loggedIn && (
+                    <Button
+                      className="mt-3 mb-3 ml-3"
+                      secondary
+                      handleClick={this.handleMessage}
+                      text="Message seller"
+                    />
+                  )}
+              </div>
+            )}
+
             {editMode && (
-              <label htmlFor="meet_in_person">meet_in_person_YN</label>
-            )}
-            {!editMode ? (
-              <div>
-                Meet in person {meet_in_person_YN ? '' : 'not'} available
+              <div className="d-flex flex-column">
+                {this.renderCategoryDropdown()}
               </div>
-            ) : (
-              <input
-                name="meet_in_person"
-                id="meet_in_person"
-                type="checkbox"
-                onChange={this.handleCheckboxChange}
-                value="meet_in_person"
-                checked={this.state.meet_in_person}
-              />
+            )}
+            <div className="d-flex flex-column">
+              {editMode && <label>Product Description</label>}
+
+              {!editMode ? (
+                <p className="text-justify">{description}</p>
+              ) : (
+                <textarea
+                  onChange={e =>
+                    this.handleTextInputChange('description', e.target.value)
+                  }
+                  value={this.state.description || description}
+                />
+              )}
+            </div>
+
+            <div className="d-flex flex-column">
+              {editMode && <label>Price</label>}
+              {!editMode ? (
+                <h3>£{`${Prices[0].price}`}</h3>
+              ) : (
+                <input
+                  type="text"
+                  onChange={e =>
+                    this.handleTextInputChange('price', e.target.value)
+                  }
+                  value={this.state.price || Prices[0].price}
+                />
+              )}
+            </div>
+            <div className="mt-3 d-flex flex-column">
+              {editMode && (
+                <label htmlFor="meet_in_person">meet_in_person_YN</label>
+              )}
+              {!editMode ? (
+                <p className="m-0">
+                  Meet in person: {meet_in_person_YN ? 'Yes' : 'No'}
+                </p>
+              ) : (
+                <input
+                  name="meet_in_person"
+                  id="meet_in_person"
+                  type="checkbox"
+                  onChange={this.handleCheckboxChange}
+                  value="meet_in_person"
+                  checked={this.state.meet_in_person}
+                />
+              )}
+            </div>
+
+            <div className="d-flex flex-column">
+              {editMode && <label htmlFor="shipping">shipping_YN</label>}
+              {!editMode ? (
+                <p>Shipping: {shipping_YN ? 'Yes' : 'No'}</p>
+              ) : (
+                <input
+                  type="checkbox"
+                  id="shipping"
+                  name="shipping"
+                  value="shipping"
+                  onChange={this.handleCheckboxChange}
+                  checked={this.state.shipping}
+                />
+              )}
+            </div>
+
+            {!editMode &&
+              !isOwnProduct && (
+                <Link
+                  className="mt-3 mb-3"
+                  to={`/buy/${this.props.product.product_id}`}
+                >
+                  Buy
+                </Link>
+              )}
+            <p className="text-center">{this.state.buyMessage}</p>
+
+            {editMode && (
+              <div className="d-flex justify-content-center">
+                <Button handleClick={this.handleUpdate} text="update" />
+                <Button
+                  secondary
+                  className="ml-2"
+                  handleClick={this.handleDelete}
+                  text="delete"
+                />
+              </div>
             )}
           </div>
-          <div className="d-flex flex-column">
-            {editMode && <label htmlFor="shipping">shipping_YN</label>}
-            {!editMode ? (
-              <div>Shipping {shipping_YN ? '' : 'not'} available</div>
-            ) : (
-              <input
-                type="checkbox"
-                id="shipping"
-                name="shipping"
-                value="shipping"
-                onChange={this.handleCheckboxChange}
-                checked={this.state.shipping}
-              />
-            )}
-          </div>
-
-          {!editMode &&
-            !isOwnProduct && (
-              <Button
-                className="mt-3 mb-3"
-                handleClick={this.handleBuy}
-                text="buy"
-              />
-            )}
-
-          <p className="text-center">{this.state.buyMessage}</p>
-          {editMode && (
-            <Button
-              className="mt-2"
-              handleClick={this.handleUpdate}
-              text="update"
-            />
-          )}
-          {editMode && (
-            <Button
-              secondary
-              className="mt-2"
-              handleClick={this.handleDelete}
-              text="delete"
-            />
-          )}
         </Container>
       )
     } else {

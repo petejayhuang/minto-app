@@ -92,11 +92,6 @@ textarea {
   outline: 2px solid #88d8bf;
 }
 
-button {
-  width: 200px;
-  border-radius: 0px;
-}
-
 /* REACT COMPONENTS */
 .feed-image {
   max-width: 600px;
@@ -111,13 +106,6 @@ button {
   border-radius: 50%;
   width: 75px;
   height: 75px;
-}
-
-.product-image {
-  width: 100vw;
-  max-width: 600px;
-  height: 100vw;
-  max-height: 600px;
 }
 
 .error-text {

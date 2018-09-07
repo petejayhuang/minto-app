@@ -21,8 +21,8 @@ const Container = styled.div`
   }
   .preview-image {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 146px;
+    height: 146px;
   }
   .remove-image {
     position: absolute;
@@ -70,7 +70,7 @@ class ImageUpload extends Component {
     return (
       <Container>
         {this.state.imagePreviewUrl ? (
-          <div className="preview-image">
+          <div className="d-flex justify-content-center align-items-center preview-image">
             <div
               className="remove-image"
               onClick={() => this.handleRemoveImage(this.state.file.name)}

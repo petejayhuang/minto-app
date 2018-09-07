@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { compose } from 'redux'
+import requireAuth from '../../components/HigherOrder/requireAuth'
 
 import {
   getProductCategories,
@@ -35,12 +37,9 @@ class Search extends Component {
   handleOptionSelect = e => this.setState({ category_id: e.target.value })
 
   loadMoreSearchResults = () => {
-    console.log('loadMoreSearchResults')
     const newState = { ...this.state, page: this.state.page + 1 }
     const queryString = generateQueryStringFromObject(newState)
     this.setState({ ...newState })
-
-    console.log('queryString in Search.js', queryString)
 
     this.props.getSearchResults({
       queryString,
@@ -118,11 +117,14 @@ class Search extends Component {
   }
 }
 
-export default connect(
-  ({ categories, search, ui }) => ({ categories, search, ui }),
-  {
-    getProductCategories,
-    getSearchResults,
-    resetSearchResults
-  }
+export default compose(
+  connect(
+    ({ categories, search, ui }) => ({ categories, search, ui }),
+    {
+      getProductCategories,
+      getSearchResults,
+      resetSearchResults
+    }
+  ),
+  requireAuth
 )(Search)

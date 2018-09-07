@@ -31,6 +31,25 @@ class Store extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { match, getStoreProducts } = this.props
+    const currentStoreId = prevProps.match.params.id
+    const nextStoreId = match.params.id
+
+    if (currentStoreId !== nextStoreId) {
+      this.props.getStoreInfo(nextStoreId)
+      getStoreProducts({
+        page: 1,
+        limit: this.state.limit,
+        user_id: nextStoreId
+      })
+      this.setState({
+        page: 1,
+        limit: 6
+      })
+    }
+  }
+
   loadMoreProducts = () => {
     const { page, limit } = this.state
 

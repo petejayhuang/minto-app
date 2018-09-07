@@ -173,7 +173,9 @@ const updateUserFailure = ({ message, error }) => ({
 // =====================================================
 export const logoutUser = () => dispatch => {
   localStorage.removeItem('x-auth-token')
-
+  window.FB.logout(function(response) {
+    console.log('Successfull logged out', response)
+  })
   dispatch({
     type: LOGOUT_USER
   })

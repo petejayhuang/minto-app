@@ -55,7 +55,7 @@ export const getStoreProducts = ({
   dispatch(getStoreProductsRequest)
   try {
     const { data } = await axios()(
-      `/products?page=${page}&limit=${limit}&user_id=${user_id}`
+      `/feeds?page=${page}&limit=${limit}&user_id=${user_id}`
     )
     dispatch(getStoreProductsSuccess({ storeProducts: data.data, page }))
   } catch (error) {
