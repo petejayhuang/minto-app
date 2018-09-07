@@ -21,6 +21,9 @@ a {
   font-weight: 600;
   color: #88d8bf;
 }
+.highlighted-link a:hover {
+  color: #88d8bf;
+}
 
 /* TEXT */
 .text-left {

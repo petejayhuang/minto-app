@@ -124,38 +124,6 @@ class Add extends Component {
           />
         </div>
 
-        <div className="d-flex flex-column">
-          <label className="mt-3">
-            <strong>Available Delivery Methods</strong>
-          </label>
-
-          <div className="d-flex align-items-center">
-            <input
-              id="shipping"
-              onChange={e => this.handleCheckboxChange('shipping', e)}
-              type="checkbox"
-              value="shipping"
-              checked={this.state.shipping}
-            />
-            <label className="ml-2 m-0" htmlFor="shipping">
-              UK Shipping
-            </label>
-          </div>
-
-          <div className="d-flex align-items-center">
-            <input
-              onChange={e => this.handleCheckboxChange('meet_in_person', e)}
-              id="meet_in_person"
-              value="meet-in-person"
-              type="checkbox"
-              checked={this.state.meet_in_person}
-            />
-            <label className="ml-2 m-0" htmlFor="meet_in_person">
-              Meet in person
-            </label>
-          </div>
-        </div>
-
         <div className="d-flex mt-3 justify-content-center">
           <Button
             loading={loadingLine}

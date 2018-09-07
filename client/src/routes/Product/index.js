@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link, withRouter } from 'react-router-dom'
+import { TextLink } from '../../components/TextLink'
 import Button from '../../components/Button'
 
 import {
@@ -141,33 +142,35 @@ class Product extends Component {
             )}
 
             {!editMode && (
-              <div className="d-flex align-items-center">
-                <div>
-                  Sold by user:{' '}
-                  <Link to={`/store/${user_id}`}>@{username}</Link>
+              <div className="d-flex flex-column">
+                <div className="mt-3">
+                  Sold by{' '}
+                  <TextLink to={`/store/${user_id}`} text={`@${username}`} />
                 </div>
-                {!isOwnProduct &&
-                  loggedIn && (
-                    <Button
-                      className="mt-3 mb-3 ml-3"
-                      secondary
-                      handleClick={this.handleMessage}
-                      text="Message seller"
-                    />
-                  )}
+                <div>
+                  {!isOwnProduct &&
+                    loggedIn && (
+                      <Button
+                        className="mt-1 mb-3"
+                        secondary
+                        handleClick={this.handleMessage}
+                        text="Message seller"
+                      />
+                    )}
+                </div>
               </div>
             )}
 
             {editMode && (
-              <div className="d-flex flex-column">
+              <div className="d-flex flex-column mt-3">
                 {this.renderCategoryDropdown()}
               </div>
             )}
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column mt-2">
               {editMode && <label>Product Description</label>}
 
               {!editMode ? (
-                <p className="text-justify">{description}</p>
+                <p className="text-justify mb-0">{description}</p>
               ) : (
                 <textarea
                   onChange={e =>
@@ -178,7 +181,7 @@ class Product extends Component {
               )}
             </div>
 
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column mt-3">
               {editMode && <label>Price</label>}
               {!editMode ? (
                 <h3>£{`${Prices[0].price}`}</h3>
@@ -192,46 +195,11 @@ class Product extends Component {
                 />
               )}
             </div>
-            <div className="mt-3 d-flex flex-column">
-              {editMode && (
-                <label htmlFor="meet_in_person">meet_in_person_YN</label>
-              )}
-              {!editMode ? (
-                <p className="m-0">
-                  Meet in person: {meet_in_person_YN ? 'Yes' : 'No'}
-                </p>
-              ) : (
-                <input
-                  name="meet_in_person"
-                  id="meet_in_person"
-                  type="checkbox"
-                  onChange={this.handleCheckboxChange}
-                  value="meet_in_person"
-                  checked={this.state.meet_in_person}
-                />
-              )}
-            </div>
-
-            <div className="d-flex flex-column">
-              {editMode && <label htmlFor="shipping">shipping_YN</label>}
-              {!editMode ? (
-                <p>Shipping: {shipping_YN ? 'Yes' : 'No'}</p>
-              ) : (
-                <input
-                  type="checkbox"
-                  id="shipping"
-                  name="shipping"
-                  value="shipping"
-                  onChange={this.handleCheckboxChange}
-                  checked={this.state.shipping}
-                />
-              )}
-            </div>
 
             {!editMode &&
               !isOwnProduct && (
                 <Button
-                  className="mt-3 mb-3"
+                  className="mt-1 mb-3"
                   handleClick={this.handleBuy}
                   text="buy"
                 />

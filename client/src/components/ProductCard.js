@@ -7,7 +7,7 @@ const Container = styled.div`
   max-width: 600px;
   border: 1px solid ${colors.border};
   border-radius: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   background-color: white;
   .profile-image {
     height: 50px;

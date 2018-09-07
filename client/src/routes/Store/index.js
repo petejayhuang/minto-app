@@ -93,7 +93,7 @@ class Store extends Component {
               loading={this.props.ui.loadingLine}
               handleClick={this.loadMoreProducts}
               className="mb-3"
-              text="load more images"
+              text="Load more images"
             />
           </div>
         )}
