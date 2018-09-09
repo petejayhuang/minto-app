@@ -45,32 +45,27 @@ export const authenticate = ({
             Authorization: `Bearer ${accessToken}`
           }
         })
-        // setAuthToken Util
-        setAuthToken(data.headers['x-auth-token'])
 
-        dispatch(authenticateSuccess(data.data))
         break
       case 'email':
-        const body = {
+        let body = {
           email,
           password
         }
-        console.log('body', body)
         data = await axios({
           method: 'post',
           url: `${URLS.SERVER}/auth/login`,
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          },
-          body
+          data: body
         })
         break
 
       default:
         break
     }
+    setAuthToken(data.headers['x-auth-token'])
 
-    // WITH EMAIL
+    dispatch(authenticateSuccess(data.data))
+
     const hasUsername = data.data.username
 
     // if they have an username, it's not their first time here
