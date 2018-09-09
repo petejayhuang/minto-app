@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { getMessageThreads } from '../../actions/messages'
 import { redirect } from '../../actions/'
 
 import TouchableRow from '../../components/TouchableRow'
+import requireAuth from '../../components/higherOrder/requireAuth'
 
 const Container = styled.div``
 
@@ -43,7 +45,10 @@ class Messages extends Component {
   }
 }
 
-export default connect(
-  ({ user, messages }) => ({ user, messages }),
-  { getMessageThreads, redirect }
+export default compose(
+  connect(
+    ({ user, messages }) => ({ user, messages }),
+    { getMessageThreads, redirect }
+  ),
+  requireAuth
 )(Messages)

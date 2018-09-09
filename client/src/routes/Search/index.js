@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { compose } from 'redux'
-import requireAuth from '../../components/HigherOrder/requireAuth'
 
 import {
   getProductCategories,
@@ -125,6 +124,5 @@ export default compose(
       getSearchResults,
       resetSearchResults
     }
-  ),
-  requireAuth
+  )
 )(Search)

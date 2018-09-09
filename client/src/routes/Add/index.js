@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import ImageUpload from '../../components/ImageUpload'
 import Button from '../../components/Button'
 import { getProductCategories, uploadProduct, redirect } from '../../actions'
+import requireAuth from '../../components/higherOrder/requireAuth'
 
 class Add extends Component {
   state = {
@@ -136,7 +138,10 @@ class Add extends Component {
   }
 }
 
-export default connect(
-  ({ user, categories, ui }) => ({ user, categories, ui }),
-  { getProductCategories, uploadProduct, redirect }
+export default compose(
+  connect(
+    ({ user, categories, ui }) => ({ user, categories, ui }),
+    { getProductCategories, uploadProduct, redirect }
+  ),
+  requireAuth
 )(Add)
