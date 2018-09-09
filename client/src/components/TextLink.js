@@ -5,7 +5,6 @@ import { colors } from '../styles/styleVariables'
 
 const StyledLink = styled(Link)`
   color: ${colors.primary};
-  font-weight: 500;
   &:hover {
     text-decoration: none;
     color: ${colors.primary};

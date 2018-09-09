@@ -16,7 +16,7 @@ import {
 } from '../actions/payments'
 
 import Button from './Button'
-import { redirect } from '../actions';
+import { redirect } from '../actions'
 
 class CheckoutForm extends Component {
   handlePay = async () => {
@@ -34,19 +34,22 @@ class CheckoutForm extends Component {
       })
 
       redirect('/order-confirmation')
-
     } catch (e) {
       dispatch(getStripeTokenFailure(e))
     }
   }
 
   render() {
+    const inputStyles = {
+      base: { fontSize: '20px', fontFamily: 'Playfair Display' }
+    }
     return (
       <form onSubmit={this.handleSubmit}>
-        <CardNumberElement />
-        <CardExpiryElement />
-        <CardCVCElement />
+        <CardNumberElement style={inputStyles} />
+        <CardExpiryElement style={inputStyles} />
+        <CardCVCElement style={inputStyles} />
         <Button
+          className="mt-1"
           loading={this.props.ui.loadingLine}
           text="Pay now"
           handleClick={this.handlePay}

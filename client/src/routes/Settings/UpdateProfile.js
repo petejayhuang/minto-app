@@ -10,9 +10,6 @@ const Container = styled.div`
     height: 200p;
     border-radius: 250px;
   }
-  label {
-    font-weight: 600;
-  }
 `
 class UpdateProfile extends Component {
   state = {

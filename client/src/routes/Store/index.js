@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getStoreInfo, getStoreProducts } from '../../actions'
+import { getStoreInfo, getStoreProducts, printError } from '../../actions'
 import { Link } from 'react-router-dom'
 import ImageGrid from '../../components/ImageGrid'
 import Button from '../../components/Button'
@@ -14,15 +14,20 @@ class Store extends Component {
 
   componentDidMount() {
     const {
-      match,
-      store: { info },
+      match: {
+        params: { id }
+      },
+      store: {
+        info: { user_id }
+      },
+      getStoreInfo,
       getStoreProducts
     } = this.props
 
-    const store_id = match.params.id
+    const store_id = id
 
-    if (store_id !== info.user_id) {
-      this.props.getStoreInfo(store_id)
+    if (store_id !== user_id) {
+      getStoreInfo(store_id)
       getStoreProducts({
         page: this.state.page,
         limit: this.state.limit,
@@ -32,12 +37,18 @@ class Store extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { match, getStoreProducts } = this.props
+    const {
+      match: {
+        params: { id }
+      },
+      getStoreInfo,
+      getStoreProducts
+    } = this.props
     const currentStoreId = prevProps.match.params.id
-    const nextStoreId = match.params.id
+    const nextStoreId = id
 
-    if (currentStoreId != nextStoreId) {
-      this.props.getStoreInfo(nextStoreId)
+    if (currentStoreId !== nextStoreId) {
+      getStoreInfo(nextStoreId)
       getStoreProducts({
         page: 1,
         limit: this.state.limit,
@@ -52,45 +63,65 @@ class Store extends Component {
 
   loadMoreProducts = () => {
     const { page, limit } = this.state
+    const {
+      store: {
+        info: { total_products },
+        products
+      },
+      match: {
+        params: { id }
+      },
+      printError,
+      getStoreProducts
+    } = this.props
 
-    this.props.getStoreProducts({
-      page: page + 1,
-      limit,
-      user_id: this.props.match.params.id
-    })
+    if (!total_products === products.length) {
+      getStoreProducts({
+        page: page + 1,
+        limit,
+        user_id: id
+      })
 
-    this.setState({ page: page + 1 })
+      this.setState({ page: page + 1 })
+    } else {
+      printError({ message: 'All products loaded!', error: {} })
+    }
   }
 
   render() {
-    const isOwnStore = this.props.user.id === this.props.store.info.user_id
+    const {
+      store: {
+        products,
+        info: { profile_URL, username, user_id }
+      },
+      ui: { loadingLine },
+      user: { id }
+    } = this.props
+
+    const isOwnStore = id === user_id
     return (
       <div className="route-container inner-container">
         <div className="d-flex p-3 border-bottom-light">
           <div className="profile-image-container">
-            <img
-              alt="profile"
-              className="profile-image"
-              src={`${this.props.store.info.profile_URL}`}
-            />
+            <img alt="profile" className="profile-image" src={profile_URL} />
           </div>
 
           <div className="ml-2 d-flex flex-column justify-content-center">
             <div>
-              <h3>@{this.props.store.info.username}</h3>
+              <h3>@{username}</h3>
             </div>
           </div>
         </div>
 
         <div className="text-center">
-          <h4 className="mt-3 mb-3">SELLING</h4>
+          <h4 className="mt-3 mb-3">SELLING ({products.length})</h4>
         </div>
-        <ImageGrid products={this.props.store.products} />
+        <ImageGrid products={products} />
 
-        {this.props.store.products.length > 3 && (
+        {products.length > 3 && (
           <div className="mt-3 d-flex justify-content-center">
             <Button
-              loading={this.props.ui.loadingLine}
+              loading={loadingLine}
               handleClick={this.loadMoreProducts}
               className="mb-3"
               text="Load more images"
@@ -98,12 +129,12 @@ class Store extends Component {
           </div>
         )}
 
-        {this.props.store.products.length === 0 &&
+        {products.length === 0 &&
           isOwnStore && (
             <div>
               <p className="text-center">
                 You haven't listed anything to sell! Start{' '}
-                <Link className="highlighted-link" to="/add">
+                <Link className="" to="/add">
                   here
                 </Link>
               </p>
@@ -125,5 +156,5 @@ Store.propTypes = {}
 
 export default connect(
   mapStateToProps,
-  { getStoreInfo, getStoreProducts }
+  { getStoreInfo, getStoreProducts, printError }
 )(Store)

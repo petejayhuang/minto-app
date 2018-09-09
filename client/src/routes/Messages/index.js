@@ -26,11 +26,12 @@ class Messages extends Component {
     return (
       <Container>
         <div className="route-container">
-          {threads.map(thread => {
+          {threads.map((thread, i) => {
             const { product_id, thread_id, ThreadParticipants } = thread
 
             return (
               <TouchableRow
+                borderBottom={i + 1 === threads.length}
                 key={thread_id}
                 text={`${
                   ThreadParticipants[0].User.username

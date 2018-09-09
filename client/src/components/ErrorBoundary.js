@@ -17,15 +17,28 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.error) {
+    const { error } = this.state
+    const { children } = this.props
+    if (error) {
       return (
-        <div className="snap" onClick={this.handleClick}>
-          <p>We're sorry — something's gone wrong.</p>
-          <p>Our team has been notified, but click here fill out a report.</p>
+        <div
+          className="d-flex route-container flex-column p-4"
+          onClick={this.handleClick}
+        >
+          <h1 className="text-center highlighted">Whoops!</h1>
+          <p className="text-center">
+            We're sorry — something has gone wrong, this doesn't normally
+            happen.
+          </p>
+          <p className="text-center">
+            Our team has been notified. If you have a minute to help us out,
+            click <span className="highlighted">here</span> to report more
+            detail.
+          </p>
         </div>
       )
     } else {
-      return this.props.children
+      return children
     }
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import Dropdown from '../../components/Dropdown'
 
 import {
   getProductCategories,
@@ -32,7 +33,7 @@ class Search extends Component {
 
   handleInputChange = e => this.setState({ description: e.target.value })
 
-  handleOptionSelect = e => this.setState({ category_id: e.target.value })
+  handleOptionSelect = value => this.setState({ category_id: value })
 
   loadMoreSearchResults = () => {
     const newState = { ...this.state, page: this.state.page + 1 }
@@ -55,23 +56,6 @@ class Search extends Component {
     this.props.getSearchResults({ queryString, page: this.state.page })
     this.setState({ searchTouched: true })
   }
-
-  renderCategoryDropdown = () => (
-    <select onChange={this.handleOptionSelect}>
-      <option value="" key="0">
-        All jewellery
-      </option>
-      {this.props.categories.map(category => {
-        const { category_id, product_type } = category
-        return (
-          <option value={category_id} key={category_id}>
-            {product_type}
-          </option>
-        )
-      })}
-    </select>
-  )
-
   render() {
     const {
       search,
@@ -79,12 +63,20 @@ class Search extends Component {
     } = this.props
     const { searchTouched } = this.state
     return (
-      <Container className="route-container d-flex flex-column align-items-center pl-3 pr-3">
-        <label className="pt-3">
-          <strong>What are you looking for?</strong>
-        </label>
-        <input type="text" className="mb-3" onChange={this.handleInputChange} />
-        {this.renderCategoryDropdown()}
+      <Container className="route-container d-flex flex-column justify-content-center align-items-center pl-3 pr-3">
+        <h3>What are you looking for?</h3>
+
+        <input
+          placeholder="e.g. ruby ring"
+          type="text"
+          className="mt-3 mb-3"
+          onChange={this.handleInputChange}
+        />
+
+        <Dropdown
+          onSelect={this.handleOptionSelect}
+          dropdownItems={this.props.categories}
+        />
 
         {search.length > 0 && searchTouched ? (
           <div className="d-flex flex-column align-items-center">
