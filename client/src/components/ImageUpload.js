@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
 import XCircleIcon from '../assets/icons/feather-react/XCircleIcon'
+import CameraIcon from '../assets/icons/feather-react/CameraIcon'
 import { colors } from '../styles/styleVariables'
 
 const Container = styled.div`
@@ -75,7 +76,7 @@ class ImageUpload extends Component {
               className="remove-image"
               onClick={() => this.handleRemoveImage(this.state.file.name)}
             >
-              <XCircleIcon />
+              <XCircleIcon stroke={colors.primary} />
             </div>
             <img
               alt="upload"
@@ -85,9 +86,10 @@ class ImageUpload extends Component {
           </div>
         ) : (
           <label
-            className="d-flex p-2 text-center align-items-center"
+            className="d-flex flex-column p-2 text-center justify-content-center align-items-center"
             htmlFor={`file${index}`}
           >
+            <CameraIcon stroke={colors.icon} />
             Tap here to add an image
           </label>
         )}

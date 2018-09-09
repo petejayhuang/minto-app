@@ -11,18 +11,14 @@ const Container = styled.div`
     border-radius: 8px;
     background-color: ${props => (props.secondary ? 'white' : colors.primary)};
     color: ${props => (props.secondary ? colors.primary : 'white')};
-    font-weight: 600;
     &:hover {
       cursor: pointer;
-      color: white;
-      background-color: ${props =>
-        props.secondary ? colors.primary : colors.primaryLight};
     }
   }
 `
 
 const Button = props => {
-  const { className, text, handleClick, submit, loading } = props
+  const { className, text, handleClick, submit, loading, customColour } = props
 
   const renderContent = () => {
     if (loading) {
@@ -34,6 +30,7 @@ const Button = props => {
   return (
     <Container {...props} className={className}>
       <button
+        style={customColour ? { backgroundColor: customColour } : {}}
         disabled={loading}
         type={submit ? 'submit' : 'button'}
         className="d-flex justify-content-center align-items-center"

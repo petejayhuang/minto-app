@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-
 import { navItems } from '../config/routing'
 import { colors } from '../styles/styleVariables'
 
@@ -19,8 +18,8 @@ const Container = styled.div`
   }
 `
 
-class MobileTopNav extends Component {
-  renderTopNav = navItem => (
+const MobileTopNav = props => {
+  const renderTopNav = navItem => (
     <Container>
       <div className="navbar d-flex justify-content-between align-items-center">
         <div
@@ -51,14 +50,18 @@ class MobileTopNav extends Component {
     </Container>
   )
 
-  render() {
-    return <div>{this.renderTopNav(navItems(this.props))}</div>
-  }
+  return (
+    <div>
+      {renderTopNav(navItems({ store: props, history: props.history }))}
+    </div>
+  )
 }
 
 const mapStateToProps = ({ routing, user }) => ({ routing, user })
 
-export default connect(
-  mapStateToProps,
-  null
-)(withRouter(MobileTopNav))
+export default compose(
+  connect(
+    mapStateToProps,
+    null
+  )
+)(MobileTopNav)

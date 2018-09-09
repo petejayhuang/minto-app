@@ -1,11 +1,17 @@
-import { GET_PRODUCT_CATEGORIES_SUCCESS } from "../actions/types"
+import { GET_PRODUCT_CATEGORIES_SUCCESS } from '../actions/types'
 
 const initialState = []
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCT_CATEGORIES_SUCCESS:
-      return action.payload
+      return action.payload.reduce((accum, category) => {
+        const { product_type, category_id } = category
+        const newObject = {}
+        newObject.label = product_type
+        newObject.value = category_id
+        return accum.concat(newObject)
+      }, [])
     default:
       return state
   }

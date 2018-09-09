@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { getMessageThread, createMessage } from '../../actions/'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -93,7 +94,10 @@ class Message extends Component {
 
 const mapState = ({ user, messages }) => ({ user, messages })
 
-export default connect(
-  mapState,
-  { getMessageThread, createMessage }
-)(withRouter(Message))
+export default compose(
+  withRouter,
+  connect(
+    mapState,
+    { getMessageThread, createMessage }
+  )
+)(Message)

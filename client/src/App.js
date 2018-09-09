@@ -1,55 +1,49 @@
 // libraries
-import React, { Component } from 'react'
+import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { StripeProvider } from 'react-stripe-elements'
 import { KEYS } from './config/constants'
+import { withRouter } from 'react-router-dom'
 
 // utils
 import renderRoutes from './utilities/renderRoutes'
 
 // components
 import ErrorBoundary from './components/ErrorBoundary'
-import ErrorNotification from './components/ErrorNotification'
-import SuccessNotification from './components/SuccessNotification'
 import LoadingLine from './components/LoadingLine'
 import LoadingOverlay from './components/LoadingOverlay'
 import MobileBottomNav from './components/MobileBottomNav'
 import MobileTopNav from './components/MobileTopNav'
+import Notification from './components/Notification'
 import StoreDrivenRedirect from './components/StoreDrivenRedirect'
 
 // styles
 import './styles/App.css'
-import styled from 'styled-components'
 
-const AppContainer = styled.div``
-
-class App extends Component {
-  render() {
-    const {
-      ui: { redirect, loadingLine },
-      error,
-      success,
-      user: { id }
-    } = this.props
-
-    return (
-      <ErrorBoundary>
-        <StripeProvider apiKey={KEYS.STRIPE_PUBLISHABLE_KEY}>
-          <AppContainer>
-            {redirect && <StoreDrivenRedirect />}
-            {loadingLine && <LoadingLine />}
-            {false && <LoadingOverlay />}
-            {error && <ErrorNotification />}
-            {success && <SuccessNotification />}
-            {<MobileTopNav />}
-            {renderRoutes()}
-            {<MobileBottomNav userId={id} />}
-          </AppContainer>
-        </StripeProvider>
-      </ErrorBoundary>
-    )
-  }
+const App = props => {
+  const {
+    error,
+    ui: { loadingLine, redirect },
+    user: { id },
+    success
+  } = props
+  return (
+    <ErrorBoundary>
+      <StripeProvider apiKey={KEYS.STRIPE_PUBLISHABLE_KEY}>
+        <div>
+          {redirect && <StoreDrivenRedirect />}
+          {loadingLine && <LoadingLine />}
+          {false && <LoadingOverlay />}
+          {(success || error) && <Notification />}
+          <MobileTopNav history={props.history} />
+          {renderRoutes()}
+          {<MobileBottomNav userId={id} />}
+        </div>
+      </StripeProvider>
+    </ErrorBoundary>
+  )
 }
 
 const mapState = ({ ui, user, routing, error, success }) => ({
@@ -67,7 +61,10 @@ App.propTypes = {
   ui: PropTypes.object
 }
 
-export default connect(
-  mapState,
-  null
+export default compose(
+  withRouter,
+  connect(
+    mapState,
+    null
+  )
 )(App)

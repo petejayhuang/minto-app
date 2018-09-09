@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link, withRouter } from 'react-router-dom'
@@ -92,7 +93,10 @@ class MobileBottomNav extends Component {
   }
 }
 
-export default connect(
-  ({ user, routing }) => ({ user, routing }),
-  null
-)(withRouter(MobileBottomNav))
+export default compose(
+  connect(
+    ({ user, routing }) => ({ user, routing }),
+    null
+  ),
+  withRouter
+)(MobileBottomNav)

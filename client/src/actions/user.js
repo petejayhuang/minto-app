@@ -3,11 +3,12 @@ import axios from 'axios'
 import customAxios from '../config/axios'
 import { redirect } from './ui'
 import { URLS } from '../config/constants'
+import { setAuthToken } from '../utilities/setAuthToken'
 
 import {
-  AUTH_FB_WITH_BE_REQUEST,
-  AUTH_FB_WITH_BE_SUCCESS,
-  AUTH_FB_WITH_BE_FAILURE,
+  AUTHENTICATE_REQUEST,
+  AUTHENTICATE_SUCCESS,
+  AUTHENTICATE_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
@@ -20,54 +21,84 @@ import {
 import { printSuccess } from './success'
 
 // =====================================================
-// ==============      AUTH FB w/ BE     ===============
+// ===============      AUTHENTICATE     ===============
 // =====================================================
-export const authenticateFacebookWithBE = accessToken => async dispatch => {
-  dispatch(authenticateFacebookWithBERequest)
+export const authenticate = ({
+  method,
+  // For Facebook Method
+  accessToken,
+  // For Email/Password method
+  email,
+  password
+}) => async dispatch => {
+  dispatch(authenticateRequest)
+
   try {
-    // don't destructure because we want access to data.headers
-    const data = await axios({
-      method: 'post',
-      url: `${URLS.SERVER}/auth/facebook`,
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-    localStorage.setItem('x-auth-token', data.headers['x-auth-token'])
-    dispatch(authenticateFacebookWithBESuccess(data.data))
+    let data
+
+    switch (method) {
+      case 'facebook':
+        data = await axios({
+          method: 'post',
+          url: `${URLS.SERVER}/auth/facebook`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        // setAuthToken Util
+        setAuthToken(data.headers['x-auth-token'])
+
+        dispatch(authenticateSuccess(data.data))
+        break
+      case 'email':
+        data = await axios({
+          method: 'post',
+          url: `${URLS.SERVER}/auth/facebook`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          },
+          body: {
+            email,
+            password
+          }
+        })
+        break
+
+      default:
+        break
+    }
+
+    // WITH EMAIL
+    const hasUsername = data.data.username
 
     // if they have an username, it's not their first time here
-    if (data.data.username) {
+    if (hasUsername) {
       // send them to feed!
       dispatch(redirect('/feed'))
       dispatch(printSuccess('Successfully logged in'))
-    }
-
-    // if they don't have a username
-    if (!data.data.username) {
-      // send them to update their profile!
+    } else {
       dispatch(redirect('/settings/update-profile'))
     }
   } catch (error) {
     dispatch(
-      authenticateFacebookWithBEFailure({
-        message: 'Could not login with Facebook.',
+      authenticateFailure({
+        message: 'Could not login.',
         error
       })
     )
   }
 }
-const authenticateFacebookWithBERequest = {
-  type: AUTH_FB_WITH_BE_REQUEST,
+const authenticateRequest = {
+  type: AUTHENTICATE_REQUEST,
   loadingLine: true
 }
-const authenticateFacebookWithBESuccess = user => ({
-  type: AUTH_FB_WITH_BE_SUCCESS,
+const authenticateSuccess = user => ({
+  type: AUTHENTICATE_SUCCESS,
   loadingLine: false,
   payload: user
 })
-const authenticateFacebookWithBEFailure = ({ message, error }) => ({
-  type: AUTH_FB_WITH_BE_FAILURE,
+const authenticateFailure = ({ message, error }) => ({
+  type: AUTHENTICATE_FAILURE,
   loadingLine: false,
   error: { message, error }
 })
@@ -174,10 +205,9 @@ const updateUserFailure = ({ message, error }) => ({
 export const logoutUser = () => dispatch => {
   localStorage.removeItem('x-auth-token')
   window.FB.logout(function(response) {
-    console.log('Successfull logged out', response)
-  })
-  dispatch({
-    type: LOGOUT_USER
+    dispatch({
+      type: LOGOUT_USER
+    })
   })
 
   dispatch(redirect('/feed'))

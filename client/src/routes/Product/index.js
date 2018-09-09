@@ -1,20 +1,30 @@
-import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { Elements } from 'react-stripe-elements'
+import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Link, withRouter } from 'react-router-dom'
-import { TextLink } from '../../components/TextLink'
+import { withRouter } from 'react-router-dom'
+
 import Button from '../../components/Button'
+import CheckoutForm from '../../components/CheckoutForm'
+import Dropdown from '../../components/Dropdown'
+import { TextLink } from '../../components/TextLink'
 
 import {
   getProductCategories,
   getProduct,
   createMessageThread,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  redirect,
+  getStripeTokenRequest,
+  getStripeTokenSuccess,
+  getStripeTokenFailure,
+  buyProduct
 } from '../../actions'
 
 const Container = styled.div`
-  .product-image-container {
+  .product-container {
     max-width: 600px;
   }
 `
@@ -25,22 +35,19 @@ class Product extends Component {
     description: null,
     editMode: false,
     errorMessage: '',
-    meet_in_person: this.props.product.meet_in_person_YN,
     price: null,
-    shipping: this.props.product.shipping_YN,
-    buyMessage: ''
+    showPaymentForm: false
   }
 
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id)
-
     if (this.props.categories.length === 0) {
       this.props.getProductCategories()
     }
   }
 
-  handleOption = e => {
-    this.setState({ category_id: e.target.value })
+  handleOption = value => {
+    this.setState({ category_id: value })
   }
 
   handleTextInputChange = (inputName, value) => {
@@ -54,12 +61,22 @@ class Product extends Component {
     })
   }
 
-  handleBuy = () => {
-    // HIT EVENT!
-    this.setState({
-      buyMessage:
-        "Whoops, our buy feature isn't working at the moment. Please try again later."
-    })
+  handleBuy = async () => {
+    dispatch(getStripeTokenRequest)
+    const { dispatch, stripe, buyProduct } = this.props
+    try {
+      const { token } = await stripe.createToken()
+      dispatch(getStripeTokenSuccess)
+
+      await buyProduct({
+        stripeToken: token.id,
+        product_id: this.props.productId
+      })
+
+      redirect('/order-confirmation')
+    } catch (e) {
+      dispatch(getStripeTokenFailure(e))
+    }
   }
 
   handleDelete = () => {
@@ -86,153 +103,172 @@ class Product extends Component {
       product_id: this.props.product.product_id,
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
-      price: Number(this.state.price) || Prices[0].price,
-      meet_in_person_YN: this.state.meet_in_person,
-      shipping_YN: this.state.shipping
+      price: Number(this.state.price) || Prices[0].price
     })
   }
 
-  renderCategoryDropdown = () => (
-    <select onChange={e => this.handleOption(e)}>
-      {this.props.categories.map(category => (
-        <option value={category.category_id} key={category.product_type}>
-          {category.product_type}
-        </option>
-      ))}
-    </select>
-  )
+  renderEditMode = () => {
+    const {
+      product: { Prices, description },
+      categories
+    } = this.props
 
-  render() {
-    const { editMode } = this.state
+    return (
+      <div className="product-container p-3 d-flex flex-column align-items-center">
+        <label>Product Category</label>
 
+        <Dropdown values={categories} handleSelect={this.handleOption} />
+
+        <label className="mt-3">Product Description</label>
+        <textarea
+          onChange={e =>
+            this.handleTextInputChange('description', e.target.value)
+          }
+          value={this.state.description || description}
+        />
+
+        <label className="mt-3">Price</label>
+
+        <input
+          type="text"
+          onChange={e => this.handleTextInputChange('price', e.target.value)}
+          value={this.state.price || Prices[0].price}
+        />
+        <div className="d-flex justify-content-center mt-5">
+          <Button handleClick={this.handleUpdate} text="Update" />
+          <Button
+            secondary
+            className="ml-2"
+            handleClick={this.handleDelete}
+            text="Delete"
+          />
+        </div>
+      </div>
+    )
+  }
+
+  showPaymentForm = () => {
+    this.setState({ showPaymentForm: true })
+  }
+
+  renderViewMode = () => {
+    const {
+      product: {
+        product_id,
+        User: { user_id, username },
+        Prices,
+        description
+      }
+    } = this.props
+    const { showPaymentForm } = this.state
+    const isOwnProduct = user_id === this.props.user.id
+    return (
+      <div className="product-container d-flex flex-column pl-3 pr-3">
+        <div className="mt-3">
+          Sold by <TextLink to={`/store/${user_id}`} text={`@${username}`} />
+        </div>
+
+        <div>
+          {!isOwnProduct && (
+            <Button
+              className="mt-1"
+              secondary
+              handleClick={this.handleMessage}
+              text="Message seller"
+            />
+          )}
+        </div>
+
+        <p className="text-justify mt-3 mb-0">{description}</p>
+
+        <h3 className="mt-3">£{`${Prices[0].price}`}</h3>
+
+        {!isOwnProduct &&
+          !showPaymentForm && (
+            <Button
+              className="mt-1 mb-3"
+              handleClick={this.showPaymentForm}
+              text="Buy"
+            />
+          )}
+
+        {showPaymentForm && (
+          <Elements>
+            <CheckoutForm productId={product_id} />
+          </Elements>
+        )}
+      </div>
+    )
+  }
+
+  renderProduct = () => {
     if (this.props.product.product_id) {
+      const { editMode } = this.state
       const {
+        user: { id },
         product: {
-          User: { user_id, username },
-          Images,
-          Prices,
-          description,
-          meet_in_person_YN,
-          shipping_YN
+          User: { user_id },
+          Images
         }
       } = this.props
-
-      const isOwnProduct = user_id === this.props.user.id
-      const loggedIn = !!this.props.user.id
-
+      const isOwnProduct = user_id === id
       return (
-        <Container className="route-container d-flex flex-column align-items-center">
-          <div className="product-image-container pl-3 pr-3">
-            <div>
-              <img
-                alt="product"
-                className="img-fluid"
-                src={Images[0].image_URL}
-              />
-            </div>
-            {isOwnProduct && (
-              <div className="d-flex justify-content-center mb-3">
-                <Button
-                  secondary
-                  className="mt-3 mb-3"
-                  handleClick={() => this.setState({ editMode: !editMode })}
-                  text={editMode ? 'cancel edits' : 'edit item'}
-                />
-              </div>
-            )}
-
-            {!editMode && (
-              <div className="d-flex flex-column">
-                <div className="mt-3">
-                  Sold by{' '}
-                  <TextLink to={`/store/${user_id}`} text={`@${username}`} />
-                </div>
-                <div>
-                  {!isOwnProduct &&
-                    loggedIn && (
-                      <Button
-                        className="mt-1 mb-3"
-                        secondary
-                        handleClick={this.handleMessage}
-                        text="Message seller"
-                      />
-                    )}
-                </div>
-              </div>
-            )}
-
-            {editMode && (
-              <div className="d-flex flex-column mt-3">
-                {this.renderCategoryDropdown()}
-              </div>
-            )}
-            <div className="d-flex flex-column mt-2">
-              {editMode && <label>Product Description</label>}
-
-              {!editMode ? (
-                <p className="text-justify mb-0">{description}</p>
-              ) : (
-                <textarea
-                  onChange={e =>
-                    this.handleTextInputChange('description', e.target.value)
-                  }
-                  value={this.state.description || description}
-                />
-              )}
-            </div>
-
-            <div className="d-flex flex-column mt-3">
-              {editMode && <label>Price</label>}
-              {!editMode ? (
-                <h3>£{`${Prices[0].price}`}</h3>
-              ) : (
-                <input
-                  type="text"
-                  onChange={e =>
-                    this.handleTextInputChange('price', e.target.value)
-                  }
-                  value={this.state.price || Prices[0].price}
-                />
-              )}
-            </div>
-
-            {!editMode &&
-              !isOwnProduct && (
-                <Button
-                  className="mt-1 mb-3"
-                  handleClick={this.handleBuy}
-                  text="buy"
-                />
-              )}
-            <p className="text-center">{this.state.buyMessage}</p>
-
-            {editMode && (
-              <div className="d-flex justify-content-center">
-                <Button handleClick={this.handleUpdate} text="update" />
-                <Button
-                  secondary
-                  className="ml-2"
-                  handleClick={this.handleDelete}
-                  text="delete"
-                />
-              </div>
-            )}
+        <div>
+          <div className="product-container ">
+            <img
+              alt="product"
+              className="img-fluid"
+              src={Images[0].image_URL}
+            />
           </div>
-        </Container>
+          {isOwnProduct && this.renderEditButton()}
+
+          {editMode ? this.renderEditMode() : this.renderViewMode()}
+        </div>
       )
     } else {
       return <div />
     }
   }
+
+  renderEditButton = () => {
+    const { editMode } = this.state
+    return (
+      <div className="d-flex justify-content-center">
+        <Button
+          secondary
+          className="mt-3 mb-3"
+          handleClick={() => this.setState({ editMode: !editMode })}
+          text={editMode ? 'Cancel edits' : 'Edit item'}
+        />
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <Container className="route-container d-flex flex-column align-items-center">
+        <div>{this.renderProduct()}</div>
+      </Container>
+    )
+  }
 }
 
-export default connect(
-  ({ product, categories, user }) => ({ product, categories, user }),
-  {
-    getProduct,
-    updateProduct,
-    createMessageThread,
-    deleteProduct,
-    getProductCategories
-  }
-)(withRouter(Product))
+export default compose(
+  connect(
+    ({ product, categories, user }) => ({ product, categories, user }),
+    {
+      getProduct,
+      updateProduct,
+      createMessageThread,
+      deleteProduct,
+      getProductCategories,
+      redirect,
+      getStripeTokenRequest,
+      getStripeTokenSuccess,
+      getStripeTokenFailure,
+      buyProduct
+    }
+  ),
+  withRouter
+)(Product)

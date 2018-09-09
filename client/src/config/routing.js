@@ -1,5 +1,6 @@
 import React from 'react'
 import findNavItem from '../utilities/findNavItem'
+import logo from '../assets/images/minto-logo.png'
 
 // ROUTES
 import Add from '../routes/Add'
@@ -10,6 +11,7 @@ import Logout from '../routes/Settings/Logout'
 import Message from '../routes/Messages/Message'
 import Messages from '../routes/Messages'
 import NotFound from '../routes/NotFound'
+import OrderConfirmation from '../routes/Payments/OrderConfirmation'
 import Product from '../routes/Product'
 import Search from '../routes/Search'
 import Settings from '../routes/Settings'
@@ -29,6 +31,7 @@ export const routes = [
   { path: '/login', component: Login, exact: true },
   { path: '/messages', component: Messages, exact: true },
   { path: '/messages/:id', component: Message },
+  { path: '/order-confirmation', component: OrderConfirmation },
   { path: '/privacy-policy', component: PrivacyPolicy },
   { path: '/products/:id', component: Product },
   { path: '/search', component: Search, exact: true },
@@ -39,14 +42,15 @@ export const routes = [
   { path: '*', component: NotFound }
 ]
 
-export const navItems = store => {
+export const navItems = ({ store, history }) => {
   const {
-    location,
+    routing: { location },
     user: { id }
   } = store
+
   const navItemsHash = {
     '': {
-      middle: <h5 className="m-0 p-0">Minto</h5>
+      middle: <img alt="logo" className="logo" src={logo} />
     },
     add: {
       middle: <h5 className="m-0 p-0">Add</h5>
@@ -68,6 +72,9 @@ export const navItems = store => {
       ),
       middle: <h5 className="m-0 p-0">Single Message</h5>
     },
+    'order-confirmation': {
+      middle: <h5 className="m-0 p-0">Order Confirmation</h5>
+    },
     'privacy-policy': {
       left: (
         <Link to="/">
@@ -77,6 +84,7 @@ export const navItems = store => {
       middle: <h5 className="m-0 p-0">Privacy Policy</h5>
     },
     'products/:id': {
+      left: renderProductBackButton(history),
       middle: <h5 className="m-0 p-0">View item</h5>
     },
     search: {
@@ -112,4 +120,17 @@ export const navItems = store => {
   }
 
   return navItemsHash[findNavItem(location)]
+}
+
+const renderProductBackButton = history => {
+  switch (history.action) {
+    case 'PUSH':
+      return (
+        <div className="top-nav-link" onClick={() => history.go(-1)}>
+          Back
+        </div>
+      )
+    default:
+      return null
+  }
 }

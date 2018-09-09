@@ -5,6 +5,7 @@ import ImageUpload from '../../components/ImageUpload'
 import Button from '../../components/Button'
 import { getProductCategories, uploadProduct, redirect } from '../../actions'
 import requireAuth from '../../components/HigherOrder/requireAuth'
+import Dropdown from '../../components/Dropdown'
 
 class Add extends Component {
   state = {
@@ -70,19 +71,9 @@ class Add extends Component {
     })
   }
 
-  handleOption = e => {
-    this.setState({ category_id: e.target.value })
+  handleOptionSelect = value => {
+    this.setState({ category_id: value })
   }
-
-  renderCategoryDropdown = () => (
-    <select required onChange={e => this.handleOption(e)}>
-      {this.props.categories.map(category => (
-        <option value={category.category_id} key={category.category_id}>
-          {category.product_type}
-        </option>
-      ))}
-    </select>
-  )
 
   render() {
     const {
@@ -94,45 +85,48 @@ class Add extends Component {
           {this.renderImageUploaders()}
         </div>
 
-        <div className="d-flex flex-column">
-          <label className="mt-3">
-            <strong>Product Category</strong>
-          </label>
-          {this.renderCategoryDropdown()}
-        </div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="d-flex flex-column">
+            <label className="mt-3">
+              <strong>Product Category</strong>
+            </label>
+            <Dropdown
+              onSelect={this.handleOptionSelect}
+              dropdownItems={this.props.categories}
+            />
+          </div>
 
-        <div className="d-flex flex-column">
-          <label className="mt-3">
-            <strong>Product Description</strong>
-          </label>
-          <textarea
-            required
-            onChange={e =>
-              this.handleTextInputChange('description', e.target.value)
-            }
-            value={this.state.description}
-          />
-        </div>
+          <div className="d-flex flex-column">
+            <label className="mt-3">
+              <strong>Product Description</strong>
+            </label>
+            <textarea
+              required
+              onChange={e =>
+                this.handleTextInputChange('description', e.target.value)
+              }
+              value={this.state.description}
+            />
+          </div>
 
-        <div className="d-flex flex-column">
-          <label className="mt-3">
-            <strong>Product Price (£)</strong>
-          </label>
-          <input
-            required
-            type="number"
-            onChange={e => this.handleTextInputChange('price', e.target.value)}
-            value={this.state.price}
-          />
-        </div>
+          <div className="d-flex flex-column">
+            <label className="mt-3">
+              <strong>Product Price (£)</strong>
+            </label>
+            <input
+              required
+              type="number"
+              onChange={e =>
+                this.handleTextInputChange('price', e.target.value)
+              }
+              value={this.state.price}
+            />
+          </div>
 
-        <div className="d-flex mt-3 justify-content-center">
-          <Button
-            loading={loadingLine}
-            handleClick={this.handleSubmit}
-            text="Submit"
-          />
-        </div>
+          <div className="d-flex mt-3 justify-content-center">
+            <Button loading={loadingLine} text="Submit" />
+          </div>
+        </form>
       </div>
     )
   }

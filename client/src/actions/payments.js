@@ -42,9 +42,12 @@ export const buyProduct = ({ stripeToken, product_id }) => async (
   }
   dispatch(buyProductRequest)
   try {
-    await axios().post(`${URLS.SERVER}/payments/stripe/charge`, body)
+    // END POINT TBC
+    await axios().post(`${URLS.SERVER}/payments/stripe/charge `, body)
+
     dispatch(buyProductSuccess())
     dispatch(addProductToOrderConfirmed(getState().product))
+    dispatch(redirect('/order-confirmation'))
   } catch (error) {
     dispatch(buyProductFailure({ message: 'Could not buy product.', error }))
   }
