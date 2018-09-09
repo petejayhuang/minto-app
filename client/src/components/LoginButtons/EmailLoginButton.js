@@ -21,6 +21,7 @@ class EmailLoginButton extends Component {
 
   handleLogin = () => {
     const { email, password } = this.state
+    console.log('email, password', email, password)
     this.props.authenticate({ method: 'email', email, password })
   }
 

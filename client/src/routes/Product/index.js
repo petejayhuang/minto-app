@@ -62,8 +62,8 @@ class Product extends Component {
   }
 
   handleBuy = async () => {
-    dispatch(getStripeTokenRequest)
     const { dispatch, stripe, buyProduct } = this.props
+    dispatch(getStripeTokenRequest)
     try {
       const { token } = await stripe.createToken()
       dispatch(getStripeTokenSuccess)

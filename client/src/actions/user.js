@@ -51,16 +51,18 @@ export const authenticate = ({
         dispatch(authenticateSuccess(data.data))
         break
       case 'email':
+        const body = {
+          email,
+          password
+        }
+        console.log('body', body)
         data = await axios({
           method: 'post',
-          url: `${URLS.SERVER}/auth/facebook`,
+          url: `${URLS.SERVER}/auth/login`,
           headers: {
             Authorization: `Bearer ${accessToken}`
           },
-          body: {
-            email,
-            password
-          }
+          body
         })
         break
 
@@ -204,10 +206,9 @@ const updateUserFailure = ({ message, error }) => ({
 // =====================================================
 export const logoutUser = () => dispatch => {
   localStorage.removeItem('x-auth-token')
-  window.FB.logout(function(response) {
-    dispatch({
-      type: LOGOUT_USER
-    })
+  window.FB.logout(function(response) {})
+  dispatch({
+    type: LOGOUT_USER
   })
 
   dispatch(redirect('/feed'))

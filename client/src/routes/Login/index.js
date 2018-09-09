@@ -6,7 +6,9 @@ import FacebookLoginButton from '../../components/LoginButtons/FacebookLoginButt
 const Login = () => {
   return (
     <div className="route-container p-3 d-flex flex-column justify-content-center align-items-center">
-      <p className="mt-2 mb-2">Please log in with one of the options below:</p>
+      <h3 className="text-center mt-2 mb-3">
+        Please log in with one of the options below:
+      </h3>
       <EmailLoginButton />
       <FacebookLoginButton className="mt-2" />
     </div>
