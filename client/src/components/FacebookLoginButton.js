@@ -7,7 +7,7 @@ class FacebookLoginButton extends Component {
   state = {}
 
   componentDidMount() {
-    if (window) {
+    if (window.FB) {
       window.FB.getLoginStatus(response => {
         console.log('response', response)
         if (response.status === 'connected') {
