@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { compose } from 'redux'
 
 import {
   getProductCategories,
@@ -74,7 +73,11 @@ class Search extends Component {
   )
 
   render() {
-    const { search } = this.props
+    const {
+      search,
+      ui: { loadingLine }
+    } = this.props
+    const { searchTouched } = this.state
     return (
       <Container className="route-container d-flex flex-column align-items-center pl-3 pr-3">
         <label className="pt-3">
@@ -83,7 +86,7 @@ class Search extends Component {
         <input type="text" className="mb-3" onChange={this.handleInputChange} />
         {this.renderCategoryDropdown()}
 
-        {search.length > 0 && this.state.searchTouched ? (
+        {search.length > 0 && searchTouched ? (
           <div className="d-flex flex-column align-items-center">
             <Button
               secondary
@@ -94,7 +97,7 @@ class Search extends Component {
             <ImageGrid products={search} />
 
             <Button
-              loading={this.props.ui.loadingLine}
+              loading={loadingLine}
               handleClick={this.loadMoreSearchResults}
               className="mt-3 mb-3"
               text="View more results"
@@ -102,7 +105,7 @@ class Search extends Component {
           </div>
         ) : (
           <Button
-            loading={this.props.ui.loadingLine}
+            loading={loadingLine}
             className="mt-3 mb-3"
             onClick={this.handleSearch}
             text="Search"
@@ -110,19 +113,17 @@ class Search extends Component {
         )}
         {this.state.searchTouched &&
           search.length === 0 &&
-          !this.props.ui.loadingLine && <div>No search results </div>}
+          !loadingLine && <div>No search results </div>}
       </Container>
     )
   }
 }
 
-export default compose(
-  connect(
-    ({ categories, search, ui }) => ({ categories, search, ui }),
-    {
-      getProductCategories,
-      getSearchResults,
-      resetSearchResults
-    }
-  )
+export default connect(
+  ({ categories, search, ui }) => ({ categories, search, ui }),
+  {
+    getProductCategories,
+    getSearchResults,
+    resetSearchResults
+  }
 )(Search)
