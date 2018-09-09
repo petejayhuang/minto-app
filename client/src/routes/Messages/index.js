@@ -6,7 +6,7 @@ import { getMessageThreads } from '../../actions/messages'
 import { redirect } from '../../actions/'
 
 import TouchableRow from '../../components/TouchableRow'
-import requireAuth from '../../components/higherOrder/requireAuth'
+import requireAuth from '../../components/HigherOrder/requireAuth'
 
 const Container = styled.div``
 

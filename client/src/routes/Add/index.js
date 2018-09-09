@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import ImageUpload from '../../components/ImageUpload'
 import Button from '../../components/Button'
 import { getProductCategories, uploadProduct, redirect } from '../../actions'
-import requireAuth from '../../components/higherOrder/requireAuth'
+import requireAuth from '../../components/HigherOrder/requireAuth'
 
 class Add extends Component {
   state = {
