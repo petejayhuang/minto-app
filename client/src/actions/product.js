@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import axios from '../config/axios'
+import customAxios from '../config/axios'
 import { URLS } from '../config/constants'
 import { redirect } from './ui'
 
@@ -31,7 +31,7 @@ export const getProductCategories = id => async dispatch => {
   dispatch(getProductCategoriesRequest)
 
   try {
-    const { data } = await axios()(`${URLS.SERVER}/categories`)
+    const { data } = await customAxios()('/categories')
     dispatch(getProductCategoriesSuccess(data.data))
   } catch (error) {
     dispatch(
@@ -66,7 +66,7 @@ const getProductCategoriesFailure = ({ message, error }) => ({
 export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
-    const { data } = await axios()(`${URLS.SERVER}/products/${id}`)
+    const { data } = await customAxios()(`/products/${id}`)
     dispatch(getProductSuccess(data.data[0]))
   } catch (error) {
     dispatch(
@@ -119,7 +119,7 @@ export const uploadProduct = ({ images, form }) => async (
     )
     body.images = imageData
 
-    await axios().post(`${URLS.SERVER}/products`, body)
+    await customAxios().post('/products', body)
 
     dispatch(uploadProductSuccess())
 
@@ -172,7 +172,7 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   dispatch(updateProductRequest)
 
   try {
-    await axios().put(`${URLS.SERVER}/products`, body)
+    await customAxios().put('/product', body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store/${id}`))
   } catch (error) {
@@ -204,7 +204,7 @@ const updateProductFailure = ({ message, error }) => ({
 export const deleteProduct = id => async (dispatch, getState) => {
   dispatch(deleteProductRequest)
   try {
-    const data = await axios().delete(`${URLS.SERVER}/products/${id}`)
+    const data = await customAxios().delete(`/products/${id}`)
 
     dispatch(deleteProductSuccess(data))
     dispatch(redirect('/feed'))

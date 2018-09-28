@@ -6,19 +6,100 @@ import { URLS } from '../config/constants'
 import { setAuthToken } from '../utilities/setAuthToken'
 
 import {
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  CREATE_USER_FAILURE,
+  GET_USERNAME_AVAILABILITY_REQUEST,
+  GET_USERNAME_AVAILABILITY_SUCCESS,
+  GET_USERNAME_AVAILABILITY_FAILURE,
   AUTHENTICATE_REQUEST,
   AUTHENTICATE_SUCCESS,
   AUTHENTICATE_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
-  GET_USERNAME_AVAILABILITY_REQUEST,
-  GET_USERNAME_AVAILABILITY_SUCCESS,
-  GET_USERNAME_AVAILABILITY_FAILURE,
   LOGOUT_USER
 } from './types'
 
 import { printSuccess } from './success'
+// =====================================================
+// ===============      CREATE USER     ================
+// =====================================================
+export const createUser = (body, callback) => async dispatch => {
+  dispatch(createUserRequest)
+
+  console.log('body in createUser', body)
+  try {
+    const { data } = await axios({
+      method: 'post',
+      url: `${URLS.SERVER}/users`,
+      body
+    })
+
+    dispatch(createUserSuccess(data.data))
+    callback()
+  } catch (error) {
+    dispatch(
+      createUserFailure({
+        message: 'Could not create user.',
+        error
+      })
+    )
+  }
+}
+
+const createUserRequest = {
+  type: CREATE_USER_REQUEST,
+  loadingLine: true
+}
+
+const createUserSuccess = user => ({
+  type: CREATE_USER_SUCCESS,
+  loadingLine: false,
+  payload: user
+})
+
+const createUserFailure = ({ message, error }) => ({
+  type: CREATE_USER_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
+// ========      GET USERNAME AVAILABILITY     =========
+// =====================================================
+export const getUsernameAvailability = username => dispatch =>
+  new Promise((resolve, reject) => {
+    dispatch(getUsernameAvailabilityRequest)
+
+    try {
+      const data = customAxios()(`/users/username_availability/${username}`)
+      dispatch(getUsernameAvailabilitySuccess)
+      return resolve(data)
+    } catch (error) {
+      dispatch(
+        getUsernameAvailabilityFailure({
+          message: 'Could not get username availability.',
+          error
+        })
+      )
+      return reject(false)
+    }
+  })
+
+const getUsernameAvailabilityRequest = {
+  type: GET_USERNAME_AVAILABILITY_REQUEST,
+  loadingLine: true
+}
+const getUsernameAvailabilitySuccess = {
+  type: GET_USERNAME_AVAILABILITY_SUCCESS,
+  loadingLine: false
+}
+const getUsernameAvailabilityFailure = ({ message, error }) => ({
+  type: GET_USERNAME_AVAILABILITY_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
 
 // =====================================================
 // ===============      AUTHENTICATE     ===============
@@ -45,32 +126,27 @@ export const authenticate = ({
             Authorization: `Bearer ${accessToken}`
           }
         })
-        // setAuthToken Util
-        setAuthToken(data.headers['x-auth-token'])
 
-        dispatch(authenticateSuccess(data.data))
         break
       case 'email':
-        const body = {
+        let body = {
           email,
           password
         }
-        console.log('body', body)
         data = await axios({
           method: 'post',
           url: `${URLS.SERVER}/auth/login`,
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          },
-          body
+          data: body
         })
         break
 
       default:
         break
     }
+    setAuthToken(data.headers['x-auth-token'])
 
-    // WITH EMAIL
+    dispatch(authenticateSuccess(data.data))
+
     const hasUsername = data.data.username
 
     // if they have an username, it's not their first time here
@@ -79,7 +155,7 @@ export const authenticate = ({
       dispatch(redirect('/feed'))
       dispatch(printSuccess('Successfully logged in'))
     } else {
-      dispatch(redirect('/settings/update-profile'))
+      dispatch(redirect('/create-account'))
     }
   } catch (error) {
     dispatch(
@@ -106,74 +182,20 @@ const authenticateFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ========      GET USERNAME AVAILABILITY     =========
-// =====================================================
-export const getUsernameAvailability = username => dispatch => {
-  return new Promise((resolve, reject) => {
-    dispatch(getUsernameAvailabilityRequest)
-    try {
-      const data = customAxios()(`/users/username_availability/${username}`)
-      dispatch(getUsernameAvailabilitySuccess)
-      return resolve(data)
-    } catch (error) {
-      dispatch(
-        getUsernameAvailabilityFailure({
-          message: 'Could not get username availability.',
-          error
-        })
-      )
-      return reject(false)
-    }
-  })
-}
-const getUsernameAvailabilityRequest = {
-  type: GET_USERNAME_AVAILABILITY_REQUEST,
-  loadingLine: true
-}
-const getUsernameAvailabilitySuccess = {
-  type: GET_USERNAME_AVAILABILITY_SUCCESS,
-  loadingLine: false
-}
-const getUsernameAvailabilityFailure = ({ message, error }) => ({
-  type: GET_USERNAME_AVAILABILITY_FAILURE,
-  loadingLine: false,
-  error: { message, error }
-})
-
-// =====================================================
 // ===============      UPDATE USER     ================
 // =====================================================
-
-export const updateUser = ({
-  first_name,
-  last_name,
-  email,
-  username,
-  profile_URL,
-  redirect_URL
-}) => async dispatch => {
+export const updateUser = (body, callback) => async dispatch => {
   dispatch(updateUserRequest)
+  console.log('Body in user js', body)
 
-  // make this dynamic, whatever it it receives it will update
-  // could be 1 or two!
-  const body = _.pickBy(
-    {
-      first_name,
-      last_name,
-      email,
-      username,
-      profile_URL
-    },
-    _.identity()
-  )
+  const filteredBody = _.pickBy(body, _.identity())
+  console.log('filteredBody in user filteredBody', filteredBody)
 
   try {
-    const { data } = await customAxios().put('/users', body)
+    const { data } = await customAxios().put('/users', filteredBody)
 
     dispatch(updateUserSuccess(data.data))
-    if (redirect_URL) {
-      dispatch(redirect(redirect_URL))
-    }
+    callback()
   } catch (error) {
     dispatch(
       updateUserFailure({

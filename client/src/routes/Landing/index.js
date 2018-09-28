@@ -16,7 +16,7 @@ const renderIntro = searchParam => {
 }
 
 const Landing = props => (
-  <div className="route-container p-3 d-flex flex-column align-items-center">
+  <div className="route-container p-3 d-flex flex-column justify-content-center align-items-center">
     <h1 className="text-center mt-5">
       {renderIntro(props.routing.location.search)}
     </h1>
@@ -31,7 +31,7 @@ const Landing = props => (
       handleClick={() => props.redirect('/search')}
       text="Search items"
     />
-    <Link className="mt-3 highlighted" to="/login">
+    <Link className="mt-2 highlighted" to="/login">
       Login / Signup
     </Link>
   </div>

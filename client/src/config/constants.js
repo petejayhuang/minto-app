@@ -1,9 +1,7 @@
 const production = process.env.APP_ENV === 'production'
 
-const URLS = {
-  SERVER: production
-    ? 'https://minto-api-master.herokuapp.com/api/v1'
-    : 'https://minto-api-staging.herokuapp.com/api/v1'
+const DURATIONS = {
+  GET_USERNAME_AVAILABILITY_DEBOUNCE_DURATION: 1000
 }
 
 const KEYS = {
@@ -12,6 +10,12 @@ const KEYS = {
     : 'pk_test_wS2oT1BwH2QrgLF3QT4tTthY'
 }
 
+const URLS = {
+  SERVER: production
+    ? 'https://minto-api-master.herokuapp.com/api/v1'
+    : 'https://minto-api-staging.herokuapp.com/api/v1'
+}
+
 const FACEBOOK_APP_ID = 1771048822975022
 
-export { URLS, KEYS, FACEBOOK_APP_ID }
+export { URLS, KEYS, FACEBOOK_APP_ID, DURATIONS }

@@ -18,7 +18,15 @@ const Container = styled.div`
 `
 
 const Button = props => {
-  const { className, text, handleClick, submit, loading, customColour } = props
+  const {
+    className,
+    text,
+    handleClick,
+    submit,
+    handleSubmit,
+    loading,
+    customColour
+  } = props
 
   const renderContent = () => {
     if (loading) {
@@ -35,6 +43,7 @@ const Button = props => {
         type={submit ? 'submit' : 'button'}
         className="d-flex justify-content-center align-items-center"
         onClick={handleClick}
+        onSubmit={handleSubmit}
       >
         {renderContent()}
       </button>

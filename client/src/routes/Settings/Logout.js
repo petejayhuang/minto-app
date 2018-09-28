@@ -14,7 +14,7 @@ const Logout = props => {
 
   return (
     <div className="route-container d-flex flex-column align-items-center justify-content-center mt-5 pt-3 pl-3 pr-3">
-      <h3 className="text-center">Are you sure?</h3>
+      <h3 className="text-center">Are you sure you want to log out?</h3>
       <Button className="mt-2" secondary handleClick={handleYes} text="Yes" />
       <Button className="mt-2" handleClick={handleNo} text="No" />
     </div>

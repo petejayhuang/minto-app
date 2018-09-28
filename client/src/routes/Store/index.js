@@ -134,7 +134,7 @@ class Store extends Component {
             <div>
               <p className="text-center">
                 You haven't listed anything to sell! Start{' '}
-                <Link className="" to="/add">
+                <Link className="highlighted" to="/add">
                   here
                 </Link>
               </p>
