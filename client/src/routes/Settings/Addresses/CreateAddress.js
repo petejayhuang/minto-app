@@ -1,61 +1,100 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { redirect } from '../../../actions/ui'
+import { redirect } from "../../../actions/ui";
+import { createAddress } from "../../../actions/addresses";
 
-import TouchableMenu from '../../../components/TouchableMenu'
+import Button from "../../../components/Button";
+import Checkbox from "../../../components/Checkbox";
+import Dropdown from "../../../components/Dropdown";
+import TextInput from "../../../components/TextInput";
+import TouchableMenu from "../../../components/TouchableMenu";
 
 class CreateAddresses extends Component {
   state = {
-    address_type: '',
-    address_name: '',
-    address1: '',
-    address2: '',
-    city: '',
-    postcode: '',
-    country: '',
-    country_code: '',
+    address_type: "",
+    address_name: "",
+    address1: "",
+    address2: "",
+    city: "",
+    postcode: "",
+    country: "",
+    country_code: "",
     primary_YN: null
-  }
+  };
 
-  componentDidMount() {
-    this.props.getAddresses(this.props.user.id)
-  }
-
-  handleEdit = id => {
-    console.log('handleEdit', id)
-    this.props.redirect(`/settings/addresses/${id}`)
-  }
-
-  handleDelete = id => {
-    console.log('handleDelete', id)
-    this.props.deleteAddress(id)
-  }
-
-  handleInputChange = ({ name, value }) => this.setState({ [name]: value })
+  handleInputChange = ({ name, value }) => this.setState({ [name]: value });
 
   handleSubmit = e => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const { createAddress, redirect } = this.props
+    const {
+      address_type,
+      address_name,
+      address1,
+      address2,
+      city,
+      postcode,
+      country,
+      primary_YN
+    } = this.state;
 
     const body = {
-      first_name,
-      last_name,
-      username,
-      email,
-      password
-    }
+      address1,
+      address2,
+      address_name,
+      address_type,
+      city,
+      country,
+      country_code: "UK",
+      postcode,
+      primary_YN
+    };
 
-    console.log('body in <CreateUser />')
+    const { createAddress, redirect } = this.props;
 
-    createAddress(body, () => redirect('/settings/addresses'))
-  }
+    console.log("body in <CreateAddress />");
+
+    createAddress(body, () => redirect("/settings/addresses"));
+  };
+
+  handleCheckbox = () => {
+    console.log("check check!");
+    this.setState({ primary_YN: !this.state.primary_YN });
+  };
+
+  handleSelect = value => {
+    this.setState({ address_type: value });
+  };
 
   render() {
+    const {
+      address_name,
+      address1,
+      address2,
+      city,
+      postcode,
+      country
+    } = this.state;
+
+    const {
+      ui: { loadingLine }
+    } = this.props;
+
+    const addressTypeOptions = [
+      { label: "Billing Address", value: "billing" },
+      { label: "Delivery Address", value: "delivery" }
+    ];
+
+    console.log("primary_YN", this.state.primary_YN);
     return (
-      <div className="route-container">
-        <form onSubmit={this.handleSubmit}>
+      <div className="route-container d-flex justify-content-center">
+        <form onSubmit={this.handleSubmit} className="d-flex flex-column pt-3">
+          <Dropdown
+            label="Address Type"
+            dropdownItems={addressTypeOptions}
+            handleSelect={this.handleSelect}
+          />
           <TextInput
             handleChange={this.handleInputChange}
             label="Address Name"
@@ -110,7 +149,11 @@ class CreateAddresses extends Component {
             value={country}
           />
 
-          <Checkbox label="Set as default address" checked={true} />
+          <Checkbox
+            label="Set as default address"
+            handleCheckbox={this.handleCheckbox}
+            checked={this.state.primary_YN}
+          />
 
           <Button
             handleSubmit={this.handleSubmit}
@@ -121,11 +164,11 @@ class CreateAddresses extends Component {
           />
         </form>
       </div>
-    )
+    );
   }
 }
 
 export default connect(
-  null,
+  ({ ui }) => ({ ui }),
   { createAddress, redirect }
-)(CreateAddresses)
+)(CreateAddresses);
