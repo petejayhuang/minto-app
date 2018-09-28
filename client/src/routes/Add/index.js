@@ -27,16 +27,13 @@ class Add extends Component {
     }
   }
 
-  addImage = image => {
+  addImage = image =>
     this.setState({
       images: this.state.images.concat(image)
     })
-  }
 
   removeImage = imageName => {
-    const newState = this.state.images.filter(image => {
-      return image.name !== imageName
-    })
+    const newState = this.state.images.filter(image => image.name !== imageName)
     this.setState({ images: newState })
   }
 
@@ -48,17 +45,15 @@ class Add extends Component {
     />
   )
 
-  handleTextInputChange = (inputName, value) => {
+  handleTextInputChange = (inputName, value) =>
     this.setState({ [inputName]: value })
-  }
 
-  handleCheckboxChange = (checkboxName, e) => {
+  handleCheckboxChange = checkboxName =>
     this.setState({
       [checkboxName]: !this.state[checkboxName]
     })
-  }
 
-  handleSubmit = () => {
+  handleSubmit = () =>
     this.props.uploadProduct({
       images: this.state.images,
       form: {
@@ -69,11 +64,8 @@ class Add extends Component {
         shipping_YN: this.state.shipping
       }
     })
-  }
 
-  handleOptionSelect = value => {
-    this.setState({ category_id: value })
-  }
+  handleOptionSelect = value => this.setState({ category_id: value })
 
   render() {
     const {

@@ -12,6 +12,7 @@ import {
 // =====================================================
 export const getFeed = ({ page, limit }) => async dispatch => {
   dispatch(getFeedRequest)
+
   try {
     const { data } = await axios()(
       `${URLS.SERVER}/feeds?page=${page}&limit=${limit}`

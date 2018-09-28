@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { authenticate } from '../../actions'
-import Button from '../Button'
+import Button from '../../components/Button'
 import { colors } from '../../styles/styleVariables'
 
-const FacebookLoginButton = props => {
+const FacebookAuth = props => {
   const {
     authenticate,
     className,
-    ui: { loadingLine }
+    ui: { loadingLine },
+    text
   } = props
   return (
     <Button
@@ -26,7 +27,7 @@ const FacebookLoginButton = props => {
       className={className}
       customColour={colors.facebook}
       loading={loadingLine}
-      text="Facebook"
+      text={text}
     />
   )
 }
@@ -34,4 +35,4 @@ const FacebookLoginButton = props => {
 export default connect(
   ({ ui }) => ({ ui }),
   { authenticate }
-)(FacebookLoginButton)
+)(FacebookAuth)

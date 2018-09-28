@@ -33,6 +33,15 @@ label {
   color: #88d8bf;
 }
 
+.highlighted:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.error-text {
+  color: #ff7675;
+}
+
 a:hover {
   color: #88d8bf;
   cursor: pointer;
@@ -95,7 +104,8 @@ a:hover {
 /* COMPONENT SPECIFIC */
 input[type='text'],
 input[type='number'],
-input[type='password'] {
+input[type='password'],
+input[type='email'] {
   padding-left: 10px;
   height: 40px;
   border: 2px solid #88d8bf;
@@ -171,4 +181,9 @@ button {
 /* LINKS */
 .top-nav-link {
   height: 25px;
+}
+
+/* HOVER EFFECTS */
+.hover-hand:hover {
+  cursor: pointer;
 }

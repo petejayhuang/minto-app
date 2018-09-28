@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { authenticate } from '../../actions/user'
 
-import Button from '../Button'
+import Button from '../../components/Button'
+import PasswordInput from '../../components/PasswordInput'
+import TextInput from '../../components/TextInput'
 
 class EmailLoginButton extends Component {
   state = {
@@ -11,13 +13,9 @@ class EmailLoginButton extends Component {
     password: ''
   }
 
-  handleInputChange = (inputName, e) => {
-    this.setState({ [inputName]: e.target.value })
-  }
+  handleInputChange = ({ name, value }) => this.setState({ [name]: value })
 
-  handleClick = () => {
-    this.setState({ showForm: true })
-  }
+  handleClick = () => this.setState({ showForm: true })
 
   handleLogin = () => {
     const { email, password } = this.state
@@ -31,24 +29,19 @@ class EmailLoginButton extends Component {
     } = this.props
     return (
       <div className="d-flex flex-column align-items-center mt-3">
-        <label>Email</label>
-
-        <input
-          onChange={e => this.handleInputChange('email', e)}
-          type="text"
-          value={email}
+        <TextInput
+          label="Email"
+          handleChange={this.handleInputChange}
+          name="email"
           placeholder="e.g. team@minto.app"
+          value={email}
         />
-        <label className="mt-2">Password</label>
-        <input
-          onChange={e => this.handleInputChange('password', e)}
-          type="password"
-          value={password}
-        />
+
+        <PasswordInput handleChange={this.handleInputChange} value={password} />
 
         <Button
           handleClick={this.handleLogin}
-          className="mt-2 mb-5"
+          className="mt-2"
           text="Login with Email"
           loading={loadingLine}
         />
@@ -70,7 +63,7 @@ class EmailLoginButton extends Component {
             onClick={this.handleClick}
             className={className}
             loading={loadingLine}
-            text="Email"
+            text="Login with Email"
           />
         ) : (
           this.renderLoginForm()

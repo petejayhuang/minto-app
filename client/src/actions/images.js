@@ -1,4 +1,4 @@
-import axios from "../config/axios"
+import axios from '../config/axios'
 import { URLS } from '../config/constants'
 import moment from 'moment'
 
@@ -11,7 +11,6 @@ import {
 // =====================================================
 // ===============     UPLOAD TO S3     ================
 // =====================================================
-
 const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -24,8 +23,11 @@ const uploadToS3UsingSignedUrlPromise = ({ url, image }) =>
     }
   })
 
-export const uploadImagesToS3 = ({ images, upload_type }) => dispatch => {
-  return new Promise(async (resolve, reject) => {
+export const uploadImagesToS3 = (
+  { images, upload_type },
+  callback
+) => dispatch =>
+  new Promise(async (resolve, reject) => {
     dispatch(uploadImagesToS3Request)
 
     // Take array of image objects, and return array of file names
@@ -58,14 +60,13 @@ export const uploadImagesToS3 = ({ images, upload_type }) => dispatch => {
 
       Promise.all(arrayOfUploadToS3Promises).then(values => {
         dispatch(uploadImagesToS3Success(values))
-        const images = values.map(image => {
-          const tempObj = {}
-          tempObj.image_URL = image.config.url.split('?')[0]
-          tempObj.image_description = 'placeholder image description'
-          tempObj.image_date = moment().format()
-          return tempObj
-        })
-        resolve(images)
+        const images = values.map(image => ({
+          image_URL: image.config.url.split('?')[0],
+          image_description: 'placeholder image description',
+          image_date: moment().format()
+        }))
+        callback(images)
+        return resolve(images)
       })
     } catch (error) {
       dispatch(
@@ -74,10 +75,9 @@ export const uploadImagesToS3 = ({ images, upload_type }) => dispatch => {
           error
         })
       )
-      reject('Could not upload image.')
+      return reject('Could not upload image.')
     }
   })
-}
 
 const uploadImagesToS3Request = {
   type: UPLOAD_TO_S3_REQUEST,

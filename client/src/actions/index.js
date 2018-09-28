@@ -1,3 +1,4 @@
+export * from './addresses'
 export * from './error'
 export * from './feed'
 export * from './images'
