@@ -1,32 +1,39 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import { redirect } from "../../../actions/ui";
-import { createAddress } from "../../../actions/addresses";
+import { redirect } from '../../../actions/ui'
+import { createAddress, getAddress } from '../../../actions/addresses'
 
-import Button from "../../../components/Button";
-import Checkbox from "../../../components/Checkbox";
-import Dropdown from "../../../components/Dropdown";
-import TextInput from "../../../components/TextInput";
-import TouchableMenu from "../../../components/TouchableMenu";
+import Button from '../../../components/Button'
+import Checkbox from '../../../components/Checkbox'
+import Dropdown from '../../../components/Dropdown'
+import TextInput from '../../../components/TextInput'
+import TouchableMenu from '../../../components/TouchableMenu'
 
-class CreateAddresses extends Component {
+class CreateEditAddress extends Component {
   state = {
-    address_type: "",
-    address_name: "",
-    address1: "",
-    address2: "",
-    city: "",
-    postcode: "",
-    country: "",
-    country_code: "",
-    primary_YN: null
-  };
+    isEditMode: this.props.location.pathname.includes('/edit'),
+    address_type: this.props.user.addresses.current.address_type || '',
+    address_name: this.props.user.addresses.current.address_name || '',
+    address1: this.props.user.addresses.current.address1 || '',
+    address2: this.props.user.addresses.current.address2 || '',
+    city: this.props.user.addresses.current.city || '',
+    postcode: this.props.user.addresses.current.postcode || '',
+    country: this.props.user.addresses.current.country || '',
+    country_code: 'UK',
+    primary_YN: false
+  }
 
-  handleInputChange = ({ name, value }) => this.setState({ [name]: value });
+  componentDidMount() {
+    if (this.props.location.pathname.includes('/edit')) {
+      this.props.getAddress()
+    }
+  }
+
+  handleInputChange = ({ name, value }) => this.setState({ [name]: value })
 
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
 
     const {
       address_type,
@@ -37,7 +44,7 @@ class CreateAddresses extends Component {
       postcode,
       country,
       primary_YN
-    } = this.state;
+    } = this.state
 
     const body = {
       address1,
@@ -46,26 +53,26 @@ class CreateAddresses extends Component {
       address_type,
       city,
       country,
-      country_code: "UK",
+      country_code: 'UK',
       postcode,
       primary_YN
-    };
+    }
 
-    const { createAddress, redirect } = this.props;
+    const { createAddress, redirect } = this.props
 
-    console.log("body in <CreateAddress />");
+    console.log('body in <CreateAddress />')
 
-    createAddress(body, () => redirect("/settings/addresses"));
-  };
+    createAddress(body, () => redirect('/settings/addresses'))
+  }
 
   handleCheckbox = () => {
-    console.log("check check!");
-    this.setState({ primary_YN: !this.state.primary_YN });
-  };
+    console.log('check check!')
+    this.setState({ primary_YN: !this.state.primary_YN })
+  }
 
   handleSelect = value => {
-    this.setState({ address_type: value });
-  };
+    this.setState({ address_type: value })
+  }
 
   render() {
     const {
@@ -75,20 +82,21 @@ class CreateAddresses extends Component {
       city,
       postcode,
       country
-    } = this.state;
+    } = this.state
 
     const {
       ui: { loadingLine }
-    } = this.props;
+    } = this.props
 
     const addressTypeOptions = [
-      { label: "Billing Address", value: "billing" },
-      { label: "Delivery Address", value: "delivery" }
-    ];
+      { label: 'Billing Address', value: 'billing' },
+      { label: 'Delivery Address', value: 'delivery' }
+    ]
 
-    console.log("primary_YN", this.state.primary_YN);
+    console.log('primary_YN', this.state.primary_YN)
     return (
       <div className="route-container d-flex justify-content-center">
+        {this.state.isEditMode ? 'EDIT MODE!' : 'CREATE MODE!'}
         <form onSubmit={this.handleSubmit} className="d-flex flex-column pt-3">
           <Dropdown
             label="Address Type"
@@ -164,11 +172,11 @@ class CreateAddresses extends Component {
           />
         </form>
       </div>
-    );
+    )
   }
 }
 
 export default connect(
-  ({ ui }) => ({ ui }),
-  { createAddress, redirect }
-)(CreateAddresses);
+  ({ ui, user }) => ({ ui, user }),
+  { createAddress, getAddress, redirect }
+)(CreateEditAddress)

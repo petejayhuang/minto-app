@@ -1,65 +1,70 @@
-import React from "react";
-import findNavItem from "../utilities/findNavItem";
-import logo from "../assets/images/minto-logo.png";
+import React from 'react'
+import findNavItem from '../utilities/findNavItem'
+import logo from '../assets/images/minto-logo.png'
 
 // ROUTES
-import Add from "../routes/Add";
-import Addresses from "../routes/Settings/Addresses";
-import CreateAddress from "../routes/Settings/Addresses/CreateAddress";
-import CreateUser from "../routes/CreateUser";
-import Feed from "../routes/Feed";
-import Landing from "../routes/Landing";
-import Login from "../routes/Login";
-import Logout from "../routes/Settings/Logout";
-import Message from "../routes/Messages/Message";
-import Messages from "../routes/Messages";
-import NotFound from "../routes/NotFound";
-import OrderConfirmation from "../routes/Payments/OrderConfirmation";
-import Product from "../routes/Product";
-import Search from "../routes/Search";
-import Settings from "../routes/Settings";
-import Store from "../routes/Store";
-import UpdateUser from "../routes/UpdateUser";
+import Add from '../routes/Add'
+import Addresses from '../routes/Settings/Addresses'
+import CreateEditAddress from '../routes/Settings/Addresses/CreateEditAddress'
+import CreateUser from '../routes/CreateUser'
+import Feed from '../routes/Feed'
+import Landing from '../routes/Landing'
+import Login from '../routes/Login'
+import Logout from '../routes/Settings/Logout'
+import Message from '../routes/Messages/Message'
+import Messages from '../routes/Messages'
+import NotFound from '../routes/NotFound'
+import OrderConfirmation from '../routes/Payments/OrderConfirmation'
+import Product from '../routes/Product'
+import Search from '../routes/Search'
+import Settings from '../routes/Settings'
+import Store from '../routes/Store'
+import UpdateUser from '../routes/UpdateUser'
 
-import { Link } from "react-router-dom";
-import ChevronLeftIcon from "../assets/icons/feather-react/ChevronLeftIcon";
-import SettingsIcon from "../assets/icons/feather-react/SettingsIcon";
-import XIcon from "../assets/icons/feather-react/XIcon";
+import { Link } from 'react-router-dom'
+import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
+import SettingsIcon from '../assets/icons/feather-react/SettingsIcon'
+import XIcon from '../assets/icons/feather-react/XIcon'
 
 export const routes = [
-  { path: "/", component: Landing, exact: true },
-  { path: "/add", component: Add },
-  { path: "/create-account", component: CreateUser },
-  { path: "/feed", component: Feed },
-  { path: "/login", component: Login, exact: true },
-  { path: "/messages", component: Messages, exact: true },
-  { path: "/messages/:id", component: Message },
-  { path: "/order-confirmation", component: OrderConfirmation },
-  { path: "/products/:id", component: Product },
-  { path: "/search", component: Search, exact: true },
-  { path: "/settings", component: Settings, exact: true },
-  { path: "/settings/addresses", component: Addresses, exact: true },
-  { path: "/settings/addresses/add", component: CreateAddress, exact: true },
-  { path: "/settings/logout", component: Logout, exact: true },
-  { path: "/settings/update-account", component: UpdateUser, exact: true },
-  { path: "/store/:id", component: Store },
-  { path: "*", component: NotFound }
-];
+  { path: '/', component: Landing, exact: true },
+  { path: '/add', component: Add },
+  { path: '/create-account', component: CreateUser },
+  { path: '/feed', component: Feed },
+  { path: '/login', component: Login, exact: true },
+  { path: '/messages', component: Messages, exact: true },
+  { path: '/messages/:id', component: Message },
+  { path: '/order-confirmation', component: OrderConfirmation },
+  { path: '/products/:id', component: Product },
+  { path: '/search', component: Search, exact: true },
+  { path: '/settings', component: Settings, exact: true },
+  { path: '/settings/addresses', component: Addresses, exact: true },
+  {
+    path: '/settings/addresses/add',
+    component: CreateEditAddress,
+    exact: true
+  },
+  { path: '/settings/addresses/:id/edit', component: CreateEditAddress },
+  { path: '/settings/logout', component: Logout, exact: true },
+  { path: '/settings/update-account', component: UpdateUser, exact: true },
+  { path: '/store/:id', component: Store },
+  { path: '*', component: NotFound }
+]
 
 export const navItems = ({ store, history }) => {
   const {
     routing: { location },
     user: { id }
-  } = store;
+  } = store
 
   const navItemsHash = {
-    "": {
+    '': {
       middle: <img alt="logo" className="logo" src={logo} />
     },
     add: {
       middle: <h5 className="m-0 p-0">Add</h5>
     },
-    "create-account": {
+    'create-account': {
       middle: <h5 className="m-0 p-0">Create a Minto Account</h5>
     },
     feed: {
@@ -71,7 +76,7 @@ export const navItems = ({ store, history }) => {
     messages: {
       middle: <h5 className="m-0 p-0">Messages</h5>
     },
-    "messages/:id": {
+    'messages/:id': {
       left: (
         <Link to="/messages">
           <ChevronLeftIcon />
@@ -79,10 +84,10 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Single Message</h5>
     },
-    "order-confirmation": {
+    'order-confirmation': {
       middle: <h5 className="m-0 p-0">Order Confirmation</h5>
     },
-    "privacy-policy": {
+    'privacy-policy': {
       left: (
         <Link to="/">
           <ChevronLeftIcon />
@@ -90,7 +95,7 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Privacy Policy</h5>
     },
-    "products/:id": {
+    'products/:id': {
       left: renderProductBackButton(history),
       middle: <h5 className="m-0 p-0">View item</h5>
     },
@@ -105,7 +110,7 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Settings</h5>
     },
-    "/settings/addresses": {
+    '/settings/addresses': {
       left: (
         <Link to="/settings">
           <ChevronLeftIcon />
@@ -113,7 +118,7 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">All Addresses</h5>
     },
-    "/settings/addresses/:id": {
+    '/settings/addresses/:id': {
       left: (
         <Link to="/settings">
           <ChevronLeftIcon />
@@ -121,7 +126,7 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Address</h5>
     },
-    "/settings/addresses/add": {
+    '/settings/addresses/add': {
       left: (
         <Link to="/settings">
           <ChevronLeftIcon />
@@ -129,7 +134,7 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Add address</h5>
     },
-    "/settings/logout": {
+    '/settings/logout': {
       left: (
         <Link to="/settings">
           <ChevronLeftIcon />
@@ -137,10 +142,10 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Log out</h5>
     },
-    "/settings/update-account": {
+    '/settings/update-account': {
       middle: <h5 className="m-0 p-0">Update your details</h5>
     },
-    "store/:id": {
+    'store/:id': {
       left: (
         <Link to="/settings">
           <SettingsIcon />
@@ -148,20 +153,20 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">Store</h5>
     }
-  };
+  }
 
-  return navItemsHash[findNavItem(location)];
-};
+  return navItemsHash[findNavItem(location)]
+}
 
 const renderProductBackButton = history => {
   switch (history.action) {
-    case "PUSH":
+    case 'PUSH':
       return (
         <div className="top-nav-link" onClick={() => history.go(-1)}>
           Back
         </div>
-      );
+      )
     default:
-      return null;
+      return null
   }
-};
+}
