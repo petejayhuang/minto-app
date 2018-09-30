@@ -37,7 +37,6 @@ class CreateUser extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('this.props.user', this.props.user)
     if (prevProps.user.id !== this.props.user.id) {
       this.setState({ ...this.state, ...this.props.user })
     }
@@ -100,8 +99,6 @@ class CreateUser extends Component {
       email,
       password
     }
-
-    console.log('body in <CreateUser />')
 
     if (user.id) {
       updateUser(body, () => redirect('/feed'))

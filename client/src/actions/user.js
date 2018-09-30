@@ -27,13 +27,11 @@ import { printSuccess } from './success'
 // =====================================================
 export const createUser = (body, callback) => async dispatch => {
   dispatch(createUserRequest)
-
-  console.log('body in createUser', body)
   try {
     const { data } = await axios({
       method: 'post',
-      url: `${URLS.SERVER}/users`,
-      body
+      url: `${URLS.SERVER}/auth/login`,
+      data: body
     })
 
     dispatch(createUserSuccess(data.data))
@@ -186,10 +184,8 @@ const authenticateFailure = ({ message, error }) => ({
 // =====================================================
 export const updateUser = (body, callback) => async dispatch => {
   dispatch(updateUserRequest)
-  console.log('Body in user js', body)
 
   const filteredBody = _.pickBy(body, _.identity())
-  console.log('filteredBody in user filteredBody', filteredBody)
 
   try {
     const { data } = await customAxios().put('/users', filteredBody)
