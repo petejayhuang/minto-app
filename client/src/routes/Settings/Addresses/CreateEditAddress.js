@@ -8,11 +8,10 @@ import Button from '../../../components/Button'
 import Checkbox from '../../../components/Checkbox'
 import Dropdown from '../../../components/Dropdown'
 import TextInput from '../../../components/TextInput'
-import TouchableMenu from '../../../components/TouchableMenu'
 
 class CreateEditAddress extends Component {
   state = {
-    isEditMode: this.props.location.pathname.includes('/edit'),
+    isEditMode: this.props.match.params.id ? true : false,
     address_type: this.props.user.addresses.current.address_type || '',
     address_name: this.props.user.addresses.current.address_name || '',
     address1: this.props.user.addresses.current.address1 || '',
@@ -25,9 +24,7 @@ class CreateEditAddress extends Component {
   }
 
   componentDidMount() {
-    if (this.props.location.pathname.includes('/edit')) {
-      this.props.getAddress()
-    }
+    this.props.getAddress(this.props.match.params.id)
   }
 
   handleInputChange = ({ name, value }) => this.setState({ [name]: value })
@@ -60,8 +57,6 @@ class CreateEditAddress extends Component {
 
     const { createAddress, redirect } = this.props
 
-    console.log('body in <CreateAddress />')
-
     createAddress(body, () => redirect('/settings/addresses'))
   }
 
@@ -81,7 +76,8 @@ class CreateEditAddress extends Component {
       address2,
       city,
       postcode,
-      country
+      country,
+      isEditMode
     } = this.state
 
     const {
@@ -96,7 +92,6 @@ class CreateEditAddress extends Component {
     console.log('primary_YN', this.state.primary_YN)
     return (
       <div className="route-container d-flex justify-content-center">
-        {this.state.isEditMode ? 'EDIT MODE!' : 'CREATE MODE!'}
         <form onSubmit={this.handleSubmit} className="d-flex flex-column pt-3">
           <Dropdown
             label="Address Type"
@@ -166,7 +161,7 @@ class CreateEditAddress extends Component {
           <Button
             handleSubmit={this.handleSubmit}
             className="mt-2"
-            text="Create account"
+            text={isEditMode ? 'Update account' : 'Create account'}
             submit
             loading={loadingLine}
           />

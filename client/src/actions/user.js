@@ -4,6 +4,7 @@ import customAxios from '../config/axios'
 import { redirect } from './ui'
 import { URLS } from '../config/constants'
 import { setAuthToken } from '../utilities/setAuthToken'
+import { printSuccess } from './success'
 
 import {
   CREATE_USER_REQUEST,
@@ -18,10 +19,12 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
-  LOGOUT_USER
+  LOGOUT_USER,
+  CREATE_BANK_ACCOUNT_REQUEST,
+  CREATE_BANK_ACCOUNT_SUCCESS,
+  CREATE_BANK_ACCOUNT_FAILURE
 } from './types'
 
-import { printSuccess } from './success'
 // =====================================================
 // ===============      CREATE USER     ================
 // =====================================================
@@ -236,3 +239,42 @@ export const logoutUser = () => dispatch => {
   dispatch(redirect('/feed'))
   dispatch(printSuccess('Successfully logged out'))
 }
+
+// =====================================================
+// ============    CREATE BANK ACCOUNT     =============
+// =====================================================
+export const createBankAccount = body => async dispatch => {
+  dispatch(createBankAccountRequest)
+  console.log('b in create b aa', body)
+
+  try {
+    const { data } = await customAxios().put('/users', body)
+    dispatch(createBankAccountSuccess(data.data))
+    dispatch(printSuccess('New bank account added'))
+    dispatch(redirect('/settings'))
+  } catch (error) {
+    dispatch(
+      createBankAccountFailure({
+        message: 'Could not add bank account.',
+        error
+      })
+    )
+  }
+}
+
+const createBankAccountRequest = {
+  type: CREATE_BANK_ACCOUNT_REQUEST,
+  loadingLine: true
+}
+
+const createBankAccountSuccess = bank_account => ({
+  type: CREATE_BANK_ACCOUNT_SUCCESS,
+  loadingLine: false,
+  payload: bank_account
+})
+
+const createBankAccountFailure = ({ message, error }) => ({
+  type: CREATE_BANK_ACCOUNT_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})

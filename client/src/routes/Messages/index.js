@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { getMessageThreads } from '../../actions/messages'
 import { redirect } from '../../actions/'
 
-import TouchableRow from '../../components/TouchableRow'
+import { TouchableRow } from '../../components/TouchableRow'
 import requireAuth from '../../components/HigherOrder/requireAuth'
 
 const Container = styled.div``
@@ -30,7 +30,7 @@ class Messages extends Component {
             const { product_id, thread_id, ThreadParticipants } = thread
 
             return (
-              <TouchableRow
+              <TouchableRow.InternalLink
                 borderBottom={i + 1 === threads.length}
                 key={thread_id}
                 text={`${

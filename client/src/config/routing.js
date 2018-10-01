@@ -5,6 +5,7 @@ import logo from '../assets/images/minto-logo.png'
 // ROUTES
 import Add from '../routes/Add'
 import Addresses from '../routes/Settings/Addresses'
+import BankDetails from '../routes/Settings/BankDetails'
 import CreateEditAddress from '../routes/Settings/Addresses/CreateEditAddress'
 import CreateUser from '../routes/CreateUser'
 import Feed from '../routes/Feed'
@@ -44,7 +45,8 @@ export const routes = [
     component: CreateEditAddress,
     exact: true
   },
-  { path: '/settings/addresses/:id/edit', component: CreateEditAddress },
+  { path: '/settings/addresses/:id', component: CreateEditAddress },
+  { path: '/settings/bank-details', component: BankDetails },
   { path: '/settings/logout', component: Logout, exact: true },
   { path: '/settings/update-account', component: UpdateUser, exact: true },
   { path: '/store/:id', component: Store },
@@ -118,14 +120,6 @@ export const navItems = ({ store, history }) => {
       ),
       middle: <h5 className="m-0 p-0">All Addresses</h5>
     },
-    '/settings/addresses/:id': {
-      left: (
-        <Link to="/settings">
-          <ChevronLeftIcon />
-        </Link>
-      ),
-      middle: <h5 className="m-0 p-0">Address</h5>
-    },
     '/settings/addresses/add': {
       left: (
         <Link to="/settings">
@@ -133,6 +127,22 @@ export const navItems = ({ store, history }) => {
         </Link>
       ),
       middle: <h5 className="m-0 p-0">Add address</h5>
+    },
+    '/settings/addresses/:id': {
+      left: (
+        <Link to="/settings/addresses">
+          <ChevronLeftIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Edit address</h5>
+    },
+    '/settings/bank-details': {
+      left: (
+        <Link to="/settings">
+          <ChevronLeftIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Bank Details</h5>
     },
     '/settings/logout': {
       left: (

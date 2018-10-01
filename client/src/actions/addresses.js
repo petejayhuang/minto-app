@@ -24,11 +24,12 @@ import {
 // ===============      GET ADDRESS     ================
 // =====================================================
 export const getAddress = id => async dispatch => {
+  console.log(id)
   dispatch(getAddressRequest)
   try {
     const { data } = await axios().get(`/addresses/${id}`)
 
-    dispatch(getAddressSuccess(data.data.rows))
+    dispatch(getAddressSuccess(data.data))
   } catch (error) {
     dispatch(
       getAddressFailure({
@@ -140,7 +141,7 @@ export const updateAddress = () => async dispatch => {
   } catch (error) {
     dispatch(
       updateAddressFailure({
-        message: 'Could not get addresses.',
+        message: 'Could not update address.',
         error
       })
     )

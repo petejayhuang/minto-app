@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from 'react'
 
 const Checkbox = ({ checked, label, handleCheckbox }) => (
   <div className="d-flex align-items-center mt-4">
@@ -7,6 +7,6 @@ const Checkbox = ({ checked, label, handleCheckbox }) => (
       {label}
     </label>
   </div>
-);
+)
 
-export default Checkbox;
+export default Checkbox
