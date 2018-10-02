@@ -35,8 +35,8 @@ export const createUser = (body, callback) => async dispatch => {
   try {
     const { data } = await axios({
       method: 'post',
-      url: `${URLS.SERVER}/users`,
-      body
+      url: `${URLS.SERVER}/auth/login`,
+      data: body
     })
 
     dispatch(createUserSuccess(data.data))
