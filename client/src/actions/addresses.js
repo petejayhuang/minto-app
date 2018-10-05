@@ -3,6 +3,9 @@ import axios from '../config/axios'
 import { URLS } from '../config/constants'
 
 import {
+  GET_ADDRESS_REQUEST,
+  GET_ADDRESS_SUCCESS,
+  GET_ADDRESS_FAILURE,
   GET_ADDRESSES_REQUEST,
   GET_ADDRESSES_SUCCESS,
   GET_ADDRESSES_FAILURE,
@@ -18,13 +21,51 @@ import {
 } from './types'
 
 // =====================================================
+// ===============      GET ADDRESS     ================
+// =====================================================
+export const getAddress = id => async dispatch => {
+  console.log(id)
+  dispatch(getAddressRequest)
+  try {
+    const { data } = await axios().get(`/addresses/${id}`)
+
+    dispatch(getAddressSuccess(data.data))
+  } catch (error) {
+    dispatch(
+      getAddressFailure({
+        message: 'Could not get address.',
+        error
+      })
+    )
+  }
+}
+
+const getAddressRequest = {
+  type: GET_ADDRESS_REQUEST,
+  loadingLine: true
+}
+
+const getAddressSuccess = address => ({
+  type: GET_ADDRESS_SUCCESS,
+  loadingLine: false,
+  payload: address
+})
+
+const getAddressFailure = ({ message, error }) => ({
+  type: GET_ADDRESS_FAILURE,
+  loadingLine: false,
+  error: { message, error }
+})
+
+// =====================================================
 // ==============      GET ADDRESSES     ===============
 // =====================================================
 export const getAddresses = () => async dispatch => {
   dispatch(getAddressesRequest)
   try {
-    const { data } = await axios()(`${URLS.SERVER}/addresses`)
-    dispatch(getAddressesSuccess(data.data))
+    const { data } = await axios().get('/addresses')
+    console.log('data', data)
+    dispatch(getAddressesSuccess(data.data.rows))
   } catch (error) {
     dispatch(
       getAddressesFailure({
@@ -53,13 +94,15 @@ const getAddressesFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ==============    TODO CREATE ADDRESS     ==============
+// ===============    CREATE ADDRESS     ===============
 // =====================================================
-export const createAddress = () => async dispatch => {
+export const createAddress = (body, callback) => async dispatch => {
   dispatch(createAddressRequest)
+  console.log('body', body)
   try {
-    const { data } = await axios()(`${URLS.SERVER}/addresses`)
+    const { data } = await axios().post('/addresses', body)
     dispatch(createAddressSuccess(data.data))
+    callback()
   } catch (error) {
     dispatch(
       createAddressFailure({
@@ -98,7 +141,7 @@ export const updateAddress = () => async dispatch => {
   } catch (error) {
     dispatch(
       updateAddressFailure({
-        message: 'Could not get addresses.',
+        message: 'Could not update address.',
         error
       })
     )
@@ -123,17 +166,18 @@ const updateAddressFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ==============      TODO DELETE ADDRESS     ==============
+// ==============      DELETE ADDRESS     ==============
 // =====================================================
-export const deleteAddress = () => async dispatch => {
+export const deleteAddress = id => async dispatch => {
   dispatch(deleteAddressRequest)
   try {
-    const { data } = await axios()(`${URLS.SERVER}/addresses`)
-    dispatch(deleteAddressSuccess(data.data))
+    await axios().delete(`/addresses/${id}`)
+    dispatch(deleteAddressSuccess)
+    dispatch(getAddresses())
   } catch (error) {
     dispatch(
       deleteAddressFailure({
-        message: 'Could not get addresses.',
+        message: 'Could not delete addresses.',
         error
       })
     )
@@ -145,11 +189,10 @@ const deleteAddressRequest = {
   loadingLine: true
 }
 
-const deleteAddressSuccess = addresses => ({
+const deleteAddressSuccess = {
   type: DELETE_ADDRESS_SUCCESS,
-  loadingLine: false,
-  payload: addresses
-})
+  loadingLine: false
+}
 
 const deleteAddressFailure = ({ message, error }) => ({
   type: DELETE_ADDRESS_FAILURE,

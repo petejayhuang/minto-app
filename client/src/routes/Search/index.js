@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import Dropdown from '../../components/Dropdown'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import Dropdown from "../../components/Dropdown";
 
 import {
   getProductCategories,
   getSearchResults,
   resetSearchResults
-} from '../../actions'
-import { generateQueryStringFromObject } from '../../utilities/generateQueryStringFromObject'
+} from "../../actions";
+import { generateQueryStringFromObject } from "../../utilities/generateQueryStringFromObject";
 
-import Button from '../../components/Button'
-import ImageGrid from '../../components/ImageGrid'
+import Button from "../../components/Button";
+import ImageGrid from "../../components/ImageGrid";
 
-const Container = styled.div``
+const Container = styled.div``;
 
 class Search extends Component {
   initialState = {
@@ -22,46 +22,46 @@ class Search extends Component {
     category_id: null,
     description: null,
     searchTouched: false
-  }
+  };
 
-  state = { ...this.initialState }
+  state = { ...this.initialState };
 
   componentDidMount() {
-    if (this.props.categories.length === 0) this.props.getProductCategories()
-    this.handleResetSearch()
+    if (this.props.categories.length === 0) this.props.getProductCategories();
+    this.handleResetSearch();
   }
 
-  handleInputChange = e => this.setState({ description: e.target.value })
+  handleInputChange = e => this.setState({ description: e.target.value });
 
-  handleOptionSelect = value => this.setState({ category_id: value })
+  handleOptionSelect = value => this.setState({ category_id: value });
 
   loadMoreSearchResults = () => {
-    const newState = { ...this.state, page: this.state.page + 1 }
-    const queryString = generateQueryStringFromObject(newState)
-    this.setState({ ...newState })
+    const newState = { ...this.state, page: this.state.page + 1 };
+    const queryString = generateQueryStringFromObject(newState);
+    this.setState({ ...newState });
 
     this.props.getSearchResults({
       queryString,
       page: this.state.page
-    })
-  }
+    });
+  };
 
   handleResetSearch = () => {
-    this.setState({ ...this.initialState })
-    this.props.resetSearchResults()
-  }
+    this.setState({ ...this.initialState });
+    this.props.resetSearchResults();
+  };
 
   handleSearch = () => {
-    const queryString = generateQueryStringFromObject(this.state)
-    this.props.getSearchResults({ queryString, page: this.state.page })
-    this.setState({ searchTouched: true })
-  }
+    const queryString = generateQueryStringFromObject(this.state);
+    this.props.getSearchResults({ queryString, page: this.state.page });
+    this.setState({ searchTouched: true });
+  };
   render() {
     const {
       search,
       ui: { loadingLine }
-    } = this.props
-    const { searchTouched } = this.state
+    } = this.props;
+    const { searchTouched } = this.state;
     return (
       <Container className="route-container d-flex flex-column justify-content-center align-items-center pl-3 pr-3">
         <h3>What are you looking for?</h3>
@@ -74,7 +74,7 @@ class Search extends Component {
         />
 
         <Dropdown
-          onSelect={this.handleOptionSelect}
+          handleSelect={this.handleOptionSelect}
           dropdownItems={this.props.categories}
         />
 
@@ -107,7 +107,7 @@ class Search extends Component {
           search.length === 0 &&
           !loadingLine && <div>No search results </div>}
       </Container>
-    )
+    );
   }
 }
 
@@ -118,4 +118,4 @@ export default connect(
     getSearchResults,
     resetSearchResults
   }
-)(Search)
+)(Search);
