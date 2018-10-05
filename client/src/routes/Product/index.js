@@ -20,8 +20,11 @@ import {
   getStripeTokenRequest,
   getStripeTokenSuccess,
   getStripeTokenFailure,
-  buyProduct
+  buyProduct,
+  addProductLike,
+  deleteProductLike
 } from '../../actions'
+import HeartIcon from '../../assets/icons/feather-react/HeartIcon'
 
 const Container = styled.div`
   .product-container {
@@ -151,6 +154,38 @@ class Product extends Component {
     this.setState({ showPaymentForm: true })
   }
 
+  handleAddLike = () => {
+    console.log('handleAddLike', this.props.product.product_id)
+    this.props.addProductLike(this.props.product.product_id)
+  }
+
+  handleRemoveLike = () => {
+    console.log('handleRemoveLike', this.props.product.Like.id)
+    this.props.deleteProductLike(this.props.product.Like.id)
+  }
+
+  renderLikeButton = () => {
+    if (this.props.product.Like === null) {
+      return (
+        <div>
+          No likey!
+          <div onClick={this.handleAddLike}>
+            <HeartIcon />
+          </div>
+        </div>
+      )
+    } else if (this.props.product.Like.product_type) {
+      return (
+        <div>
+          No likey!
+          <div onClick={this.handleRemoveLike}>
+            <HeartIcon />
+          </div>
+        </div>
+      )
+    }
+  }
+
   renderViewMode = () => {
     const {
       product: {
@@ -164,6 +199,7 @@ class Product extends Component {
     const isOwnProduct = user_id === this.props.user.id
     return (
       <div className="product-container d-flex flex-column pl-3 pr-3">
+        {this.renderLikeButton()}
         <div className="mt-3">
           Sold by <TextLink to={`/store/${user_id}`} text={`@${username}`} />
         </div>
@@ -267,7 +303,9 @@ export default compose(
       getStripeTokenRequest,
       getStripeTokenSuccess,
       getStripeTokenFailure,
-      buyProduct
+      buyProduct,
+      addProductLike,
+      deleteProductLike
     }
   ),
   withRouter

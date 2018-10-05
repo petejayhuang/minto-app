@@ -1,6 +1,7 @@
 export * from './addresses'
 export * from './error'
 export * from './feed'
+export * from './likes'
 export * from './images'
 export * from './messages'
 export * from './payments'
