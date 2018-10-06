@@ -9,7 +9,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCT_SUCCESS:
-      return action.payload
+      return action.payload || {}
     case UPLOAD_PRODUCT_SUCCESS:
       return state
     default:

@@ -4,6 +4,7 @@ import { Elements } from 'react-stripe-elements'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
+import { printError } from '../../actions/error'
 
 import Button from '../../components/Button'
 import CheckoutForm from '../../components/CheckoutForm'
@@ -154,13 +155,22 @@ class Product extends Component {
     this.setState({ showPaymentForm: true })
   }
 
+  ifLoggedOutSendError = () => {
+    if (!this.props.user.id) {
+      return this.props.printError({
+        message: 'Please log in to add to your liked items.',
+        error: {}
+      })
+    }
+  }
+
   handleAddLike = () => {
-    console.log('handleAddLike', this.props.product.product_id)
+    this.ifLoggedOutSendError()
     this.props.addProductLike(this.props.product.product_id)
   }
 
   handleRemoveLike = () => {
-    console.log('handleRemoveLike', this.props.product.Like.id)
+    this.ifLoggedOutSendError()
     this.props.deleteProductLike(this.props.product.Like.id)
   }
 
@@ -200,6 +210,7 @@ class Product extends Component {
     return (
       <div className="product-container d-flex flex-column pl-3 pr-3">
         {this.renderLikeButton()}
+
         <div className="mt-3">
           Sold by <TextLink to={`/store/${user_id}`} text={`@${username}`} />
         </div>
@@ -295,6 +306,7 @@ export default compose(
     ({ product, categories, user }) => ({ product, categories, user }),
     {
       getProduct,
+      printError,
       updateProduct,
       createMessageThread,
       deleteProduct,

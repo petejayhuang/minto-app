@@ -4,6 +4,7 @@ import { LOGOUT_USER } from '../actions/types'
 import categories from './categories'
 import error from './error'
 import feed from './feed'
+import likes from './likes'
 import messages from './messages'
 import orderConfirmed from './orderConfirmed'
 import product from './product'
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   categories,
   error,
   feed,
+  likes,
   messages,
   orderConfirmed,
   product,

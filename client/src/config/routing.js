@@ -8,6 +8,7 @@ import Addresses from '../routes/Settings/Addresses'
 import CreateUser from '../routes/CreateUser'
 import Feed from '../routes/Feed'
 import Landing from '../routes/Landing'
+import Likes from '../routes/Settings/Likes'
 import Login from '../routes/Login'
 import Logout from '../routes/Settings/Logout'
 import Message from '../routes/Messages/Message'
@@ -38,6 +39,7 @@ export const routes = [
   { path: '/search', component: Search, exact: true },
   { path: '/settings', component: Settings, exact: true },
   { path: '/settings/addresses', component: Addresses, exact: true },
+  { path: '/settings/likes', component: Likes, exact: true },
   { path: '/settings/logout', component: Logout, exact: true },
   { path: '/settings/update-account', component: UpdateUser, exact: true },
   { path: '/store/:id', component: Store },
@@ -126,6 +128,14 @@ export const navItems = ({ store, history }) => {
         </Link>
       ),
       middle: <h5 className="m-0 p-0">Add new address</h5>
+    },
+    '/settings/likes': {
+      left: (
+        <Link to="/settings">
+          <ChevronLeftIcon />
+        </Link>
+      ),
+      middle: <h5 className="m-0 p-0">Your liked items</h5>
     },
     '/settings/logout': {
       left: (

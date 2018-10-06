@@ -16,14 +16,12 @@ import {
 // =====================================================
 // =================     GET LIKES     =================
 // =====================================================
-
 export const getProductLikes = () => async dispatch => {
   dispatch(getProductLikesRequest)
 
   try {
     const { data } = await customAxios()('/likes')
-    console.log('ALL MY LIKES', data)
-    // dispatch(getProductLikesSuccess(data.data))
+    dispatch(getProductLikesSuccess(data.data.rows))
   } catch (error) {
     dispatch(
       getProductLikesFailure({
