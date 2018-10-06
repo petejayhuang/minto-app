@@ -25,82 +25,84 @@ import {
   addProductLike,
   deleteProductLike
 } from '../../actions'
+
 import HeartIcon from '../../assets/icons/feather-react/HeartIcon'
+
 
 const Container = styled.div`
   .product-container {
     max-width: 600px;
   }
-`
+`;
 
 class Product extends Component {
   state = {
     category_id: null,
     description: null,
     editMode: false,
-    errorMessage: '',
+    errorMessage: "",
     price: null,
     showPaymentForm: false
-  }
+  };
 
   componentDidMount() {
-    this.props.getProduct(this.props.match.params.id)
+    this.props.getProduct(this.props.match.params.id);
     if (this.props.categories.length === 0) {
-      this.props.getProductCategories()
+      this.props.getProductCategories();
     }
   }
 
   handleOption = value => {
-    this.setState({ category_id: value })
-  }
+    this.setState({ category_id: value });
+  };
 
   handleTextInputChange = (inputName, value) => {
-    this.setState({ [inputName]: value })
-  }
+    this.setState({ [inputName]: value });
+  };
 
   handleCheckboxChange = event => {
-    const checkboxName = event.target.name
+    const checkboxName = event.target.name;
     this.setState({
       [checkboxName]: !this.state[checkboxName]
-    })
-  }
+    });
+  };
 
   handleBuy = async () => {
-    const { dispatch, stripe, buyProduct } = this.props
-    dispatch(getStripeTokenRequest)
+    const { dispatch, stripe, buyProduct } = this.props;
+    dispatch(getStripeTokenRequest);
     try {
-      const { token } = await stripe.createToken()
-      dispatch(getStripeTokenSuccess)
+      const { token } = await stripe.createToken();
+      dispatch(getStripeTokenSuccess);
 
       await buyProduct({
         stripeToken: token.id,
         product_id: this.props.productId
-      })
+      });
 
-      redirect('/order-confirmation')
+      redirect("/order-confirmation");
     } catch (e) {
-      dispatch(getStripeTokenFailure(e))
+      dispatch(getStripeTokenFailure(e));
     }
-  }
+  };
 
   handleDelete = () => {
-    this.props.deleteProduct(this.props.product.product_id)
-  }
+    this.props.deleteProduct(this.props.product.product_id);
+  };
 
   handleMessage = () => {
-    const { User, product_id } = this.props.product
+    const { User, product_id } = this.props.product;
 
     this.props.createMessageThread({
       username: [User.username],
       participant_id: [User.user_id],
-      product_id: product_id || ''
-    })
-  }
+      product_id: product_id || ""
+    });
+  };
 
   handleUpdate = () => {
     const {
       product: { category_id, description, Prices }
-    } = this.props
+    } = this.props;
 
     // either the state was changed, or it remains the same as before
     this.props.updateProduct({
@@ -108,25 +110,25 @@ class Product extends Component {
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
       price: Number(this.state.price) || Prices[0].price
-    })
-  }
+    });
+  };
 
   renderEditMode = () => {
     const {
       product: { Prices, description },
       categories
-    } = this.props
+    } = this.props;
 
     return (
       <div className="product-container p-3 d-flex flex-column align-items-center">
         <label>Product Category</label>
 
-        <Dropdown values={categories} handleSelect={this.handleOption} />
+        <Dropdown dropdownItems={categories} handleSelect={this.handleOption} />
 
         <label className="mt-3">Product Description</label>
         <textarea
           onChange={e =>
-            this.handleTextInputChange('description', e.target.value)
+            this.handleTextInputChange("description", e.target.value)
           }
           value={this.state.description || description}
         />
@@ -135,7 +137,7 @@ class Product extends Component {
 
         <input
           type="text"
-          onChange={e => this.handleTextInputChange('price', e.target.value)}
+          onChange={e => this.handleTextInputChange("price", e.target.value)}
           value={this.state.price || Prices[0].price}
         />
         <div className="d-flex justify-content-center mt-5">
@@ -148,12 +150,12 @@ class Product extends Component {
           />
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   showPaymentForm = () => {
-    this.setState({ showPaymentForm: true })
-  }
+    this.setState({ showPaymentForm: true });
+  };
 
   ifLoggedOutSendError = () => {
     if (!this.props.user.id) {
@@ -204,9 +206,9 @@ class Product extends Component {
         Prices,
         description
       }
-    } = this.props
-    const { showPaymentForm } = this.state
-    const isOwnProduct = user_id === this.props.user.id
+    } = this.props;
+    const { showPaymentForm } = this.state;
+    const isOwnProduct = user_id === this.props.user.id;
     return (
       <div className="product-container d-flex flex-column pl-3 pr-3">
         {this.renderLikeButton()}
@@ -245,20 +247,20 @@ class Product extends Component {
           </Elements>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   renderProduct = () => {
     if (this.props.product.product_id) {
-      const { editMode } = this.state
+      const { editMode } = this.state;
       const {
         user: { id },
         product: {
           User: { user_id },
           Images
         }
-      } = this.props
-      const isOwnProduct = user_id === id
+      } = this.props;
+      const isOwnProduct = user_id === id;
       return (
         <div>
           <div className="product-container ">
@@ -272,32 +274,32 @@ class Product extends Component {
 
           {editMode ? this.renderEditMode() : this.renderViewMode()}
         </div>
-      )
+      );
     } else {
-      return <div />
+      return <div />;
     }
-  }
+  };
 
   renderEditButton = () => {
-    const { editMode } = this.state
+    const { editMode } = this.state;
     return (
       <div className="d-flex justify-content-center">
         <Button
           secondary
           className="mt-3 mb-3"
           handleClick={() => this.setState({ editMode: !editMode })}
-          text={editMode ? 'Cancel edits' : 'Edit item'}
+          text={editMode ? "Cancel edits" : "Edit item"}
         />
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
       <Container className="route-container d-flex flex-column align-items-center">
         <div>{this.renderProduct()}</div>
       </Container>
-    )
+    );
   }
 }
 
@@ -321,4 +323,4 @@ export default compose(
     }
   ),
   withRouter
-)(Product)
+)(Product);

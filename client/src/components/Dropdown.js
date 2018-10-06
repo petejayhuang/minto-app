@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import ChevronDownIcon from '../assets/icons/feather-react/ChevronDownIcon'
-import XIcon from '../assets/icons/feather-react/XIcon'
-import styled from 'styled-components'
-import { colors } from '../styles/styleVariables'
+import React, { Component } from "react";
+import ChevronDownIcon from "../assets/icons/feather-react/ChevronDownIcon";
+import XIcon from "../assets/icons/feather-react/XIcon";
+import styled from "styled-components";
+import { colors } from "../styles/styleVariables";
 
 const Container = styled.div`
   position: relative;
@@ -26,7 +26,7 @@ const Container = styled.div`
     background-color: white;
     width: 320px;
     position: absolute;
-    top: 50px;
+    top: 80px;
     z-index: 1000;
   }
 
@@ -38,34 +38,35 @@ const Container = styled.div`
       background-color: ${colors.background};
     }
   }
-`
+`;
 
 class Dropdown extends Component {
   state = {
     dropdownListOpen: false,
-    currentValue: 'Please select an option'
-  }
+    currentValue: "Please select an option"
+  };
 
   toggleDropdown = () => {
     this.setState({
       dropdownListOpen: !this.state.dropdownListOpen
-    })
-  }
+    });
+  };
 
   handleItemSelect = dropdownItem => {
     this.setState({
       dropdownListOpen: false,
       currentValue: dropdownItem.label
-    })
-    this.props.onSelect(dropdownItem.value)
-  }
+    });
+    this.props.handleSelect(dropdownItem.value);
+  };
 
   render() {
-    const { dropdownListOpen, currentValue } = this.state
-    const { dropdownItems } = this.props
+    const { dropdownListOpen, currentValue } = this.state;
+    const { dropdownItems, label } = this.props;
 
     return (
       <Container>
+        <label>{label}</label>
         <div
           className="input pl-2 d-flex align-items-center"
           onClick={this.toggleDropdown}
@@ -79,7 +80,7 @@ class Dropdown extends Component {
         {dropdownListOpen && (
           <div className="list">
             {dropdownItems.map(dropdownItem => {
-              const { label, value } = dropdownItem
+              const { label, value } = dropdownItem;
               return (
                 <div
                   key={value}
@@ -88,13 +89,13 @@ class Dropdown extends Component {
                 >
                   {label}
                 </div>
-              )
+              );
             })}
           </div>
         )}
       </Container>
-    )
+    );
   }
 }
 
-export default Dropdown
+export default Dropdown;

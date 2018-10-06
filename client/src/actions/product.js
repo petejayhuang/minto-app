@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import customAxios from '../config/axios'
-import { URLS } from '../config/constants'
 import { redirect } from './ui'
 
 import {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URLS } from '../config/constants'
+import { URLS, DURATIONS } from '../config/constants'
 
 const configuredAxios = () => {
   let headers = {}
@@ -12,7 +12,8 @@ const configuredAxios = () => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       ...headers
-    }
+    },
+    timeout: DURATIONS.REQUEST_TIME_OUT
   })
 }
 
