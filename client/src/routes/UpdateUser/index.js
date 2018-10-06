@@ -25,9 +25,7 @@ class CreateUser extends Component {
       images: this.state.images.concat(image)
     })
 
-  removeImage = () => {
-    this.setState({ images: [] })
-  }
+  removeImage = () => this.setState({ images: [] })
 
   handleInputChange = ({ name, value }) => this.setState({ [name]: value })
 
@@ -50,7 +48,6 @@ class CreateUser extends Component {
 
     uploadImagesToS3({ images, upload_type: 'product' }, images => {
       body.profile_URL = images[0].image_URL
-      console.log('BODY OF UPDATE', body)
       updateUser(body, () => redirect(`/store/${id}`))
     })
   }

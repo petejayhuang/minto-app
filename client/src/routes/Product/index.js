@@ -1,14 +1,15 @@
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { Elements } from "react-stripe-elements";
-import React, { Component } from "react";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { Elements } from 'react-stripe-elements'
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
+import { printError } from '../../actions/error'
 
-import Button from "../../components/Button";
-import CheckoutForm from "../../components/CheckoutForm";
-import Dropdown from "../../components/Dropdown";
-import { TextLink } from "../../components/TextLink";
+import Button from '../../components/Button'
+import CheckoutForm from '../../components/CheckoutForm'
+import Dropdown from '../../components/Dropdown'
+import { TextLink } from '../../components/TextLink'
 
 import {
   getProductCategories,
@@ -20,8 +21,13 @@ import {
   getStripeTokenRequest,
   getStripeTokenSuccess,
   getStripeTokenFailure,
-  buyProduct
-} from "../../actions";
+  buyProduct,
+  addProductLike,
+  deleteProductLike
+} from '../../actions'
+
+import HeartIcon from '../../assets/icons/feather-react/HeartIcon'
+
 
 const Container = styled.div`
   .product-container {
@@ -151,6 +157,47 @@ class Product extends Component {
     this.setState({ showPaymentForm: true });
   };
 
+  ifLoggedOutSendError = () => {
+    if (!this.props.user.id) {
+      return this.props.printError({
+        message: 'Please log in to add to your liked items.',
+        error: {}
+      })
+    }
+  }
+
+  handleAddLike = () => {
+    this.ifLoggedOutSendError()
+    this.props.addProductLike(this.props.product.product_id)
+  }
+
+  handleRemoveLike = () => {
+    this.ifLoggedOutSendError()
+    this.props.deleteProductLike(this.props.product.Like.id)
+  }
+
+  renderLikeButton = () => {
+    if (this.props.product.Like === null) {
+      return (
+        <div>
+          No likey!
+          <div onClick={this.handleAddLike}>
+            <HeartIcon />
+          </div>
+        </div>
+      )
+    } else if (this.props.product.Like.product_type) {
+      return (
+        <div>
+          No likey!
+          <div onClick={this.handleRemoveLike}>
+            <HeartIcon />
+          </div>
+        </div>
+      )
+    }
+  }
+
   renderViewMode = () => {
     const {
       product: {
@@ -164,6 +211,8 @@ class Product extends Component {
     const isOwnProduct = user_id === this.props.user.id;
     return (
       <div className="product-container d-flex flex-column pl-3 pr-3">
+        {this.renderLikeButton()}
+
         <div className="mt-3">
           Sold by <TextLink to={`/store/${user_id}`} text={`@${username}`} />
         </div>
@@ -259,6 +308,7 @@ export default compose(
     ({ product, categories, user }) => ({ product, categories, user }),
     {
       getProduct,
+      printError,
       updateProduct,
       createMessageThread,
       deleteProduct,
@@ -267,7 +317,9 @@ export default compose(
       getStripeTokenRequest,
       getStripeTokenSuccess,
       getStripeTokenFailure,
-      buyProduct
+      buyProduct,
+      addProductLike,
+      deleteProductLike
     }
   ),
   withRouter

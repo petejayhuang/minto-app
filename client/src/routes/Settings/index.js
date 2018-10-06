@@ -14,6 +14,12 @@ class SettingsList extends Component {
           handleClick={() => this.navigate('/settings/update-account')}
           text="Update profile"
         />
+            
+        <TouchableRow.InternalLink
+          handleClick={() => this.navigate('/settings/likes')}
+          text="Liked items"
+        />           
+            
         <TouchableRow.InternalLink
           handleClick={() => this.navigate('/settings/addresses')}
           text="Addresses"
