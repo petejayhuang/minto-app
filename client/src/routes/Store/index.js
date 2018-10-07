@@ -1,26 +1,59 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import customAxios from '../../config/axios'
 import { connect } from 'react-redux'
 import { colors } from '../../styles/styleVariables'
 import styled from 'styled-components'
 
 import { getStoreInfo, getStoreProducts, printError } from '../../actions'
+import renderMarkup from '../../utilities/renderMarkup'
 import { Link } from 'react-router-dom'
 import ImageGrid from '../../components/ImageGrid'
 import Button from '../../components/Button'
+import { URLS } from '../../config/constants'
 
 const Container = styled.div`
   .active-tab {
     background-color: ${colors.primary};
+    color: white;
   }
 `
 
 class Store extends Component {
   state = {
     page: 1,
-    limit: 6
+    limit: 6,
+    currentTab: 'items'
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    // const fakeData = [
+    //   {
+    //     order: 1,
+    //     element: 'h1',
+    //     content: 'AAA  ASDYGAISUD asldhaiosd YGIAUDYG'
+    //   },
+    //   {
+    //     order: 2,
+    //     element: 'p',
+    //     content:
+    //       'AAA Lorem as9d8yas9d8lijaoisdasdinting and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s...'
+    //   },
+    //   {
+    //     order: 3,
+    //     element: 'h1',
+    //     content: 'AAA  Paul wanted thisaodsijaoisd bit in'
+    //   },
+    //   {
+    //     order: 4,
+    //     element: 'h4',
+    //     content: 'AAA  this asdpojapsodis alist'
+    //   }
+    // ]
+
+    // await customAxios().put(`${URLS.SERVER}/users`, {
+    //   story: JSON.stringify(fakeData)
+    // })
+
     const {
       match: {
         params: { id }
@@ -96,11 +129,11 @@ class Store extends Component {
     }
   }
 
-  render() {
+  renderItemsTab = () => {
     const {
       store: {
         products,
-        info: { profile_URL, username, user_id }
+        info: { user_id }
       },
       ui: { loadingLine },
       user: { id }
@@ -108,29 +141,10 @@ class Store extends Component {
 
     const isOwnStore = id === user_id
     return (
-      <Container className="route-container inner-container">
-        <div className="d-flex p-3 border-bottom-light">
-          <div className="profile-image-container">
-            <img alt="profile" className="profile-image" src={profile_URL} />
-          </div>
-
-          <div className="ml-2 d-flex flex-column justify-content-center">
-            <div>
-              <h3>@{username}</h3>
-            </div>
-          </div>
+      <Fragment>
+        <div className="mt-2">
+          <ImageGrid products={products} />
         </div>
-
-        <div className="text-center d-flex justify-content-center">
-          <div className="active-tab">
-            <h4 className="mt-3 mb-3">MY STORY</h4>
-          </div>
-
-          <div>
-            <h4 className="ml-3 mt-3 mb-3">SELLING ({products.length})</h4>
-          </div>
-        </div>
-        <ImageGrid products={products} />
 
         {products.length > 3 && (
           <div className="mt-3 d-flex justify-content-center">
@@ -145,15 +159,86 @@ class Store extends Component {
 
         {products.length === 0 &&
           isOwnStore && (
-            <div>
-              <p className="text-center">
-                You haven't listed anything to sell! Start{' '}
-                <Link className="highlighted" to="/add">
-                  here
-                </Link>
-              </p>
-            </div>
+            <p className="text-center mt-3">
+              You haven't listed anything to sell! Start{' '}
+              <Link className="highlighted" to="/add">
+                here
+              </Link>
+            </p>
           )}
+      </Fragment>
+    )
+  }
+
+  switchTab = currentTab => this.setState({ currentTab })
+
+  renderStoryTab = () => {
+    const fakeData = [
+      { order: 1, element: 'h1', content: 'What is Lorem Ipsum?' },
+      {
+        order: 2,
+        element: 'p',
+        content:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s...'
+      }
+    ]
+
+    const hasStory = this.props.store.info.story
+    const story = JSON.parse(this.props.store.info.story)
+
+    return (
+      <div className="text-center p-3">
+        {hasStory
+          ? renderMarkup(story || fakeData)
+          : 'No story added. How sad.'}
+      </div>
+    )
+  }
+
+  render() {
+    const {
+      store: {
+        products,
+        info: { profile_URL, username }
+      }
+    } = this.props
+
+    const { currentTab } = this.state
+    const itemsTabActive = currentTab === 'items'
+    const storyTabActive = currentTab === 'story'
+
+    return (
+      <Container className="route-container inner-container">
+        <div className="d-flex p-3 border-bottom-light">
+          <div className="profile-image-container">
+            <img alt="profile" className="profile-image" src={profile_URL} />
+          </div>
+
+          <div className="ml-2 d-flex flex-column justify-content-center">
+            <div>
+              <h3>@{username}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center d-flex justify-content-center border-bottom-light">
+          <div
+            className={`${storyTabActive && 'active-tab'} hover-hand`}
+            onClick={() => this.switchTab('story')}
+          >
+            <h4 className="m-3">MY STORY</h4>
+          </div>
+
+          <div
+            className={`${itemsTabActive && 'active-tab'} hover-hand`}
+            onClick={() => this.switchTab('items')}
+          >
+            <h4 className="m-3">SELLING ({products.length})</h4>
+          </div>
+        </div>
+
+        {currentTab === 'items' && this.renderItemsTab()}
+        {currentTab === 'story' && this.renderStoryTab()}
       </Container>
     )
   }

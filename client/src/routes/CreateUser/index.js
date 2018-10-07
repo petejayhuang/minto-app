@@ -192,7 +192,7 @@ class CreateUser extends Component {
       ui: { loadingLine },
       user: { id }
     } = this.props
-    console.log('createUser State', this.state)
+
     return (
       <Container className="route-container p-3 d-flex flex-column justify-content-center align-items-center">
         <h3 className="text-center mt-2">

@@ -24,7 +24,6 @@ import {
 // ===============      GET ADDRESS     ================
 // =====================================================
 export const getAddress = id => async dispatch => {
-  console.log(id)
   dispatch(getAddressRequest)
   try {
     const { data } = await axios().get(`/addresses/${id}`)
@@ -64,7 +63,6 @@ export const getAddresses = () => async dispatch => {
   dispatch(getAddressesRequest)
   try {
     const { data } = await axios().get('/addresses')
-    console.log('data', data)
     dispatch(getAddressesSuccess(data.data.rows))
   } catch (error) {
     dispatch(
@@ -98,7 +96,6 @@ const getAddressesFailure = ({ message, error }) => ({
 // =====================================================
 export const createAddress = (body, callback) => async dispatch => {
   dispatch(createAddressRequest)
-  console.log('body', body)
   try {
     const { data } = await axios().post('/addresses', body)
     dispatch(createAddressSuccess(data.data))

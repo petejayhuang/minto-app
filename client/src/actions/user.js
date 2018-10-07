@@ -241,8 +241,6 @@ export const logoutUser = () => dispatch => {
 // =====================================================
 export const createBankAccount = body => async dispatch => {
   dispatch(createBankAccountRequest)
-  console.log('b in create b aa', body)
-
   try {
     const { data } = await customAxios().put('/users', body)
     dispatch(createBankAccountSuccess(data.data))

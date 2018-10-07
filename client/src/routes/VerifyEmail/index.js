@@ -7,7 +7,6 @@ import { URLS } from '../../config/constants'
 import { printError, printSuccess, redirect } from '../../actions'
 
 import Button from '../../components/Button'
-import TextInput from '../../components/TextInput'
 
 import {
   VERIFY_EMAIL_REQUEST,
