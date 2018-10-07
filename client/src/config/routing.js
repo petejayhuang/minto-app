@@ -23,6 +23,7 @@ import Search from '../routes/Search'
 import Settings from '../routes/Settings'
 import Store from '../routes/Store'
 import UpdateUser from '../routes/UpdateUser'
+import VerifyEmail from '../routes/VerifyEmail'
 
 import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '../assets/icons/feather-react/ChevronLeftIcon'
@@ -54,6 +55,7 @@ export const routes = [
   { path: '/settings/logout', component: Logout, exact: true },
   { path: '/settings/update-account', component: UpdateUser, exact: true },
   { path: '/store/:id', component: Store },
+  { path: '/verify-email/:token', component: VerifyEmail },
   { path: '*', component: NotFound }
 ]
 

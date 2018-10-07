@@ -51,4 +51,8 @@ const Button = props => {
   )
 }
 
+Button.defaultProps = {
+  handleClick: () => {},
+  handleSubmit: () => {}
+}
 export default Button

@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { colors } from '../../styles/styleVariables'
+import styled from 'styled-components'
 
 import { getStoreInfo, getStoreProducts, printError } from '../../actions'
 import { Link } from 'react-router-dom'
 import ImageGrid from '../../components/ImageGrid'
 import Button from '../../components/Button'
+
+const Container = styled.div`
+  .active-tab {
+    background-color: ${colors.primary};
+  }
+`
 
 class Store extends Component {
   state = {
@@ -100,7 +108,7 @@ class Store extends Component {
 
     const isOwnStore = id === user_id
     return (
-      <div className="route-container inner-container">
+      <Container className="route-container inner-container">
         <div className="d-flex p-3 border-bottom-light">
           <div className="profile-image-container">
             <img alt="profile" className="profile-image" src={profile_URL} />
@@ -113,8 +121,14 @@ class Store extends Component {
           </div>
         </div>
 
-        <div className="text-center">
-          <h4 className="mt-3 mb-3">SELLING ({products.length})</h4>
+        <div className="text-center d-flex justify-content-center">
+          <div className="active-tab">
+            <h4 className="mt-3 mb-3">MY STORY</h4>
+          </div>
+
+          <div>
+            <h4 className="ml-3 mt-3 mb-3">SELLING ({products.length})</h4>
+          </div>
         </div>
         <ImageGrid products={products} />
 
@@ -140,7 +154,7 @@ class Store extends Component {
               </p>
             </div>
           )}
-      </div>
+      </Container>
     )
   }
 }
