@@ -65,7 +65,9 @@ export const uploadImagesToS3 = (
           image_description: 'placeholder image description',
           image_date: moment().format()
         }))
-        callback(images)
+        if (callback) {
+          callback(images)
+        }
         return resolve(images)
       })
     } catch (error) {

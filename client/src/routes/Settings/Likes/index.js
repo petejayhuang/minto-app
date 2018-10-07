@@ -3,12 +3,16 @@ import { connect } from 'react-redux'
 
 import { getProductLikes } from '../../../actions/likes'
 import { redirect } from '../../../actions/ui'
-
-import TouchableRow from '../../../components/TouchableRow'
+import { push } from 'react-router-redux'
+import { TouchableRow } from '../../../components/TouchableRow'
 
 class Likes extends Component {
   componentDidMount() {
     this.props.getProductLikes()
+  }
+
+  navigate = to => {
+    this.props.push(to)
   }
 
   render() {
@@ -18,10 +22,15 @@ class Likes extends Component {
       <div className="route-container">
         {this.props.likes.map(like => {
           const {
-            Product: { description, product_id }
+            product_id,
+            Product: { description }
           } = like
+
           return (
-            <TouchableRow text={description} to={`/products/${product_id}`} />
+            <TouchableRow.InternalLink
+              text={description}
+              handleClick={() => this.navigate(`/products/${product_id}`)}
+            />
           )
         })}
       </div>
@@ -31,5 +40,5 @@ class Likes extends Component {
 
 export default connect(
   ({ user, likes }) => ({ user, likes }),
-  { getProductLikes, redirect }
+  { getProductLikes, redirect, push }
 )(Likes)

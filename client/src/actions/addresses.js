@@ -131,13 +131,17 @@ const createAddressFailure = ({ message, error }) => ({
 })
 
 // =====================================================
-// ==============      TODO UPDATE ADDRESS     ==============
+// ==============      UPDATE ADDRESS     ==============
 // =====================================================
-export const updateAddress = () => async dispatch => {
+export const updateAddress = ({ body, id }, callback) => async dispatch => {
   dispatch(updateAddressRequest)
   try {
-    const { data } = await axios()(`${URLS.SERVER}/addresses`)
-    dispatch(updateAddressSuccess(data.data))
+    await axios().put(`${URLS.SERVER}/addresses/${id}`, body)
+    dispatch(updateAddressSuccess)
+
+    if (callback) {
+      callback()
+    }
   } catch (error) {
     dispatch(
       updateAddressFailure({
@@ -153,11 +157,10 @@ const updateAddressRequest = {
   loadingLine: true
 }
 
-const updateAddressSuccess = addresses => ({
+const updateAddressSuccess = {
   type: UPDATE_ADDRESS_SUCCESS,
-  loadingLine: false,
-  payload: addresses
-})
+  loadingLine: false
+}
 
 const updateAddressFailure = ({ message, error }) => ({
   type: UPDATE_ADDRESS_FAILURE,

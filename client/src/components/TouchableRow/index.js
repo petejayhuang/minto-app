@@ -37,11 +37,14 @@ class Menu extends Component {
 
   handleItemClick = () => this.setState({ showMenu: true })
 
-  handleCancel = () => this.setState({ showMenu: false })
-
-  renderItem = () => {
-    return <div onClick={this.handleItemClick}>{this.props.children}</div>
+  handleCancel = () => {
+    console.log('handleCancel')
+    this.setState({ showMenu: false })
   }
+
+  renderItem = () => (
+    <div onClick={this.handleItemClick}>{this.props.children}</div>
+  )
 
   renderMenu = () => {
     const { id, handleEdit, handleDelete } = this.props
@@ -60,6 +63,7 @@ class Menu extends Component {
     )
   }
   render() {
+    console.log('menu re-render')
     const { showMenu } = this.state
     return (
       <Container

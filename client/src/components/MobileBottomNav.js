@@ -39,6 +39,8 @@ class MobileBottomNav extends Component {
   }
 
   generateNavigationIcons = () => {
+    // const { seller_YN } = this.props.user
+    const seller_YN = false
     const NAVIGATION_ICONS = [
       {
         component: <HomeIcon />,
@@ -53,7 +55,7 @@ class MobileBottomNav extends Component {
       {
         component: <PlusSquareIcon />,
         activeComponent: <PlusSquareIcon stroke={colors.primary} />,
-        to: '/add'
+        to: seller_YN ? '/seller-signup' : '/add'
       },
       {
         component: <MessageCircleIcon />,

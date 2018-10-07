@@ -18,6 +18,7 @@ import Messages from '../routes/Messages'
 import NotFound from '../routes/NotFound'
 import OrderConfirmation from '../routes/Payments/OrderConfirmation'
 import Product from '../routes/Product'
+import SellerSignup from '../routes/SellerSignup'
 import Search from '../routes/Search'
 import Settings from '../routes/Settings'
 import Store from '../routes/Store'
@@ -39,6 +40,7 @@ export const routes = [
   { path: '/order-confirmation', component: OrderConfirmation },
   { path: '/products/:id', component: Product },
   { path: '/search', component: Search, exact: true },
+  { path: '/seller-signup', component: SellerSignup, exact: true },
   { path: '/settings', component: Settings, exact: true },
   { path: '/settings/addresses', component: Addresses, exact: true },
   { path: '/settings/likes', component: Likes, exact: true },
@@ -105,6 +107,9 @@ export const navItems = ({ store, history }) => {
     },
     search: {
       middle: <h5 className="m-0 p-0">Search</h5>
+    },
+    'seller-signup': {
+      middle: <h5 className="m-0 p-0">Sign up to be a seller</h5>
     },
     settings: {
       left: (

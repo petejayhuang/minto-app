@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { redirect } from '../../../actions/ui'
-import { createAddress, getAddress } from '../../../actions/addresses'
+import {
+  createAddress,
+  getAddress,
+  updateAddress
+} from '../../../actions/addresses'
 
 import Button from '../../../components/Button'
 import Checkbox from '../../../components/Checkbox'
@@ -12,6 +16,7 @@ import TextInput from '../../../components/TextInput'
 class CreateEditAddress extends Component {
   state = {
     isEditMode: this.props.match.params.id ? true : false,
+    id: this.props.user.addresses.current.id || '',
     address_type: this.props.user.addresses.current.address_type || '',
     address_name: this.props.user.addresses.current.address_name || '',
     address1: this.props.user.addresses.current.address1 || '',
@@ -23,8 +28,27 @@ class CreateEditAddress extends Component {
     primary_YN: false
   }
 
+  componentDidUpdate(prevProps) {
+    const prevAddressId = prevProps.user.addresses.current.id
+    const currAddressId = this.props.user.addresses.current.id
+
+    if (prevAddressId !== currAddressId) {
+      this.setState({
+        address_type: this.props.user.addresses.current.address_type,
+        address_name: this.props.user.addresses.current.address_name,
+        address1: this.props.user.addresses.current.address1,
+        address2: this.props.user.addresses.current.address2,
+        city: this.props.user.addresses.current.city,
+        postcode: this.props.user.addresses.current.postcode,
+        country: this.props.user.addresses.current.country
+      })
+    }
+  }
+
   componentDidMount() {
-    this.props.getAddress(this.props.match.params.id)
+    if (this.stateisEditMode) {
+      this.props.getAddress(this.props.match.params.id)
+    }
   }
 
   handleInputChange = ({ name, value }) => this.setState({ [name]: value })
@@ -33,11 +57,13 @@ class CreateEditAddress extends Component {
     e.preventDefault()
 
     const {
+      isEditMode,
       address_type,
       address_name,
       address1,
       address2,
       city,
+      id,
       postcode,
       country,
       primary_YN
@@ -55,13 +81,14 @@ class CreateEditAddress extends Component {
       primary_YN
     }
 
-    const { createAddress, redirect } = this.props
-
-    createAddress(body, () => redirect('/settings/addresses'))
+    const { createAddress, updateAddress, redirect } = this.props
+    if (isEditMode) {
+      return updateAddress({ body, id }, () => redirect('/settings/addresses'))
+    }
+    return createAddress(body, () => redirect('/settings/addresses'))
   }
 
   handleCheckbox = () => {
-    console.log('check check!')
     this.setState({ primary_YN: !this.state.primary_YN })
   }
 
@@ -89,7 +116,6 @@ class CreateEditAddress extends Component {
       { label: 'Delivery Address', value: 'delivery' }
     ]
 
-    console.log('primary_YN', this.state.primary_YN)
     return (
       <div className="route-container d-flex justify-content-center">
         <form onSubmit={this.handleSubmit} className="d-flex flex-column pt-3">
@@ -173,5 +199,5 @@ class CreateEditAddress extends Component {
 
 export default connect(
   ({ ui, user }) => ({ ui, user }),
-  { createAddress, getAddress, redirect }
+  { createAddress, getAddress, updateAddress, redirect }
 )(CreateEditAddress)
