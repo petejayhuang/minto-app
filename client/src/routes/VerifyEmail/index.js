@@ -44,7 +44,9 @@ class VerifyEmail extends Component {
     const { dispatch } = this.props
     const { email } = this.state
     try {
-      await axios.get(`${URLS.SERVER}/users/resend_verify_email/${email}`)
+      await axios.post(`${URLS.SERVER}/users/resend_verify_email/${email}`, {
+        email
+      })
       dispatch(
         printSuccess('Check your inbox! New email verification email sent.')
       )
