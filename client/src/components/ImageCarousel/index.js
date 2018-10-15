@@ -27,6 +27,7 @@ class ImageCarousel extends Component {
     return (
       <Fragment>
         <ImageSlide image={images[index]} />
+
         {images.length > 1 && (
           <div className="d-flex justify-content-center mt-2 mb-3">
             <Button

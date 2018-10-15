@@ -16,6 +16,8 @@ class CreateUser extends Component {
   state = {
     first_name: this.props.user.first_name || '',
     last_name: this.props.user.last_name || '',
+    bank_account_number: this.props.user.bank_account_number || '',
+    bank_sort_code: this.props.user.bank_sort_code || '',
     images: [],
     password: ''
   }
@@ -46,14 +48,24 @@ class CreateUser extends Component {
       password
     }
 
-    uploadImagesToS3({ images, upload_type: 'product' }, images => {
-      body.profile_URL = images[0].image_URL
+    if (images.length > 0) {
+      uploadImagesToS3({ images, upload_type: 'profile pic' }, images => {
+        body.profile_URL = images[0].image_URL
+        updateUser(body, () => redirect(`/store/${id}`))
+      })
+    } else {
       updateUser(body, () => redirect(`/store/${id}`))
-    })
+    }
   }
 
   renderUpdateAccountForm = () => {
-    const { first_name, last_name, password } = this.state
+    const {
+      first_name,
+      last_name,
+      password,
+      bank_account_number,
+      bank_sort_code
+    } = this.state
 
     const {
       ui: { loadingLine }
@@ -84,6 +96,21 @@ class CreateUser extends Component {
           name="last_name"
           placeholder="e.g. Huang"
           value={last_name}
+        />
+
+        <TextInput
+          handleChange={this.handleInputChange}
+          label="Bank Account Number"
+          name="bank_account_number"
+          placeholder="e.g. 1234 5678"
+          value={bank_account_number}
+        />
+        <TextInput
+          handleChange={this.handleInputChange}
+          label="Bank Sort Code"
+          name="bank_sort_code"
+          placeholder="e.g. 00 00 00"
+          value={bank_sort_code}
         />
 
         <PasswordInput handleChange={this.handleInputChange} value={password} />

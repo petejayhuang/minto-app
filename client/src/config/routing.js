@@ -170,6 +170,11 @@ export const navItems = ({ store, history }) => {
       middle: <h5 className="m-0 p-0">Log out</h5>
     },
     '/settings/update-account': {
+      left: (
+        <Link to="/settings">
+          <ChevronLeftIcon />
+        </Link>
+      ),
       middle: <h5 className="m-0 p-0">Update your details</h5>
     },
     'store/:id': {

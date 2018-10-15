@@ -31,7 +31,7 @@ export const getProductCategories = () => async dispatch => {
 
   try {
     const { data } = await customAxios()('/categories')
-    dispatch(getProductCategoriesSuccess(data.data))
+    dispatch(getProductCategoriesSuccess(data.categories))
   } catch (error) {
     dispatch(
       getProductCategoriesFailure({
@@ -168,6 +168,7 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   ]
 
   const body = _.pick(formValues, pickItems)
+  body.currency_id = 'GBP'
   console.log('body in update product.ks', body)
 
   dispatch(updateProductRequest)

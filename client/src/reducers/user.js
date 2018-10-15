@@ -3,7 +3,8 @@ import {
   CREATE_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
   GET_ADDRESS_SUCCESS,
-  GET_ADDRESSES_SUCCESS
+  GET_ADDRESSES_SUCCESS,
+  CREATE_BANK_ACCOUNT_SUCCESS
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -18,6 +19,7 @@ export default (state = INITIAL_STATE, action) => {
     case CREATE_USER_SUCCESS:
     case AUTHENTICATE_SUCCESS:
     case UPDATE_USER_SUCCESS:
+    case CREATE_BANK_ACCOUNT_SUCCESS:
       return { ...state, ...action.payload }
     case GET_ADDRESS_SUCCESS:
       return {

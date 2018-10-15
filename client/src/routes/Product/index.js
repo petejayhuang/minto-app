@@ -1,7 +1,7 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Elements } from 'react-stripe-elements'
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { printError } from '../../actions/error'
@@ -31,6 +31,7 @@ import HeartIcon from '../../assets/icons/feather-react/HeartIcon'
 
 const Container = styled.div`
   .product-container {
+    width: 100%;
     max-width: 600px;
   }
 `
@@ -257,19 +258,17 @@ class Product extends Component {
         user,
         product: { User: productOwner, images }
       } = this.props
-      const isOwnProduct = user.id === productOwner.id
-
-      console.log('props in product.js', this.props)
+      const isOwnProduct = user.id === productOwner.user_id
 
       return (
-        <div>
+        <Fragment>
           <div className="product-container">
             <ImageCarousel images={images} />
           </div>
           {isOwnProduct && this.renderEditButton()}
 
           {editMode ? this.renderEditMode() : this.renderViewMode()}
-        </div>
+        </Fragment>
       )
     } else {
       return <div />

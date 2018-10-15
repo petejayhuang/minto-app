@@ -193,7 +193,7 @@ export const updateUser = (body, callback) => async dispatch => {
   try {
     const { data } = await customAxios().put('/users', filteredBody)
 
-    dispatch(updateUserSuccess(data.data))
+    dispatch(updateUserSuccess(data.user))
     callback()
   } catch (error) {
     dispatch(
@@ -243,7 +243,8 @@ export const createBankAccount = body => async dispatch => {
   dispatch(createBankAccountRequest)
   try {
     const { data } = await customAxios().put('/users', body)
-    dispatch(createBankAccountSuccess(data.data))
+
+    dispatch(createBankAccountSuccess(data.user))
     dispatch(printSuccess('New bank account added'))
     dispatch(redirect('/settings'))
   } catch (error) {

@@ -32,11 +32,11 @@ class VerifyEmail extends Component {
       await axios.get(`${URLS.SERVER}/users/verify_email/${token}`)
       this.setState({ email_verified: true })
       dispatch({ type: VERIFY_EMAIL_SUCCESS, loadingLine: false })
-      dispatch(printSuccess('Email successfully verified'))
+      printSuccess('Email successfully verified')
     } catch (error) {
       this.setState({ email_verified: false, token })
       dispatch({ type: VERIFY_EMAIL_FAILURE, loadingLine: false, error })
-      dispatch(printError({ message: 'Could not verify email.' }))
+      printError({ message: 'Could not verify email.' })
     }
   }
 
