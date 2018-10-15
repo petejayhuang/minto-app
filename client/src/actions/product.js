@@ -26,7 +26,7 @@ import { uploadImagesToS3 } from './images'
 // ==========     GET PRODUCT CATEGORIES     ===========
 // =====================================================
 
-export const getProductCategories = id => async dispatch => {
+export const getProductCategories = () => async dispatch => {
   dispatch(getProductCategoriesRequest)
 
   try {
@@ -66,7 +66,8 @@ export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
     const { data } = await customAxios()(`/products/${id}`)
-    dispatch(getProductSuccess(data.data[0]))
+
+    dispatch(getProductSuccess(data.product[0]))
   } catch (error) {
     dispatch(
       getProductFailure({
@@ -106,11 +107,12 @@ export const uploadProduct = ({ images, form }) => async (
   } = getState()
   const body = {
     ...form,
-    currency_id: 'GBP',
-    user_id: id
+    currency_id: 'GBP'
   }
 
   dispatch(uploadProductRequest)
+
+  console.log(body)
 
   try {
     const imageData = await dispatch(
@@ -158,7 +160,6 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   } = getState()
 
   const pickItems = [
-    'product_id',
     'category_id',
     'description',
     'price',
@@ -167,11 +168,12 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   ]
 
   const body = _.pick(formValues, pickItems)
+  console.log('body in update product.ks', body)
 
   dispatch(updateProductRequest)
 
   try {
-    await customAxios().put('/product', body)
+    await customAxios().put(`/products/${id}`, body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store/${id}`))
   } catch (error) {

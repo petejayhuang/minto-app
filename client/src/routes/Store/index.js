@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import customAxios from '../../config/axios'
 import { connect } from 'react-redux'
 import { colors } from '../../styles/styleVariables'
 import styled from 'styled-components'
@@ -9,7 +8,6 @@ import renderMarkup from '../../utilities/renderMarkup'
 import { Link } from 'react-router-dom'
 import ImageGrid from '../../components/ImageGrid'
 import Button from '../../components/Button'
-import { URLS } from '../../config/constants'
 
 const Container = styled.div`
   .active-tab {

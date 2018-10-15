@@ -65,18 +65,20 @@ class CreateUser extends Component {
       clearTimeout(this.fetchTimeout)
     }
 
-    this.fetchTimeout = setTimeout(() => {
+    this.fetchTimeout = setTimeout(async () => {
       if (validUsername && value.length > 5) {
-        getUsernameAvailability(value)
-          .then(response =>
-            this.setState({
-              available: response.data.data.available,
-              username_message: response.data.data.available
-                ? 'Yes that username works!'
-                : "That username isn't available =("
-            })
-          )
-          .catch(e => console.log(e))
+        try {
+          const { data } = await getUsernameAvailability(value)
+          this.setState({
+            username_message: data.available
+              ? 'Yes that username works!'
+              : "That username isn't available =("
+          })
+        } catch (e) {
+          this.setState({
+            username_message: "That username isn't available =("
+          })
+        }
       }
     }, DURATIONS.GET_USERNAME_AVAILABILITY_DEBOUNCE)
   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { number, string, object, array } from 'prop-types'
 import styled from 'styled-components'
 import { colors } from '../styles/styleVariables'
 import { Link } from 'react-router-dom'
@@ -20,7 +21,7 @@ const Container = styled.div`
 `
 
 const ProductCard = props => {
-  const { User, Images, Prices, description, product_id } = props
+  const { User, images, price, description, product_id } = props
   return (
     <Container>
       <div className="d-flex align-items-center p-2">
@@ -43,12 +44,12 @@ const ProductCard = props => {
           className="product-image img-fluid"
           key={product_id}
           alt="product"
-          src={Images[0].image_URL}
+          src={images[0].image_URL}
         />
       </Link>
       <Link to={`/products/${product_id}`}>
         <div className="p-2 mb-3 d-flex flex-column">
-          <strong>£{Prices[0].price}</strong>
+          <strong>£{price}</strong>
           {`${description.slice(0, 500)}`}
         </div>
       </Link>
@@ -56,7 +57,13 @@ const ProductCard = props => {
   )
 }
 
-ProductCard.propTypes = {}
+ProductCard.propTypes = {
+  User: object,
+  images: array,
+  price: number,
+  description: string,
+  product_id: number
+}
 
 ProductCard.defaultProps = {}
 

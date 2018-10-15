@@ -19,7 +19,7 @@ class ImageGrid extends Component {
             <img
               className="store-photo img-fluid m-1"
               key={product.product_id}
-              src={product.Images[0].image_URL}
+              src={product.images[0].image_URL}
               alt="product"
             />
           </Link>

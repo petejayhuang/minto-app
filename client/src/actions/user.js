@@ -33,11 +33,11 @@ export const createUser = (body, callback) => async dispatch => {
   try {
     const { data } = await axios({
       method: 'post',
-      url: `${URLS.SERVER}/auth/login`,
+      url: `${URLS.SERVER}/users`,
       data: body
     })
-
-    dispatch(createUserSuccess(data.data))
+    console.log('data in createUser', data)
+    dispatch(createUserSuccess(data))
     callback()
   } catch (error) {
     dispatch(

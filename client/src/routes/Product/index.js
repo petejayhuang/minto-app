@@ -101,7 +101,7 @@ class Product extends Component {
 
   handleUpdate = () => {
     const {
-      product: { category_id, description, Prices }
+      product: { category_id, description, price }
     } = this.props
 
     // either the state was changed, or it remains the same as before
@@ -109,13 +109,13 @@ class Product extends Component {
       product_id: this.props.product.product_id,
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
-      price: Number(this.state.price) || Prices[0].price
+      price: Number(this.state.price) || price
     })
   }
 
   renderEditMode = () => {
     const {
-      product: { Prices, description },
+      product: { price, description },
       categories
     } = this.props
 
@@ -138,7 +138,7 @@ class Product extends Component {
         <input
           type="text"
           onChange={e => this.handleTextInputChange('price', e.target.value)}
-          value={this.state.price || Prices[0].price}
+          value={this.state.price || price}
         />
         <div className="d-flex justify-content-center mt-5">
           <Button handleClick={this.handleUpdate} text="Update" />
@@ -203,7 +203,7 @@ class Product extends Component {
       product: {
         product_id,
         User: { user_id, username },
-        Prices,
+        price,
         description
       }
     } = this.props
@@ -230,7 +230,7 @@ class Product extends Component {
 
         <p className="text-justify mt-3 mb-0">{description}</p>
 
-        <h3 className="mt-3">£{`${Prices[0].price}`}</h3>
+        <h3 className="mt-3">£{`${price}`}</h3>
 
         {!isOwnProduct &&
           !showPaymentForm && (
@@ -254,18 +254,17 @@ class Product extends Component {
     if (this.props.product.product_id) {
       const { editMode } = this.state
       const {
-        user: { id },
-        product: {
-          User: { user_id },
-          Images
-        }
+        user,
+        product: { User: productOwner, images }
       } = this.props
-      const isOwnProduct = user_id === id
+      const isOwnProduct = user.id === productOwner.id
+
+      console.log('props in product.js', this.props)
 
       return (
         <div>
           <div className="product-container">
-            <ImageCarousel images={Images} />
+            <ImageCarousel images={images} />
           </div>
           {isOwnProduct && this.renderEditButton()}
 

@@ -46,7 +46,7 @@ class CreateEditAddress extends Component {
   }
 
   componentDidMount() {
-    if (this.stateisEditMode) {
+    if (this.state.isEditMode) {
       this.props.getAddress(this.props.match.params.id)
     }
   }
@@ -83,6 +83,7 @@ class CreateEditAddress extends Component {
 
     const { createAddress, updateAddress, redirect } = this.props
     if (isEditMode) {
+      console.log('id', id)
       return updateAddress({ body, id }, () => redirect('/settings/addresses'))
     }
     return createAddress(body, () => redirect('/settings/addresses'))

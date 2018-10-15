@@ -19,6 +19,7 @@ import {
   DELETE_ADDRESS_SUCCESS,
   DELETE_ADDRESS_FAILURE
 } from './types'
+import { printSuccess } from './success'
 
 // =====================================================
 // ===============      GET ADDRESS     ================
@@ -27,8 +28,8 @@ export const getAddress = id => async dispatch => {
   dispatch(getAddressRequest)
   try {
     const { data } = await axios().get(`/addresses/${id}`)
-
-    dispatch(getAddressSuccess(data.data))
+    console.log('data in getAddress', data)
+    dispatch(getAddressSuccess(data.address))
   } catch (error) {
     dispatch(
       getAddressFailure({
@@ -63,7 +64,8 @@ export const getAddresses = () => async dispatch => {
   dispatch(getAddressesRequest)
   try {
     const { data } = await axios().get('/addresses')
-    dispatch(getAddressesSuccess(data.data.rows))
+
+    dispatch(getAddressesSuccess(data.address.rows))
   } catch (error) {
     dispatch(
       getAddressesFailure({
@@ -173,6 +175,7 @@ export const deleteAddress = id => async dispatch => {
   try {
     await axios().delete(`/addresses/${id}`)
     dispatch(deleteAddressSuccess)
+    dispatch(printSuccess('Address deleted'))
     dispatch(getAddresses())
   } catch (error) {
     dispatch(

@@ -17,7 +17,8 @@ export const getSearchResults = ({ queryString, page }) => async dispatch => {
     const { data } = await axios()(
       `${URLS.SERVER}/feeds${queryString && `?${queryString}`}`
     )
-    dispatch(getSearchResultsSuccess({ searchResults: data.data, page }))
+
+    dispatch(getSearchResultsSuccess({ searchResults: data.feedFound, page }))
   } catch (error) {
     dispatch(
       getSearchResultsFailure({

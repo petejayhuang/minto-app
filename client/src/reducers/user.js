@@ -1,5 +1,6 @@
 import {
   AUTHENTICATE_SUCCESS,
+  CREATE_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
   GET_ADDRESS_SUCCESS,
   GET_ADDRESSES_SUCCESS
@@ -14,8 +15,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case CREATE_USER_SUCCESS:
     case AUTHENTICATE_SUCCESS:
-      return { ...state, ...action.payload }
     case UPDATE_USER_SUCCESS:
       return { ...state, ...action.payload }
     case GET_ADDRESS_SUCCESS:

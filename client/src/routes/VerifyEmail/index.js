@@ -17,7 +17,7 @@ import {
 
 class VerifyEmail extends Component {
   state = {
-    email,
+    email: '',
     email_verified: null,
     token: null
   }
@@ -44,7 +44,7 @@ class VerifyEmail extends Component {
     const { dispatch } = this.props
     const { email } = this.state
     try {
-      await axios.post(`${URLS.SERVER}/users/resend_verify_email/${email}`, {
+      await axios.post(`${URLS.SERVER}/users/resend_verify_email`, {
         email
       })
       dispatch(

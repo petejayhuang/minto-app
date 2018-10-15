@@ -1,4 +1,4 @@
-import axios from '../config/axios'
+import axios from 'axios'
 import { URLS } from '../config/constants'
 
 import {
@@ -13,12 +13,12 @@ import {
 // =====================================================
 // =============      GET STORE INFO     ===============
 // =====================================================
-
 export const getStoreInfo = id => async dispatch => {
   dispatch(getStoreInfoRequest)
   try {
-    const { data } = await axios().get(`${URLS.SERVER}/users/${id}`)
-    dispatch(getStoreInfoSuccess(data.data))
+    const { data } = await axios.get(`${URLS.SERVER}/users/${id}`)
+    console.log('datadata', data)
+    dispatch(getStoreInfoSuccess(data.user))
   } catch (error) {
     dispatch(
       getStoreInfoFailure({ message: 'Could not get store info.', error })
@@ -46,7 +46,6 @@ const getStoreInfoFailure = ({ message, error }) => ({
 // =====================================================
 // ===========      GET STORE PRODUCTS     =============
 // =====================================================
-
 export const getStoreProducts = ({
   page,
   limit,
@@ -54,10 +53,11 @@ export const getStoreProducts = ({
 }) => async dispatch => {
   dispatch(getStoreProductsRequest)
   try {
-    const { data } = await axios()(
-      `/feeds?page=${page}&limit=${limit}&user_id=${user_id}`
+    const { data } = await axios.get(
+      `${URLS.SERVER}/feeds?page=${page}&limit=${limit}&user_id=${user_id}`
     )
-    dispatch(getStoreProductsSuccess({ storeProducts: data.data, page }))
+
+    dispatch(getStoreProductsSuccess({ storeProducts: data.feedFound, page }))
   } catch (error) {
     dispatch(
       getStoreProductsFailure({

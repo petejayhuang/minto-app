@@ -8,6 +8,15 @@
 
 #TODO short term
 
+<!-- lower case = not done, upper case = done -->
+
+- new API end points
+- user C R u d
+- feed c R u d
+- product C R U D
+- address C R U D
+- likes c r u d
+
 #TODO long term
 
 - https local host https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec

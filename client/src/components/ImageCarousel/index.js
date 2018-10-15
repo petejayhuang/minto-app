@@ -23,26 +23,29 @@ class ImageCarousel extends Component {
 
   render() {
     const { images, index } = this.state
+    console.log(images.length)
     return (
       <Fragment>
         <ImageSlide image={images[index]} />
-        <div className="d-flex justify-content-center mt-2 mb-3">
-          <Button
-            secondary
-            handleClick={() => {
-              this.incrementSlide(-1)
-            }}
-            text="Previous Image"
-          />
-          <Button
-            secondary
-            className="ml-2"
-            text="Next Image"
-            handleClick={() => {
-              this.incrementSlide(1)
-            }}
-          />
-        </div>
+        {images.length > 1 && (
+          <div className="d-flex justify-content-center mt-2 mb-3">
+            <Button
+              secondary
+              handleClick={() => {
+                this.incrementSlide(-1)
+              }}
+              text="Previous Image"
+            />
+            <Button
+              secondary
+              className="ml-2"
+              text="Next Image"
+              handleClick={() => {
+                this.incrementSlide(1)
+              }}
+            />
+          </div>
+        )}
       </Fragment>
     )
   }

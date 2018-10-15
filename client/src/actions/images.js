@@ -1,6 +1,5 @@
 import axios from '../config/axios'
 import { URLS } from '../config/constants'
-import moment from 'moment'
 
 import {
   UPLOAD_TO_S3_REQUEST,
@@ -62,8 +61,7 @@ export const uploadImagesToS3 = (
         dispatch(uploadImagesToS3Success(values))
         const images = values.map(image => ({
           image_URL: image.config.url.split('?')[0],
-          image_description: 'placeholder image description',
-          image_date: moment().format()
+          image_description: 'placeholder image description'
         }))
         if (callback) {
           callback(images)
