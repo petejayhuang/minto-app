@@ -31,6 +31,7 @@ import HeartIcon from '../../assets/icons/feather-react/HeartIcon'
 
 const Container = styled.div`
   .product-container {
+    height: auto;
     width: 100%;
     max-width: 600px;
   }
@@ -203,7 +204,7 @@ class Product extends Component {
     const {
       product: {
         product_id,
-        User: { user_id, username },
+        User: { id: user_id, username },
         price,
         description
       }
@@ -252,13 +253,13 @@ class Product extends Component {
   }
 
   renderProduct = () => {
-    if (this.props.product.product_id) {
+    if (this.props.product.id) {
       const { editMode } = this.state
       const {
         user,
         product: { User: productOwner, images }
       } = this.props
-      const isOwnProduct = user.id === productOwner.user_id
+      const isOwnProduct = user.id === productOwner.id
 
       return (
         <Fragment>

@@ -23,7 +23,6 @@ class ImageCarousel extends Component {
 
   render() {
     const { images, index } = this.state
-    console.log(images.length)
     return (
       <Fragment>
         <ImageSlide image={images[index]} />

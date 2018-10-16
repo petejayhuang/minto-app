@@ -33,7 +33,7 @@ class Feed extends Component {
     return (
       <Container className="route-container d-flex flex-column align-items-center">
         {this.props.feed.map(product => (
-          <ProductCard key={product.product_id} {...product} />
+          <ProductCard key={product.id} {...product} />
         ))}
         <Button
           loading={this.props.ui.loadingLine}

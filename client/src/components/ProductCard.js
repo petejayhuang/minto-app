@@ -21,9 +21,9 @@ const Container = styled.div`
 `
 
 const ProductCard = props => {
-  const { User, images, price, description, product_id } = props
+  const { User, images, price, description, id } = props
   return (
-    <Container>
+    <Container className="row">
       <div className="d-flex align-items-center p-2">
         <Link
           className="d-flex align-items-center"
@@ -39,15 +39,15 @@ const ProductCard = props => {
           </div>
         </Link>
       </div>
-      <Link to={`/products/${product_id}`}>
+      <Link to={`/products/${id}`}>
         <img
           className="product-image img-fluid"
-          key={product_id}
+          key={id}
           alt="product"
           src={images[0].image_URL}
         />
       </Link>
-      <Link to={`/products/${product_id}`}>
+      <Link to={`/products/${id}`}>
         <div className="p-2 mb-3 d-flex flex-column">
           <strong>£{price}</strong>
           {`${description.slice(0, 500)}`}
