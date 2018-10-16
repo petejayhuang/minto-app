@@ -31,13 +31,15 @@ import {
 export const createUser = (body, callback) => async dispatch => {
   dispatch(createUserRequest)
   try {
-    const { data } = await axios({
+    const data = await axios({
       method: 'post',
       url: `${URLS.SERVER}/users`,
       data: body
     })
-    console.log('data in createUser', data)
-    dispatch(createUserSuccess(data))
+
+    setAuthToken(data.headers['x-auth-token'])
+
+    dispatch(createUserSuccess(data.data.user))
     callback()
   } catch (error) {
     dispatch(
@@ -146,7 +148,7 @@ export const authenticate = ({
     }
     setAuthToken(data.headers['x-auth-token'])
 
-    dispatch(authenticateSuccess(data.data))
+    dispatch(authenticateSuccess(data.data.user))
 
     const hasUsername = data.data.username
 

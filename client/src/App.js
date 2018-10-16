@@ -26,7 +26,6 @@ const App = props => {
   const {
     error,
     ui: { loadingLine, redirect },
-    user: { id },
     success
   } = props
   return (
@@ -39,7 +38,7 @@ const App = props => {
           {(success || error) && <Notification />}
           <MobileTopNav history={props.history} />
           {renderRoutes()}
-          {<MobileBottomNav userId={id} />}
+          {<MobileBottomNav />}
         </div>
       </StripeProvider>
     </ErrorBoundary>

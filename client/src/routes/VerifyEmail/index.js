@@ -24,7 +24,8 @@ class VerifyEmail extends Component {
 
   async componentDidMount() {
     const token = this.props.match.params.token
-    const { dispatch, printSuccess, printError } = this.props
+    console.log('componentDidMount, token', token)
+    const { dispatch, printSuccess, printError, redirect } = this.props
 
     dispatch({ type: VERIFY_EMAIL_REQUEST, loadingLine: true })
 
@@ -33,6 +34,7 @@ class VerifyEmail extends Component {
       this.setState({ email_verified: true })
       dispatch({ type: VERIFY_EMAIL_SUCCESS, loadingLine: false })
       printSuccess('Email successfully verified')
+      redirect('/feed')
     } catch (error) {
       this.setState({ email_verified: false, token })
       dispatch({ type: VERIFY_EMAIL_FAILURE, loadingLine: false, error })
@@ -40,31 +42,32 @@ class VerifyEmail extends Component {
     }
   }
 
-  handleSubmit = async () => {
-    const { dispatch } = this.props
+  handleSubmit = async e => {
+    e.preventDefault()
+    const { redirect, printSuccess } = this.props
     const { email } = this.state
     try {
       await axios.post(`${URLS.SERVER}/users/resend_verify_email`, {
         email
       })
-      dispatch(
-        printSuccess('Check your inbox! New email verification email sent.')
-      )
-      dispatch(redirect('/feed'))
+
+      printSuccess('Check your inbox! New email verification email sent.')
+
+      redirect('/feed')
     } catch (error) {
-      dispatch(
-        printError({ message: 'Could not send new verification email.', error })
-      )
+      printError({ message: 'Could not send new verification email.', error })
     }
   }
 
-  handleInputChange = e => this.setState({ email: e.target.value })
+  handleInputChange = ({ name, value }) => this.setState({ [name]: value })
 
   renderErrorUI = () => {
     const {
       ui: { loadingLine }
     } = this.props
     const { email } = this.state
+
+    console.log(this.state)
     return (
       <Fragment>
         <h1>That didn't work...</h1>
@@ -85,7 +88,7 @@ class VerifyEmail extends Component {
 
             <Button
               submit
-              className="mb-2"
+              className="mt-2 mb-2"
               text=" Resend verification email"
               loading={loadingLine}
             />
@@ -110,7 +113,7 @@ class VerifyEmail extends Component {
     const { email_verified } = this.state
     return (
       <div className="route-container p-3 d-flex flex-column justify-content-center align-items-center">
-        {email_verified === null && 'Verifying email...'}
+        {email_verified === null && <h3>One moment, verifying email...</h3>}
         {email_verified === false && this.renderErrorUI()}
       </div>
     )
