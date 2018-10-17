@@ -147,19 +147,20 @@ export const authenticate = ({
         break
     }
     setAuthToken(data.headers['x-auth-token'])
+    console.log('username data', data)
 
-    dispatch(authenticateSuccess(data.data.user))
+    // dispatch(authenticateSuccess(data.data.user))
 
-    const hasUsername = data.data.username
+    // const hasUsername = data.data.user.username
 
     // if they have an username, it's not their first time here
-    if (hasUsername) {
-      // send them to feed!
-      dispatch(redirect('/feed'))
-      dispatch(printSuccess('Successfully logged in'))
-    } else {
-      dispatch(redirect('/create-account'))
-    }
+    // if (hasUsername) {
+    //   // send them to feed!
+    //   dispatch(redirect('/feed'))
+    //   dispatch(printSuccess('Successfully logged in'))
+    // } else {
+    //   dispatch(redirect('/create-account'))
+    // }
   } catch (error) {
     dispatch(
       authenticateFailure({
