@@ -24,7 +24,6 @@ class VerifyEmail extends Component {
 
   async componentDidMount() {
     const token = this.props.match.params.token
-    console.log('componentDidMount, token', token)
     const { dispatch, printSuccess, printError, redirect } = this.props
 
     dispatch({ type: VERIFY_EMAIL_REQUEST, loadingLine: true })
@@ -67,7 +66,6 @@ class VerifyEmail extends Component {
     } = this.props
     const { email } = this.state
 
-    console.log(this.state)
     return (
       <Fragment>
         <h1>That didn't work...</h1>

@@ -291,6 +291,7 @@ class Product extends Component {
   }
 
   render() {
+    console.log('<Product />')
     return (
       <Container className="route-container d-flex flex-column align-items-center">
         <div>{this.renderProduct()}</div>

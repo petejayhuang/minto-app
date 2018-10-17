@@ -112,8 +112,6 @@ export const uploadProduct = ({ images, form }) => async (
 
   dispatch(uploadProductRequest)
 
-  console.log(body)
-
   try {
     const imageData = await dispatch(
       uploadImagesToS3({ images, upload_type: 'product' })
@@ -169,7 +167,6 @@ export const updateProduct = formValues => async (dispatch, getState) => {
 
   const body = _.pick(formValues, pickItems)
   body.currency_id = 'GBP'
-  console.log('body in update product.ks', body)
 
   dispatch(updateProductRequest)
 

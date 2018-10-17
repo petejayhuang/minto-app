@@ -28,7 +28,7 @@ export const getAddress = id => async dispatch => {
   dispatch(getAddressRequest)
   try {
     const { data } = await axios().get(`/addresses/${id}`)
-    console.log('data in getAddress', data)
+
     dispatch(getAddressSuccess(data.address))
   } catch (error) {
     dispatch(

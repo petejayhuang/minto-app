@@ -17,8 +17,6 @@ export const getFeed = ({ page, limit }) => async dispatch => {
     const { data } = await axios()(
       `${URLS.SERVER}/feeds?page=${page}&limit=${limit}`
     )
-
-    console.log('data', data)
     dispatch(getFeedSuccess({ feed: data.feedFound, page }))
   } catch (error) {
     dispatch(

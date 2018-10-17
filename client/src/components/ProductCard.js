@@ -23,7 +23,7 @@ const Container = styled.div`
 const ProductCard = props => {
   const { User, images, price, description, id } = props
   return (
-    <Container className="row">
+    <Container>
       <div className="d-flex align-items-center p-2">
         <Link
           className="d-flex align-items-center"

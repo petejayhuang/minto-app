@@ -25,11 +25,6 @@ const Container = styled.div`
 `
 
 class MobileBottomNav extends Component {
-  componentDidMount() {
-    console.log('<MobileBottomNav />')
-  }
-
-  componentDidUpdate() {}
   // static functions are declared on the class, not the particular instance
   static getDerivedStateFromProps(nextProps, prevState) {
     return nextProps.location.pathname !== prevState.currentPathname
@@ -81,20 +76,16 @@ class MobileBottomNav extends Component {
   }
 
   renderIcons = () =>
-    this.generateNavigationIcons().map(({ to, component, activeComponent }) => {
-      console.log(this.state.currentPathname)
-      console.log(to, component, activeComponent)
-      return (
-        <div
-          key={to}
-          className="d-flex justify-content-center align-items-center p-1"
-        >
-          <Link to={to}>
-            {this.state.currentPathname === to ? activeComponent : component}
-          </Link>
-        </div>
-      )
-    })
+    this.generateNavigationIcons().map(({ to, component, activeComponent }) => (
+      <div
+        key={to}
+        className="d-flex justify-content-center align-items-center p-1"
+      >
+        <Link to={to}>
+          {this.state.currentPathname === to ? activeComponent : component}
+        </Link>
+      </div>
+    ))
 
   render() {
     return (

@@ -17,7 +17,6 @@ export const getStoreInfo = id => async dispatch => {
   dispatch(getStoreInfoRequest)
   try {
     const { data } = await axios.get(`${URLS.SERVER}/users/${id}`)
-    console.log('datadata', data)
     dispatch(getStoreInfoSuccess(data.user))
   } catch (error) {
     dispatch(
