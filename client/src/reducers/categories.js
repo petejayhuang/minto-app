@@ -6,10 +6,10 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCT_CATEGORIES_SUCCESS:
       return action.payload.reduce((accum, category) => {
-        const { product_type, category_id } = category
+        const { product_type, id } = category
         const newObject = {}
         newObject.label = product_type
-        newObject.value = category_id
+        newObject.value = id
         return accum.concat(newObject)
       }, [])
     default:

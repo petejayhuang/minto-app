@@ -88,7 +88,7 @@ class Product extends Component {
   }
 
   handleDelete = () => {
-    this.props.deleteProduct(this.props.product.product_id)
+    this.props.deleteProduct(this.props.product.id)
   }
 
   handleMessage = () => {
@@ -108,7 +108,7 @@ class Product extends Component {
 
     // either the state was changed, or it remains the same as before
     this.props.updateProduct({
-      product_id: this.props.product.product_id,
+      product_id: this.props.product.id,
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
       price: Number(this.state.price) || price

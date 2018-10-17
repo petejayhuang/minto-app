@@ -34,7 +34,14 @@ class CreateUser extends Component {
   handleSubmit = async e => {
     e.preventDefault()
 
-    const { first_name, last_name, password, images } = this.state
+    const {
+      first_name,
+      last_name,
+      password,
+      bank_account_number,
+      bank_sort_code,
+      images
+    } = this.state
 
     const {
       user: { id },
@@ -45,17 +52,17 @@ class CreateUser extends Component {
     const body = {
       first_name,
       last_name,
-      password
+      password,
+      bank_account_number,
+      bank_sort_code
     }
 
     if (images.length > 0) {
-      console.log('image found, update user')
       uploadImagesToS3({ images, upload_type: 'profile pic' }, images => {
         body.profile_URL = images[0].image_URL
         updateUser(body, () => this.props.redirect(`/store/${id}`))
       })
     } else {
-      console.log('no image, update user')
       updateUser(body, () => this.props.redirect(`/store/${id}`))
     }
   }
