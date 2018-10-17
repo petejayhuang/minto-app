@@ -49,12 +49,14 @@ class CreateUser extends Component {
     }
 
     if (images.length > 0) {
+      console.log('image found, update user')
       uploadImagesToS3({ images, upload_type: 'profile pic' }, images => {
         body.profile_URL = images[0].image_URL
-        updateUser(body, () => redirect(`/store/${id}`))
+        updateUser(body, () => this.props.redirect(`/store/${id}`))
       })
     } else {
-      updateUser(body, () => redirect(`/store/${id}`))
+      console.log('no image, update user')
+      updateUser(body, () => this.props.redirect(`/store/${id}`))
     }
   }
 
