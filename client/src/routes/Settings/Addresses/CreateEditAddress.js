@@ -16,7 +16,6 @@ import TextInput from '../../../components/TextInput'
 class CreateEditAddress extends Component {
   state = {
     isEditMode: this.props.match.params.id ? true : false,
-    id: this.props.user.addresses.current.id || '',
     address_type: this.props.user.addresses.current.address_type || '',
     address_name: this.props.user.addresses.current.address_name || '',
     address1: this.props.user.addresses.current.address1 || '',
@@ -63,7 +62,6 @@ class CreateEditAddress extends Component {
       address1,
       address2,
       city,
-      id,
       postcode,
       country,
       primary_YN
@@ -81,7 +79,16 @@ class CreateEditAddress extends Component {
       primary_YN
     }
 
-    const { createAddress, updateAddress, redirect } = this.props
+    const {
+      createAddress,
+      updateAddress,
+      redirect,
+      user: {
+        addresses: {
+          current: { id }
+        }
+      }
+    } = this.props
     if (isEditMode) {
       return updateAddress({ body, id }, () => redirect('/settings/addresses'))
     }

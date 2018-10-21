@@ -170,7 +170,7 @@ class Product extends Component {
 
   handleAddLike = () => {
     this.ifLoggedOutSendError()
-    this.props.addProductLike(this.props.product.product_id)
+    this.props.addProductLike(this.props.product.id)
   }
 
   handleRemoveLike = () => {

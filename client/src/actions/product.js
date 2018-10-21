@@ -66,8 +66,7 @@ export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
     const { data } = await customAxios()(`/products/${id}`)
-
-    dispatch(getProductSuccess(data.product[0]))
+    dispatch(getProductSuccess(data.product.rows[0]))
   } catch (error) {
     dispatch(
       getProductFailure({
@@ -154,7 +153,8 @@ const uploadProductFailure = ({ message, error }) => ({
 // when a field isn't touched, state initial values are passed to this call
 export const updateProduct = formValues => async (dispatch, getState) => {
   const {
-    user: { id }
+    user: { id },
+    product
   } = getState()
 
   const pickItems = [
@@ -171,7 +171,7 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   dispatch(updateProductRequest)
 
   try {
-    await customAxios().put(`/products/${id}`, body)
+    await customAxios().put(`/products/${product.id}`, body)
     dispatch(updateProductSuccess())
     dispatch(redirect(`/store/${id}`))
   } catch (error) {

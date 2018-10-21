@@ -55,8 +55,10 @@ const getProductLikesFailure = ({ message, error }) => ({
 export const addProductLike = id => async dispatch => {
   dispatch(addProductLikeRequest)
 
+  const body = { product_id: id }
+  console.log(body)
   try {
-    await customAxios().post(`${URLS.SERVER}/likes`, { product_id: id })
+    await customAxios().post(`${URLS.SERVER}/likes`, body)
     dispatch(addProductLikeSuccess)
   } catch (error) {
     dispatch(
