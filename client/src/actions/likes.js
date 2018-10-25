@@ -21,7 +21,8 @@ export const getProductLikes = () => async dispatch => {
 
   try {
     const { data } = await customAxios()('/likes')
-    dispatch(getProductLikesSuccess(data.data.rows))
+    // console.log(data)
+    dispatch(getProductLikesSuccess(data.likes.rows))
   } catch (error) {
     dispatch(
       getProductLikesFailure({

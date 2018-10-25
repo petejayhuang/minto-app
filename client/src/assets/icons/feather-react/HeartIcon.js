@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-const HeartIcon = ({ fill, stroke, strokeWidth }) => (
+const HeartIcon = ({ fill, stroke, strokeWidth, liked }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -18,9 +18,9 @@ const HeartIcon = ({ fill, stroke, strokeWidth }) => (
 )
 
 HeartIcon.defaultProps = {
-  fill: "none",
-  stroke: "black",
-  strokeWidth: "2"
+  fill: 'none',
+  stroke: 'black',
+  strokeWidth: '2'
 }
 
 export default HeartIcon

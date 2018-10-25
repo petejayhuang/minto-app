@@ -16,8 +16,6 @@ class Likes extends Component {
   }
 
   render() {
-    // const { addresses } = this.props.user
-
     return (
       <div className="route-container">
         {this.props.likes.map(like => {
@@ -28,7 +26,7 @@ class Likes extends Component {
 
           return (
             <TouchableRow.InternalLink
-              text={description}
+              text={`${description.substring(0, 40)}...`}
               handleClick={() => this.navigate(`/products/${product_id}`)}
             />
           )

@@ -213,7 +213,7 @@ const updateUserRequest = {
   loadingLine: true
 }
 
-const updateUserSuccess = user => ({
+export const updateUserSuccess = user => ({
   type: UPDATE_USER_SUCCESS,
   loadingLine: false,
   payload: user

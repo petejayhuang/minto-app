@@ -4,7 +4,12 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { URLS } from '../../config/constants'
 
-import { printError, printSuccess, redirect } from '../../actions'
+import {
+  printError,
+  printSuccess,
+  redirect,
+  updateUserSuccess
+} from '../../actions'
 
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
@@ -24,14 +29,23 @@ class VerifyEmail extends Component {
 
   async componentDidMount() {
     const token = this.props.match.params.token
-    const { dispatch, printSuccess, printError, redirect } = this.props
+    const {
+      dispatch,
+      printSuccess,
+      printError,
+      redirect,
+      updateUserSuccess
+    } = this.props
 
     dispatch({ type: VERIFY_EMAIL_REQUEST, loadingLine: true })
 
     try {
-      await axios.get(`${URLS.SERVER}/users/verify_email/${token}`)
+      const { data } = await axios.get(
+        `${URLS.SERVER}/users/verify_email/${token}`
+      )
       this.setState({ email_verified: true })
       dispatch({ type: VERIFY_EMAIL_SUCCESS, loadingLine: false })
+      updateUserSuccess(data.user)
       printSuccess('Email successfully verified')
       redirect('/feed')
     } catch (error) {
@@ -120,7 +134,10 @@ class VerifyEmail extends Component {
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  ...bindActionCreators({ printError, printSuccess, redirect }, dispatch)
+  ...bindActionCreators(
+    { printError, printSuccess, redirect, updateUserSuccess },
+    dispatch
+  )
 })
 
 export default connect(

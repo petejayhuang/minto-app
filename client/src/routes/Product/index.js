@@ -9,6 +9,7 @@ import { printError } from '../../actions/error'
 import Button from '../../components/Button'
 import CheckoutForm from '../../components/CheckoutForm'
 import Dropdown from '../../components/Dropdown'
+import LikeButton from './LikeButton'
 import ImageCarousel from '../../components/ImageCarousel'
 import { TextLink } from '../../components/TextLink'
 
@@ -22,12 +23,8 @@ import {
   getStripeTokenRequest,
   getStripeTokenSuccess,
   getStripeTokenFailure,
-  buyProduct,
-  addProductLike,
-  deleteProductLike
+  buyProduct
 } from '../../actions'
-
-import HeartIcon from '../../assets/icons/feather-react/HeartIcon'
 
 const Container = styled.div`
   .product-container {
@@ -44,7 +41,8 @@ class Product extends Component {
     editMode: false,
     errorMessage: '',
     price: null,
-    showPaymentForm: false
+    showPaymentForm: false,
+    showLikeButton: true
   }
 
   componentDidMount() {
@@ -159,64 +157,38 @@ class Product extends Component {
     this.setState({ showPaymentForm: true })
   }
 
-  ifLoggedOutSendError = () => {
-    if (!this.props.user.id) {
-      return this.props.printError({
-        message: 'Please log in to add to your liked items.',
-        error: {}
-      })
-    }
-  }
-
-  handleAddLike = () => {
-    this.ifLoggedOutSendError()
-    this.props.addProductLike(this.props.product.id)
-  }
-
-  handleRemoveLike = () => {
-    this.ifLoggedOutSendError()
-    this.props.deleteProductLike(this.props.product.Like.id)
-  }
-
-  renderLikeButton = () => {
-    if (this.props.product.Like === null) {
-      return (
-        <div>
-          No likey!
-          <div onClick={this.handleAddLike}>
-            <HeartIcon />
-          </div>
-        </div>
-      )
-    } else if (this.props.product.Like.product_type) {
-      return (
-        <div>
-          No likey!
-          <div onClick={this.handleRemoveLike}>
-            <HeartIcon />
-          </div>
-        </div>
-      )
-    }
-  }
+  hideLikeButton = () => this.setState({ showLikeButton: false })
 
   renderViewMode = () => {
     const {
       product: {
-        product_id,
-        User: { id: user_id, username },
+        id: product_id,
+        User: { id: product_user_id, username },
         price,
-        description
-      }
+        description,
+        Like
+      },
+      user: { id: user_id }
     } = this.props
-    const { showPaymentForm } = this.state
-    const isOwnProduct = user_id === this.props.user.id
+    const { showPaymentForm, showLikeButton } = this.state
+    const isOwnProduct = product_user_id === this.props.user.id
+    const like_id = Like && Like.id
+
     return (
       <div className="product-container d-flex flex-column pl-3 pr-3">
-        {!isOwnProduct && this.renderLikeButton()}
+        {!isOwnProduct &&
+          showLikeButton && (
+            <LikeButton
+              callback={this.hideLikeButton}
+              user_id={user_id}
+              like_id={like_id}
+              product_id={product_id}
+            />
+          )}
 
         <div className="mt-3">
-          Sold by <TextLink to={`/store/${user_id}`} text={`@${username}`} />
+          Sold by{' '}
+          <TextLink to={`/store/${product_user_id}`} text={`@${username}`} />
         </div>
 
         <div>
@@ -314,9 +286,7 @@ export default compose(
       getStripeTokenRequest,
       getStripeTokenSuccess,
       getStripeTokenFailure,
-      buyProduct,
-      addProductLike,
-      deleteProductLike
+      buyProduct
     }
   ),
   withRouter

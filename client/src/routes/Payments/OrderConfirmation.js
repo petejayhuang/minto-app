@@ -13,12 +13,12 @@ const Container = styled.div`
 
 class OrderConfirmation extends Component {
   render() {
-    const { product_id } = this.props.orderConfirmed
+    const { id } = this.props.orderConfirmed
     return (
       <Container className="route-container pl-4 pr-4 d-flex flex-column justify-content-center align-items-center">
         <CheckCircleIcon width={50} height={50} stroke={colors.primaryLight} />
         <h3 className="text-center mt-2">
-          Your order of product {`${product_id} `}
+          Your order of product {`${id} `}
           is confirmed!
         </h3>
         <p className="text-center mt-3">
