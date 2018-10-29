@@ -1,20 +1,30 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import ImageUpload from '../../components/ImageUpload'
-import Button from '../../components/Button'
-import { getProductCategories, uploadProduct, redirect } from '../../actions'
+
+import {
+  getProductCategories,
+  uploadProduct,
+  redirect,
+  printError
+} from '../../actions'
 import requireAuth from '../../components/HigherOrder/requireAuth'
+
+import Button from '../../components/Button'
+import XCircleIcon from '../../assets/icons/feather-react/XCircleIcon'
 import Dropdown from '../../components/Dropdown'
+import ImageUpload from '../../components/ImageUpload'
+import { colors } from '../../styles/styleVariables'
 
 class Add extends Component {
   state = {
     category_id: null,
+    currentHashtag: '',
     description: '',
+    hashtags: [],
     images: [],
     price: 0,
-    meet_in_person: false,
-    shipping: false
+    title: ''
   }
 
   componentDidMount() {
@@ -38,7 +48,7 @@ class Add extends Component {
   }
 
   renderImageUploaders = () =>
-    [1, 2, 3, 4].map(index => (
+    Array(4).map(index => (
       <ImageUpload
         index={index}
         key={index}
@@ -46,6 +56,45 @@ class Add extends Component {
         removeImage={this.removeImage}
       />
     ))
+
+  renderHashtags = () => {
+    const { hashtags } = this.state
+    if (hashtags.length > 0) {
+      return (
+        <ul className="m-0 p-0">
+          {hashtags.map(hashtag => (
+            <li className="d-flex">
+              {hashtag}
+              <div
+                className="ml-2"
+                onClick={() => this.handleRemoveHashtag(hashtag)}
+              >
+                <XCircleIcon stroke={colors.primary} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  }
+
+  handleRemoveHashtag = value => {
+    const hashtags = this.state.hashtags.filter(hashtag => hashtag !== value)
+    this.setState({ hashtags })
+  }
+
+  handleAddHashtag = () => {
+    const { hashtags, currentHashtag } = this.state
+    if (hashtags.length < 5 && currentHashtag.length > 0) {
+      this.setState({
+        hashtags: hashtags.concat(currentHashtag),
+        currentHashtag: ''
+      })
+    } else {
+      if (currentHashtag.length > 0)
+        this.props.printError({ message: 'You can only add 5 hashtags' })
+    }
+  }
 
   handleTextInputChange = (inputName, value) =>
     this.setState({ [inputName]: value })
@@ -57,14 +106,22 @@ class Add extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    const {
+      images,
+      category_id,
+      description,
+      hashtags,
+      price,
+      title
+    } = this.state
     this.props.uploadProduct({
-      images: this.state.images,
+      images,
       form: {
-        category_id: Number(this.state.category_id),
-        description: this.state.description,
-        price: Number(this.state.price),
-        meet_in_person_YN: this.state.meet_in_person,
-        shipping_YN: this.state.shipping
+        category_id: Number(category_id),
+        description,
+        hashtags,
+        price: Number(price),
+        title
       }
     })
   }
@@ -89,6 +146,21 @@ class Add extends Component {
             <Dropdown
               handleSelect={this.handleOptionSelect}
               dropdownItems={this.props.categories}
+            />
+          </div>
+
+          <div className="d-flex flex-column">
+            <label className="mt-3">
+              <strong>Product Title</strong>
+            </label>
+
+            <input
+              required
+              type="text"
+              onChange={e =>
+                this.handleTextInputChange('title', e.target.value)
+              }
+              value={this.state.title}
             />
           </div>
 
@@ -119,6 +191,26 @@ class Add extends Component {
             />
           </div>
 
+          <div className="d-flex flex-column">
+            <label className="mt-3">
+              <strong>Hashtags</strong>
+            </label>
+            {this.renderHashtags()}
+            <input
+              type="text"
+              onChange={e =>
+                this.handleTextInputChange('currentHashtag', e.target.value)
+              }
+              value={this.state.currentHashtag}
+            />
+            <Button
+              className="mt-2"
+              secondary
+              onClick={this.handleAddHashtag}
+              text="Add hashtag"
+            />
+          </div>
+
           <div className="d-flex mt-3 justify-content-center">
             <Button loading={loadingLine} text="Submit" submit />
           </div>
@@ -131,7 +223,7 @@ class Add extends Component {
 export default compose(
   connect(
     ({ user, categories, ui }) => ({ user, categories, ui }),
-    { getProductCategories, uploadProduct, redirect }
+    { getProductCategories, uploadProduct, redirect, printError }
   ),
   requireAuth
 )(Add)

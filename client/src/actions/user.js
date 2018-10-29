@@ -164,7 +164,7 @@ export const authenticate = ({
   } catch (error) {
     dispatch(
       authenticateFailure({
-        message: 'Could not login.',
+        message: 'Password or email incorrect.',
         error
       })
     )

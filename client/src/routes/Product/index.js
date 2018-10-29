@@ -42,7 +42,8 @@ class Product extends Component {
     errorMessage: '',
     price: null,
     showPaymentForm: false,
-    showLikeButton: true
+    showLikeButton: true,
+    title: ''
   }
 
   componentDidMount() {
@@ -101,7 +102,7 @@ class Product extends Component {
 
   handleUpdate = () => {
     const {
-      product: { category_id, description, price }
+      product: { category_id, description, price, title }
     } = this.props
 
     // either the state was changed, or it remains the same as before
@@ -109,13 +110,14 @@ class Product extends Component {
       product_id: this.props.product.id,
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
-      price: Number(this.state.price) || price
+      price: Number(this.state.price) || price,
+      title: Number(this.state.title) || title
     })
   }
 
   renderEditMode = () => {
     const {
-      product: { price, description },
+      product: { price, description, title },
       categories
     } = this.props
 
@@ -124,6 +126,13 @@ class Product extends Component {
         <label>Product Category</label>
 
         <Dropdown dropdownItems={categories} handleSelect={this.handleOption} />
+
+        <label className="mt-3">Title</label>
+        <input
+          type="text"
+          onChange={e => this.handleTextInputChange('title', e.target.value)}
+          value={this.state.title || title}
+        />
 
         <label className="mt-3">Product Description</label>
         <textarea
@@ -134,12 +143,12 @@ class Product extends Component {
         />
 
         <label className="mt-3">Price</label>
-
         <input
           type="text"
           onChange={e => this.handleTextInputChange('price', e.target.value)}
           value={this.state.price || price}
         />
+
         <div className="d-flex justify-content-center mt-5">
           <Button handleClick={this.handleUpdate} text="Update" />
           <Button
@@ -166,7 +175,8 @@ class Product extends Component {
         User: { id: product_user_id, username },
         price,
         description,
-        Like
+        Like,
+        title
       },
       user: { id: user_id }
     } = this.props
@@ -185,6 +195,8 @@ class Product extends Component {
               product_id={product_id}
             />
           )}
+
+        {title && <h4 className="m-0">{title}</h4>}
 
         <div className="mt-3">
           Sold by{' '}
