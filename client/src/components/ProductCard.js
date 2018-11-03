@@ -21,7 +21,7 @@ const Container = styled.div`
 `
 
 const ProductCard = props => {
-  const { User, images, price, description, id } = props
+  const { User, images, price, description, id, title } = props
   return (
     <Container>
       <div className="d-flex align-items-center p-2">
@@ -50,7 +50,10 @@ const ProductCard = props => {
       <Link to={`/products/${id}`}>
         <div className="p-2 mb-3 d-flex flex-column">
           <strong>£{price}</strong>
-          {`${description.slice(0, 500)}`}
+          <p className="mb-1">
+            <strong>{title}</strong>
+          </p>
+          <p>{`${description.slice(0, 300)}...`}</p>
         </div>
       </Link>
     </Container>

@@ -11,7 +11,7 @@ const renderIntro = searchParam => {
     case '?ref=buy':
       return 'Buy buy buy!'
     default:
-      return 'Give your unused jewellery a new home.'
+      return 'Welcome to a new jewellery shopping experience.'
   }
 }
 
@@ -20,7 +20,6 @@ const Landing = props => (
     <h1 className="text-center mt-5">
       {renderIntro(props.routing.location.search)}
     </h1>
-    <p className="text-center ">Buy and sell jewellery the modern way.</p>
     <Button
       secondary
       handleClick={() => props.redirect('/feed')}
