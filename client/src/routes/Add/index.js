@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import {
   getProductCategories,
@@ -15,6 +16,16 @@ import XCircleIcon from '../../assets/icons/feather-react/XCircleIcon'
 import Dropdown from '../../components/Dropdown'
 import ImageUpload from '../../components/ImageUpload'
 import { colors } from '../../styles/styleVariables'
+
+const Container = styled.div`
+  .hashtag-list {
+    max-width: 320px;
+  }
+  .hashtag {
+    border-radius: 30px;
+    border: 1px solid ${colors.primaryLight};
+  }
+`
 
 class Add extends Component {
   state = {
@@ -48,29 +59,30 @@ class Add extends Component {
   }
 
   renderImageUploaders = () =>
-    Array(4).map(index => (
-      <ImageUpload
-        index={index}
-        key={index}
-        addImage={this.addImage}
-        removeImage={this.removeImage}
-      />
-    ))
+    Array(4)
+      .fill('')
+      .map(index => (
+        <ImageUpload
+          index={index}
+          key={index}
+          addImage={this.addImage}
+          removeImage={this.removeImage}
+        />
+      ))
 
   renderHashtags = () => {
     const { hashtags } = this.state
     if (hashtags.length > 0) {
       return (
-        <ul className="m-0 p-0">
+        <ul className="hashtag-list d-flex flex-wrap mb-2 m-0 p-0">
           {hashtags.map(hashtag => (
-            <li className="d-flex">
-              {hashtag}
-              <div
-                className="ml-2"
-                onClick={() => this.handleRemoveHashtag(hashtag)}
-              >
-                <XCircleIcon stroke={colors.primary} />
-              </div>
+            <li
+              onClick={() => this.handleRemoveHashtag(hashtag)}
+              className="hover-hand pt-1 pr-2 pb-1 pl-2 hashtag mb-2 mr-2 d-flex justify-content-between"
+            >
+              <span className="pr-2">{hashtag}</span>
+
+              <XCircleIcon stroke={colors.primaryLight} />
             </li>
           ))}
         </ul>
@@ -133,7 +145,7 @@ class Add extends Component {
       ui: { loadingLine }
     } = this.props
     return (
-      <div className="route-container d-flex flex-column align-items-center p-3">
+      <Container className="route-container d-flex flex-column align-items-center p-3">
         <div className="d-flex justify-content-center flex-wrap">
           {this.renderImageUploaders()}
         </div>
@@ -215,7 +227,7 @@ class Add extends Component {
             <Button loading={loadingLine} text="Submit" submit />
           </div>
         </form>
-      </div>
+      </Container>
     )
   }
 }
