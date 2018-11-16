@@ -59,16 +59,14 @@ class Add extends Component {
   }
 
   renderImageUploaders = () =>
-    Array(4)
-      .fill('')
-      .map(index => (
-        <ImageUpload
-          index={index}
-          key={index}
-          addImage={this.addImage}
-          removeImage={this.removeImage}
-        />
-      ))
+    [1, 2, 3, 4].map(index => (
+      <ImageUpload
+        index={index}
+        key={index}
+        addImage={this.addImage}
+        removeImage={this.removeImage}
+      />
+    ))
 
   renderHashtags = () => {
     const { hashtags } = this.state

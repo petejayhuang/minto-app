@@ -3,6 +3,7 @@ import { number, string, object, array } from 'prop-types'
 import styled from 'styled-components'
 import { colors } from '../styles/styleVariables'
 import { Link } from 'react-router-dom'
+import { renderHashtags } from '../utilities/renderHashtags'
 
 const Container = styled.div`
   max-width: 600px;
@@ -21,7 +22,7 @@ const Container = styled.div`
 `
 
 const ProductCard = props => {
-  const { User, images, price, description, id, title } = props
+  const { User, images, price, description, id, title, hashtags } = props
   return (
     <Container>
       <div className="d-flex align-items-center p-2">
@@ -53,7 +54,8 @@ const ProductCard = props => {
           <p className="mb-1">
             <strong>{title}</strong>
           </p>
-          <p>{`${description.slice(0, 300)}...`}</p>
+          <p className="mb-0">{`${description.slice(0, 300)}...`}</p>
+          {renderHashtags(hashtags)}
         </div>
       </Link>
     </Container>

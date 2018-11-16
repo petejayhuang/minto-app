@@ -21,24 +21,30 @@ const LikeButton = ({
 }) => {
   const ifLoggedOutSendError = () => {
     if (!user_id) {
-      return printError({
+      printError({
         message: 'Please log in to add to your liked items.',
         error: {}
       })
     }
   }
   const handleAddLike = () => {
-    ifLoggedOutSendError()
-    addProductLike(product_id)
-    printSuccess('Liked added')
-    callback()
+    if (user_id) {
+      addProductLike(product_id)
+      printSuccess('Liked added')
+      callback()
+    } else {
+      ifLoggedOutSendError()
+    }
   }
 
   const handleRemoveLike = () => {
-    ifLoggedOutSendError()
-    deleteProductLike(like_id)
-    printError('Liked removed')
-    callback()
+    if (user_id) {
+      deleteProductLike(like_id)
+      printSuccess('Liked removed')
+      callback()
+    } else {
+      ifLoggedOutSendError()
+    }
   }
 
   return (

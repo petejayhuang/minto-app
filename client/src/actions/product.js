@@ -66,7 +66,7 @@ export const getProduct = id => async dispatch => {
   dispatch(getProductRequest)
   try {
     const { data } = await customAxios()(`/products/${id}`)
-    dispatch(getProductSuccess(data.product.rows[0]))
+    dispatch(getProductSuccess(data.product))
   } catch (error) {
     dispatch(
       getProductFailure({
@@ -160,6 +160,7 @@ export const updateProduct = formValues => async (dispatch, getState) => {
   const pickItems = [
     'category_id',
     'description',
+    'hashtags',
     'price',
     'meet_in_person_YN',
     'shipping_YN'

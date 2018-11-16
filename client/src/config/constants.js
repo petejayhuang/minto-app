@@ -2,7 +2,7 @@ const production = process.env.APP_ENV === 'production'
 
 const DURATIONS = {
   GET_USERNAME_AVAILABILITY_DEBOUNCE_DURATION: 1000,
-  REQUEST_TIME_OUT: 7000
+  REQUEST_TIME_OUT: 10000
 }
 
 const KEYS = {

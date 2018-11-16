@@ -14,6 +14,7 @@ import {
 // =============      GET STORE INFO     ===============
 // =====================================================
 export const getStoreInfo = id => async dispatch => {
+  console.log('get store')
   dispatch(getStoreInfoRequest)
   try {
     const { data } = await axios.get(`${URLS.SERVER}/users/${id}`)
@@ -56,7 +57,7 @@ export const getStoreProducts = ({
       `${URLS.SERVER}/feeds?page=${page}&limit=${limit}&user_id=${user_id}`
     )
 
-    dispatch(getStoreProductsSuccess({ storeProducts: data.feedFound, page }))
+    dispatch(getStoreProductsSuccess({ storeProducts: data.feed, page }))
   } catch (error) {
     dispatch(
       getStoreProductsFailure({

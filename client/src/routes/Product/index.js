@@ -12,6 +12,9 @@ import Dropdown from '../../components/Dropdown'
 import LikeButton from './LikeButton'
 import ImageCarousel from '../../components/ImageCarousel'
 import { TextLink } from '../../components/TextLink'
+import { renderHashtags } from '../../utilities/renderHashtags'
+import XCircleIcon from '../../assets/icons/feather-react/XCircleIcon'
+import { colors } from '../../styles/styleVariables'
 
 import {
   getProductCategories,
@@ -39,6 +42,8 @@ class Product extends Component {
     category_id: null,
     description: null,
     editMode: false,
+    currentHashtag: '',
+    hashtags: null,
     errorMessage: '',
     price: null,
     showPaymentForm: false,
@@ -102,7 +107,7 @@ class Product extends Component {
 
   handleUpdate = () => {
     const {
-      product: { category_id, description, price, title }
+      product: { category_id, description, price, title, hashtags }
     } = this.props
 
     // either the state was changed, or it remains the same as before
@@ -111,13 +116,56 @@ class Product extends Component {
       category_id: Number(this.state.category_id) || category_id,
       description: this.state.description || description,
       price: Number(this.state.price) || price,
-      title: Number(this.state.title) || title
+      title: Number(this.state.title) || title,
+      hashtags: this.state.hashtags || hashtags
     })
+  }
+
+  handleRemoveHashtag = (hashtags, value) => {
+    const newHashtags = hashtags.filter(hashtag => hashtag !== value)
+    this.setState({ hashtags: newHashtags })
+  }
+
+  handleAddHashtag = hashtags => {
+    const { currentHashtag } = this.state
+    if (hashtags.length < 5 && currentHashtag.length > 0) {
+      this.setState({
+        hashtags: hashtags.concat(currentHashtag),
+        currentHashtag: ''
+      })
+    } else {
+      if (currentHashtag.length > 0)
+        this.props.printError({ message: 'You can only add 5 hashtags' })
+    }
+  }
+
+  renderHashtags = hashtags => {
+    if (hashtags.length > 0) {
+      return (
+        <ul className="hashtag-list d-flex flex-wrap mb-2 m-0 p-0">
+          {hashtags.map(hashtag => (
+            <li
+              onClick={() =>
+                this.handleRemoveHashtag(
+                  this.state.hashtags || hashtags,
+                  hashtag
+                )
+              }
+              className="hover-hand pt-1 pr-2 pb-1 pl-2 hashtag mb-2 mr-2 d-flex justify-content-between"
+            >
+              <span className="pr-2">{hashtag}</span>
+
+              <XCircleIcon stroke={colors.primaryLight} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
   }
 
   renderEditMode = () => {
     const {
-      product: { price, description, title },
+      product: { price, description, title, hashtags },
       categories
     } = this.props
 
@@ -141,6 +189,28 @@ class Product extends Component {
           }
           value={this.state.description || description}
         />
+
+        <div className="d-flex flex-column">
+          <label className="mt-3">
+            <strong>Hashtags</strong>
+          </label>
+          {this.renderHashtags(this.state.hashtags || hashtags)}
+          <input
+            type="text"
+            onChange={e =>
+              this.handleTextInputChange('currentHashtag', e.target.value)
+            }
+            value={this.state.currentHashtag}
+          />
+          <Button
+            className="mt-2"
+            secondary
+            onClick={() =>
+              this.handleAddHashtag(this.state.hashtags || hashtags)
+            }
+            text="Add hashtag"
+          />
+        </div>
 
         <label className="mt-3">Price</label>
         <input
@@ -175,6 +245,7 @@ class Product extends Component {
         User: { id: product_user_id, username },
         price,
         description,
+        hashtags,
         Like,
         title
       },
@@ -186,8 +257,10 @@ class Product extends Component {
 
     return (
       <div className="product-container d-flex flex-column pl-3 pr-3">
-        {!isOwnProduct &&
-          showLikeButton && (
+        <div className="d-flex justify-content-between">
+          {title && <h4 className="m-0">{title}</h4>}
+
+          {!isOwnProduct && showLikeButton && (
             <LikeButton
               callback={this.hideLikeButton}
               user_id={user_id}
@@ -195,10 +268,9 @@ class Product extends Component {
               product_id={product_id}
             />
           )}
+        </div>
 
-        {title && <h4 className="m-0">{title}</h4>}
-
-        <div className="mt-3">
+        <div className="mt-2">
           Sold by{' '}
           <TextLink to={`/store/${product_user_id}`} text={`@${username}`} />
         </div>
@@ -215,17 +287,17 @@ class Product extends Component {
         </div>
 
         <p className="text-justify mt-3 mb-0">{description}</p>
+        {renderHashtags(hashtags)}
 
         <h3 className="mt-3">£{`${price}`}</h3>
 
-        {!isOwnProduct &&
-          !showPaymentForm && (
-            <Button
-              className="mt-1 mb-3"
-              handleClick={this.showPaymentForm}
-              text="Buy"
-            />
-          )}
+        {!isOwnProduct && !showPaymentForm && (
+          <Button
+            className="mt-1 mb-3"
+            handleClick={this.showPaymentForm}
+            text="Buy"
+          />
+        )}
 
         {showPaymentForm && (
           <Elements>
@@ -247,7 +319,7 @@ class Product extends Component {
 
       return (
         <Fragment>
-          <div className="product-container">
+          <div className="product-container mb-2">
             <ImageCarousel images={images} />
           </div>
           {isOwnProduct && this.renderEditButton()}

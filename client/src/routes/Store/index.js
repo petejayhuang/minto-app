@@ -186,15 +186,14 @@ class Store extends Component {
           </div>
         )}
 
-        {products.length === 0 &&
-          isOwnStore && (
-            <p className="text-center mt-3">
-              You haven't listed anything to sell! Start{' '}
-              <Link className="highlighted" to="/add">
-                here
-              </Link>
-            </p>
-          )}
+        {products.length === 0 && isOwnStore && (
+          <p className="text-center mt-3">
+            You haven't listed anything to sell! Start{' '}
+            <Link className="highlighted" to="/add">
+              here
+            </Link>
+          </p>
+        )}
       </Fragment>
     )
   }
@@ -213,6 +212,7 @@ class Store extends Component {
   }
 
   render() {
+    console.log('props in store', this.props)
     const {
       store: {
         products,
